@@ -25,7 +25,7 @@ class AvatarDetailScreen extends StatelessWidget {
               height: 300,
               width: double.infinity,
               child: Image.asset(
-                avatar.imagePath,
+                avatar.avatarSample,
                 fit: BoxFit.cover,
               ),
             ),

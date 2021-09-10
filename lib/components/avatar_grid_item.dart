@@ -17,7 +17,7 @@ class AvatarGridItem extends StatelessWidget {
       child: GridTile(
         child: GestureDetector(
           child: Image.asset(
-            avatar.imagePath,
+            avatar.avatarSample,
             fit: BoxFit.cover,
           ),
           onTap: () {
