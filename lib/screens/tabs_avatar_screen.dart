@@ -53,7 +53,7 @@ class _TabsAvatarScreenState extends State<TabsAvatarScreen> {
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.category),
-            label: 'Categorias',
+            label: 'Avatares',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.favorite),
