@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import 'package:drawme/components/avatar_name_bar.dart';
+import 'package:drawme/components/avatar_tag_bar.dart';
+
 import 'package:drawme/models/avatar.dart';
 
 class AvatarInfo extends StatelessWidget {
@@ -14,74 +17,8 @@ class AvatarInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Container(
-          height: 50,
-          width: double.infinity,
-          decoration: BoxDecoration(
-            color: Colors.grey.shade900,
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                avatar.name,
-                style: TextStyle(
-                  fontFamily: 'RobotoCondensed',
-                  fontSize: 20,
-                  color: Colors.white,
-                ),
-              ),
-              Text(
-                avatar.author,
-                style: TextStyle(
-                  fontFamily: 'RobotoCondensed',
-                  color: Colors.blue,
-                  fontSize: 15,
-                ),
-              ),
-            ],
-          ),
-        ),
-        Container(
-          height: 35,
-          width: double.infinity,
-          padding: const EdgeInsets.symmetric(horizontal: 10),
-          decoration: BoxDecoration(
-            color: Colors.grey.shade400,
-          ),
-          child: Row(
-            children: [
-              Icon(
-                Icons.tag_rounded,
-                color: Colors.blue.shade900,
-              ),
-              SizedBox(width: 6),
-              SingleChildScrollView(
-                child: Row(
-                  children: avatar.tags.map((avt) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 3,
-                      ),
-                      child: Container(
-                        padding: const EdgeInsets.all(5),
-                        decoration: BoxDecoration(
-                          color: Colors.grey.shade100,
-                          border: Border.all(color: Colors.black),
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Text(
-                          avt,
-                          style: TextStyle(color: Colors.blue.shade900),
-                        ),
-                      ),
-                    );
-                  }).toList(),
-                ),
-              ),
-            ],
-          ),
-        ),
+        AvatarNameBar(avatar),
+        AvatarTagBar(avatar),
         Container(
           height: 250,
           width: double.infinity,
@@ -109,3 +46,4 @@ class AvatarInfo extends StatelessWidget {
     );
   }
 }
+
