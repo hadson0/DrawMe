@@ -52,11 +52,11 @@ class _TabsAvatarScreenState extends State<TabsAvatarScreen> {
         currentIndex: _selectedScreenIndex,
         items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.favorite),
+            icon: Icon(Icons.category),
             label: 'Categorias',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.star),
+            icon: Icon(Icons.favorite),
             label: 'Favoritos',
           ),
         ],
