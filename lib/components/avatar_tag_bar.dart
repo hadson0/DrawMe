@@ -26,6 +26,7 @@ class AvatarTagBar extends StatelessWidget {
             color: Colors.blue.shade900,
           ),
           SizedBox(width: 6),
+          /* TODO: Configure row scroll */
           SingleChildScrollView(
             child: Row(
               children: avatar.tags.map((avt) {

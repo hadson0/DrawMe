@@ -29,6 +29,7 @@ class AvatarInfo extends StatelessWidget {
             border: Border.all(color: Colors.grey),
             borderRadius: BorderRadius.circular(10),
           ),
+          /* TODO: Update description box */
           child: Column(
             children: [
               Text(
