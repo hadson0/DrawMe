@@ -4,7 +4,7 @@ class Avatar with ChangeNotifier {
   final String id;
   final String name;
   final String author;
-  final String imagePath;
+  final String avatarSample;
   final List<String> tags;
   final String description;
   bool isFavorite;
