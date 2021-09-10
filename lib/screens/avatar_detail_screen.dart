@@ -32,7 +32,7 @@ class AvatarDetailScreen extends StatelessWidget {
               height: 50,
               width: double.infinity,
               decoration: BoxDecoration(
-                color: Colors.grey.shade200,
+                color: Colors.grey.shade900,
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -42,6 +42,7 @@ class AvatarDetailScreen extends StatelessWidget {
                     style: TextStyle(
                       fontFamily: 'RobotoCondensed',
                       fontSize: 20,
+                      color: Colors.white,
                     ),
                   ),
                   Text(

@@ -25,6 +25,16 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.lightBlue,
           accentColor: Colors.amber,
+          appBarTheme: AppBarTheme(
+            textTheme: ThemeData.light().textTheme.copyWith(
+                  headline6: TextStyle(
+                    fontFamily: 'RobotoCondensed',
+                    fontSize: 25,
+                    color: Colors.white,
+                  ),
+                ),
+          ),
+          primaryIconTheme: IconThemeData(color: Colors.white),
           textTheme: ThemeData.light().textTheme.copyWith(
                 headline6: TextStyle(
                   fontSize: 20,
