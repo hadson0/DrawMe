@@ -31,7 +31,7 @@ class Avatar with ChangeNotifier {
   void addLayerImage(String layerName, String image) {
     if (layers.containsKey(layerName)) {
       layers[layerName]?.add(image);
-      notifyListeners();
+      /* notifyListeners(); */
     }
   }
 

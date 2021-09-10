@@ -1,3 +1,4 @@
+import 'package:drawme/screens/avatar_painter_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -46,6 +47,7 @@ class MyApp extends StatelessWidget {
           AppRoutes.HOME: (ctx) => OptionsScreen(),
           AppRoutes.AVATAR_LIST: (ctx) => TabsAvatarScreen(),
           AppRoutes.AVATAR_DETAIL: (ctx) => AvatarDetailScreen(),
+          AppRoutes.AVATAR_PAINTER: (ctx) => AvatarPainterScreen(),
         },
         debugShowCheckedModeBanner: false,
       ),

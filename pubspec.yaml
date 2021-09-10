@@ -51,6 +51,16 @@ flutter:
   - lib/assets/images/homem.jpg
   - lib/assets/images/luffy.png
   - lib/assets/images/mulher.jpg
+  - lib/assets/images/Man/background.png
+  - lib/assets/images/Man/body.png
+  - lib/assets/images/Man/eyes.png
+  - lib/assets/images/Man/eyes.png
+  - lib/assets/images/Man/mouth.png
+  - lib/assets/images/Man/mouth2.png
+  - lib/assets/images/Man/nose.png
+  - lib/assets/images/Man/nose2.png
+  - lib/assets/images/Man/sample.png
+
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 

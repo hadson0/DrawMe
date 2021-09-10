@@ -1,3 +1,4 @@
+import 'package:drawme/utils/AppRoutes.dart';
 import 'package:flutter/material.dart';
 
 import 'package:drawme/components/avatar_info.dart';
@@ -30,6 +31,18 @@ class AvatarDetailScreen extends StatelessWidget {
               ),
             ),
             AvatarInfo(avatar),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pushNamed(
+                  AppRoutes.AVATAR_PAINTER,
+                  arguments: avatar,
+                );
+              },
+              child: Text(
+                'Desenhar!',
+                style: TextStyle(color: Colors.white),
+              ),
+            )
           ],
         ),
       ),
