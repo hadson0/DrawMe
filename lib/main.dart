@@ -47,6 +47,7 @@ class MyApp extends StatelessWidget {
           AppRoutes.AVATAR_LIST: (ctx) => TabsAvatarScreen(),
           AppRoutes.AVATAR_DETAIL: (ctx) => AvatarDetailScreen(),
         },
+        debugShowCheckedModeBanner: false,
       ),
     );
   }

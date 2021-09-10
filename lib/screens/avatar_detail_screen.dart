@@ -17,6 +17,7 @@ class AvatarDetailScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text(avatar.name),
       ),
+      backgroundColor: Colors.grey.shade200,
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -26,34 +27,6 @@ class AvatarDetailScreen extends StatelessWidget {
               child: Image.asset(
                 avatar.imagePath,
                 fit: BoxFit.cover,
-              ),
-            ),
-            Container(
-              height: 50,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: Colors.grey.shade900,
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    avatar.name,
-                    style: TextStyle(
-                      fontFamily: 'RobotoCondensed',
-                      fontSize: 20,
-                      color: Colors.white,
-                    ),
-                  ),
-                  Text(
-                    avatar.author,
-                    style: TextStyle(
-                      fontFamily: 'RobotoCondensed',
-                      color: Colors.blue,
-                      fontSize: 15,
-                    ),
-                  ),
-                ],
               ),
             ),
             AvatarInfo(avatar),

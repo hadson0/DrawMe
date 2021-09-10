@@ -8,8 +8,15 @@ final dummyAvatars = [
     name: 'Homem',
     author: 'Pedrinho Artes',
     imagePath: 'lib/assets/images/homem.jpg',
-    tags: ['masculino', 'sorrindo'],
-    description: 'Avatar de um homem sorridno',
+    tags: [
+      'masculino',
+      'sorrindo',
+      'falsidade',
+      'brasileiro',
+      'desempregado',
+      'prata'
+    ],
+    description: 'Avatar de um homem sorrindo',
   ),
   Avatar(
     id: Random().nextDouble().toString(),
@@ -17,7 +24,7 @@ final dummyAvatars = [
     author: 'Gabi Desenhos',
     imagePath: 'lib/assets/images/mulher.jpg',
     tags: ['femenino', 'sorrindo'],
-    description: 'Avatar de uma mulher sorridno',
+    description: 'Avatar de uma mulher sorrindo',
   ),
   Avatar(
     id: Random().nextDouble().toString(),

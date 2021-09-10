@@ -17,9 +17,37 @@ class AvatarInfo extends StatelessWidget {
         Container(
           height: 50,
           width: double.infinity,
-          padding: const EdgeInsets.symmetric(
-            vertical: 5,
-            horizontal: 10,
+          decoration: BoxDecoration(
+            color: Colors.grey.shade900,
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                avatar.name,
+                style: TextStyle(
+                  fontFamily: 'RobotoCondensed',
+                  fontSize: 20,
+                  color: Colors.white,
+                ),
+              ),
+              Text(
+                avatar.author,
+                style: TextStyle(
+                  fontFamily: 'RobotoCondensed',
+                  color: Colors.blue,
+                  fontSize: 15,
+                ),
+              ),
+            ],
+          ),
+        ),
+        Container(
+          height: 35,
+          width: double.infinity,
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          decoration: BoxDecoration(
+            color: Colors.grey.shade400,
           ),
           child: Row(
             children: [
@@ -28,35 +56,37 @@ class AvatarInfo extends StatelessWidget {
                 color: Colors.blue.shade900,
               ),
               SizedBox(width: 6),
-              Row(
-                children: avatar.tags.map((avt) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 3,
-                    ),
-                    child: Container(
-                      padding: const EdgeInsets.all(5),
-                      decoration: BoxDecoration(
-                        color: Colors.grey.shade100,
-                        border: Border.all(color: Colors.black),
-                        borderRadius: BorderRadius.circular(20),
+              SingleChildScrollView(
+                child: Row(
+                  children: avatar.tags.map((avt) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 3,
                       ),
-                      child: Text(
-                        avt,
-                        style: TextStyle(color: Colors.blue.shade900),
+                      child: Container(
+                        padding: const EdgeInsets.all(5),
+                        decoration: BoxDecoration(
+                          color: Colors.grey.shade100,
+                          border: Border.all(color: Colors.black),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Text(
+                          avt,
+                          style: TextStyle(color: Colors.blue.shade900),
+                        ),
                       ),
-                    ),
-                  );
-                }).toList(),
+                    );
+                  }).toList(),
+                ),
               ),
             ],
           ),
         ),
         Container(
-          width: 300,
           height: 250,
-          padding: EdgeInsets.all(10),
-          margin: EdgeInsets.all(10),
+          width: double.infinity,
+          padding: EdgeInsets.all(5),
+          margin: EdgeInsets.all(5),
           decoration: BoxDecoration(
             color: Colors.white,
             border: Border.all(color: Colors.grey),
