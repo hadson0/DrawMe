@@ -9,11 +9,11 @@ final dummyAvatars = [
     author: 'Pedrinho Artes',
     avatarSample: 'lib/assets/images/homem.jpg',
     tags: [
-      'masculino',
-      'sorrindo',
-      'falsidade',
       'brasileiro',
-      'desempregado',
+      'sorrindo',
+      'seila',
+      'pobre',
+      'masculino',
       'prata'
     ],
     description: 'Avatar de um homem sorrindo',

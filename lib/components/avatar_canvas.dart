@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class AvatarCanvas extends StatelessWidget {
-  final List<String> layers;
+  final Map<String, String> layers;
 
   const AvatarCanvas(
     this.layers, {
@@ -11,10 +11,10 @@ class AvatarCanvas extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Stack(
-      children: layers.map((layer) {
+      children: layers.entries.map((entry) {
         return Container(
           child: Image.asset(
-            layer,
+            entry.value,
             fit: BoxFit.contain,
           ),
         );
