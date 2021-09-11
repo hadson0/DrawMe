@@ -25,15 +25,15 @@ class MyApp extends StatelessWidget {
         title: 'DrawMe!',
         theme: ThemeData(
           primarySwatch: Colors.lightBlue,
-          accentColor: Colors.amber,
+          colorScheme: ThemeData.light().colorScheme.copyWith(
+            secondary: Colors.amber,
+          ),
           appBarTheme: AppBarTheme(
-            textTheme: ThemeData.light().textTheme.copyWith(
-                  headline6: TextStyle(
+            toolbarTextStyle: TextStyle(
                     fontFamily: 'RobotoCondensed',
                     fontSize: 25,
                     color: Colors.white,
-                  ),
-                ),
+                  ),              
           ),
           primaryIconTheme: IconThemeData(color: Colors.white),
           textTheme: ThemeData.light().textTheme.copyWith(

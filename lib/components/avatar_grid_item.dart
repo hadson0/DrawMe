@@ -53,7 +53,7 @@ class AvatarGridItem extends StatelessWidget {
                 },
                 icon: Icon(
                     avt.isFavorite ? Icons.favorite : Icons.favorite_border),
-                color: Theme.of(context).accentColor,
+                color: Theme.of(context).colorScheme.secondary,
               ),
             ),
           ),

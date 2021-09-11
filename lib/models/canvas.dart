@@ -2,8 +2,8 @@ import 'package:flutter/widgets.dart';
 
 class Canvas with ChangeNotifier {
   final Map<int, List<String>> _layers = {
-    0: ['', 'lib/assets/images/Man/background.png'],
-    1: ['', 'lib/assets/images/Man/body.png'],
+    0: ['lib/assets/images/Man/background.png'],
+    1: ['lib/assets/images/Man/body.png'],
     2: [
       '',
       'lib/assets/images/Man/eyes.png',
