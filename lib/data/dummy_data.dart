@@ -26,12 +26,4 @@ final dummyAvatars = [
     tags: ['femenino', 'sorrindo'],
     description: 'Avatar de uma mulher sorrindo',
   ),
-  Avatar(
-    id: Random().nextDouble().toString(),
-    name: 'Naruto',
-    author: 'Dragon Ball Z',
-    avatarSample: 'lib/assets/images/luffy.png',
-    tags: ['PirataQueEstica', 'DesenhoChines'],
-    description: 'Avatar, o ultimo mestre do ar',
-  ),
 ];

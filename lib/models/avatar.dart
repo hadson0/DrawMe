@@ -9,17 +9,20 @@ class Avatar with ChangeNotifier {
   final String description;
 
   final Map<String, List<String>> layers = {
-    'background': ['lib/assets/images/Man/background.png'],
-    'body': ['lib/assets/images/Man/body.png'],
+    'background': ['', 'lib/assets/images/Man/background.png'],
+    'body': ['', 'lib/assets/images/Man/body.png'],
     'eyes': [
+      '',
       'lib/assets/images/Man/eyes.png',
       'lib/assets/images/Man/eyes2.png'
     ],
     'nose': [
+      '',
       'lib/assets/images/Man/nose.png',
       'lib/assets/images/Man/nose2.png'
     ],
     'mouth': [
+      '',
       'lib/assets/images/Man/mouth.png',
       'lib/assets/images/Man/mouth2.png'
     ],
@@ -54,7 +57,8 @@ class Avatar with ChangeNotifier {
 
   void removeLayerImage(String layerName, String imagePath) {
     if (layers.containsKey(layerName)) {
-      int index = layers[layerName]!.indexWhere((imageP) => imageP == imagePath);
+      int index =
+          layers[layerName]!.indexWhere((imageP) => imageP == imagePath);
 
       if (index >= 0) {
         layers[layerName]!.removeWhere((imageP) => imageP == imagePath);
