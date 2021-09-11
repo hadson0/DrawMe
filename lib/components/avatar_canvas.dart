@@ -13,6 +13,8 @@ class AvatarCanvas extends StatelessWidget {
     return Stack(
       children: layers.entries.map((entry) {
         return Container(
+          height: 360,
+          width: 360,
           child: entry.value == ''
               ? null
               : Image.asset(

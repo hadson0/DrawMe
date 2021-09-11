@@ -15,26 +15,27 @@ class LayerImageGrid extends StatelessWidget {
     return Container(
       height: 280,
       width: double.infinity,
+      padding: const EdgeInsets.all(5),
       color: Colors.grey.shade400,
       child: GridView.builder(
         itemCount: layerImageList.length,
         itemBuilder: (ctx, i) {
           return GestureDetector(
             onTap: () => onSelectLayerImage(layerImageList[i]),
-            child: Container(
-              decoration: BoxDecoration(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: Container(
                 color: Colors.white,
-                borderRadius: BorderRadius.circular(10),
+                child: layerImageList[i] == ''
+                    ? FittedBox(
+                        child: Text('X'),
+                        fit: BoxFit.contain,
+                      )
+                    : Image.asset(
+                        layerImageList[i],
+                        fit: BoxFit.cover,
+                      ),
               ),
-              child: layerImageList[i] == ''
-                  ? FittedBox(
-                      child: Text('X'),
-                      fit: BoxFit.contain,
-                    )
-                  : Image.asset(
-                      layerImageList[i],
-                      fit: BoxFit.cover,
-                    ),
             ),
           );
         },
