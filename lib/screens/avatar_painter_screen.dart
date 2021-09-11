@@ -1,3 +1,5 @@
+import 'package:drawme/components/layer_image_grid.dart';
+import 'package:drawme/components/layer_tab_list.dart';
 import 'package:flutter/material.dart';
 
 import 'package:drawme/components/avatar_canvas.dart';
@@ -28,12 +30,10 @@ class _AvatarPainterScreenState extends State<AvatarPainterScreen> {
     });
   }
 
-  void _selectLayerImage(String layerName, String imagePath) {
-    if (layers.containsKey(layerName)) {
-      setState(() {
-        layers[layerName] = imagePath;
-      });
-    }
+  void _selectLayerImage(String imagePath) {
+    setState(() {
+      layers[_selectedLayer] = imagePath;
+    });
   }
 
   @override
@@ -47,73 +47,14 @@ class _AvatarPainterScreenState extends State<AvatarPainterScreen> {
       body: Column(
         children: [
           AvatarCanvas(layers),
-          Container(
-            height: 55,
-            width: double.infinity,
-            padding: const EdgeInsets.all(1),
-            decoration: BoxDecoration(
-              color: Colors.grey,
-              border: Border.all(color: Colors.black),
-            ),
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: avatar.layers.entries.map((entry) {
-                  return GestureDetector(
-                    onTap: () => _selectLayer(entry.key),
-                    child: Container(
-                      height: 50,
-                      width: 50,
-                      decoration: BoxDecoration(
-                        color: Colors.grey.shade100,
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(
-                          color: Colors.blue.shade800,
-                          width: 2,
-                        ),
-                      ),
-                      child: Text(
-                        entry.key,
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  );
-                }).toList(),
-              ),
-            ),
+          LayerTabList(
+            onSelectLayer: _selectLayer,
+            layersMap: avatar.layers,
+            selectedLayer: _selectedLayer,
           ),
-          Container(
-            height: 280,
-            width: double.infinity,
-            color: Colors.grey.shade400,
-            child: GridView.builder(
-              itemCount: avatar.layers[_selectedLayer]!.length,
-              itemBuilder: (ctx, i) {
-                return Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: GridTile(
-                    child: GestureDetector(
-                      onTap: () => _selectLayerImage(
-                          _selectedLayer, avatar.layers[_selectedLayer]![i]),
-                      child: Image.asset(
-                        avatar.layers[_selectedLayer]![i], 
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                );
-              },
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 5,
-                childAspectRatio: 1,
-                crossAxisSpacing: 10,
-                mainAxisSpacing: 10,
-              ),
-            ),
+          LayerImageGrid(
+            onSelectLayerImage: _selectLayerImage,
+            layerImageList: avatar.layers[_selectedLayer]!,
           ),
         ],
       ),
