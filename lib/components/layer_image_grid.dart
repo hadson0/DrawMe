@@ -19,24 +19,22 @@ class LayerImageGrid extends StatelessWidget {
       child: GridView.builder(
         itemCount: layerImageList.length,
         itemBuilder: (ctx, i) {
-          return Container(
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: GridTile(
-              child: GestureDetector(
-                onTap: () => onSelectLayerImage(layerImageList[i]),
-                child: layerImageList[i] == ''
-                    ? FittedBox(
-                        child: Text('X'),
-                        fit: BoxFit.contain,
-                      )
-                    : Image.asset(
-                        layerImageList[i],
-                        fit: BoxFit.cover,
-                      ),
+          return GestureDetector(
+            onTap: () => onSelectLayerImage(layerImageList[i]),
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10),
               ),
+              child: layerImageList[i] == ''
+                  ? FittedBox(
+                      child: Text('X'),
+                      fit: BoxFit.contain,
+                    )
+                  : Image.asset(
+                      layerImageList[i],
+                      fit: BoxFit.cover,
+                    ),
             ),
           );
         },
