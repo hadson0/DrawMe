@@ -26,12 +26,16 @@ class LayerImageGrid extends StatelessWidget {
             ),
             child: GridTile(
               child: GestureDetector(
-                onTap: () =>
-                    onSelectLayerImage(layerImageList[i]),
-                child: Image.asset(
-                  layerImageList[i],
-                  fit: BoxFit.cover,
-                ),
+                onTap: () => onSelectLayerImage(layerImageList[i]),
+                child: layerImageList[i] == ''
+                    ? FittedBox(
+                        child: Text('X'),
+                        fit: BoxFit.contain,
+                      )
+                    : Image.asset(
+                        layerImageList[i],
+                        fit: BoxFit.cover,
+                      ),
               ),
             ),
           );
