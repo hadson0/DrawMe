@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class LayerTabList extends StatelessWidget {
-  final void Function(String) onSelectLayer;
-  final Map<String, List<String>> layersMap;
-  final String selectedLayer;
+  final void Function(int) onSelectLayer;
+  final Map<int, List<String>> layersMap;
+  final int selectedLayer;
 
   const LayerTabList({
     Key? key,
@@ -41,7 +41,7 @@ class LayerTabList extends StatelessWidget {
                   ),
                 ),
                 child: Text(
-                  entry.key,
+                  entry.key.toString(),
                   textAlign: TextAlign.center,
                 ),
               ),

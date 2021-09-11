@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class AvatarCanvas extends StatelessWidget {
-  final Map<String, String> layers;
+  final Map<int, String> layers;
 
   const AvatarCanvas(
     this.layers, {

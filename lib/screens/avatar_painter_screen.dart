@@ -14,19 +14,19 @@ class AvatarPainterScreen extends StatefulWidget {
 }
 
 class _AvatarPainterScreenState extends State<AvatarPainterScreen> {
-  Map<String, String> layers = {
-    'background': 'lib/assets/images/Man/background.png',
-    'body': 'lib/assets/images/Man/body.png',
-    'eyes': 'lib/assets/images/Man/eyes.png',
-    'nose': 'lib/assets/images/Man/nose.png',
-    'mouth': 'lib/assets/images/Man/mouth.png',
+  Map<int, String> layers = {
+    0: 'lib/assets/images/Man/background.png',
+    1: 'lib/assets/images/Man/body.png',
+    2: 'lib/assets/images/Man/eyes.png',
+    3: 'lib/assets/images/Man/nose.png',
+    4: 'lib/assets/images/Man/mouth.png',
   };
 
-  String _selectedLayer = 'nose';
+  int _selectedLayer = 0;
 
-  void _selectLayer(String layerName) {
+  void _selectLayer(int layer) {
     setState(() {
-      _selectedLayer = layerName;
+      _selectedLayer = layer;
     });
   }
 
@@ -49,12 +49,12 @@ class _AvatarPainterScreenState extends State<AvatarPainterScreen> {
           AvatarCanvas(layers),
           LayerTabList(
             onSelectLayer: _selectLayer,
-            layersMap: avatar.layers,
+            layersMap: avatar.canvas.layers,
             selectedLayer: _selectedLayer,
           ),
           LayerImageGrid(
             onSelectLayerImage: _selectLayerImage,
-            layerImageList: avatar.layers[_selectedLayer]!,
+            layerImageList: avatar.canvas.layers[_selectedLayer]!,
           ),
         ],
       ),
