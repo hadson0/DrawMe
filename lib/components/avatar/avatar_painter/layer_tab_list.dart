@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:drawme/models/canvas.dart';
 
-class   LayerTabList extends StatelessWidget {
+class LayerTabList extends StatelessWidget {
   final void Function(LayerNames) onSelectLayer;
   final Map<LayerNames, List<String>> layersMap;
   final LayerNames selectedLayer;

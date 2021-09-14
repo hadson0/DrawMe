@@ -47,6 +47,7 @@ class _ImageSelectionFormScreenState extends State<ImageSelectionFormScreen> {
     }
   }
 
+  /* TODO: Empty layer option */
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -97,13 +98,14 @@ class _ImageSelectionFormScreenState extends State<ImageSelectionFormScreen> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           setState(() {
+            /* TODO: Alert dialog to empty image list */
             if (_selectedIndex >= layerList.length - 1) {
               Map<LayerNames, List<XFile>> _layerMap = {};
 
               for (int i = 0; i < layerList.length; i++) {
                 _layerMap[layerList[i]] = _imageList[i];
               }
-              
+
               Navigator.of(context).pushReplacement(
                   AvatarInfoFormScreen.route(layerMap: _layerMap));
             } else {

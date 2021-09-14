@@ -1,12 +1,12 @@
 import 'dart:math';
 
-import 'package:drawme/components/layer_image_grid.dart';
-import 'package:drawme/components/layer_tab_list.dart';
-import 'package:drawme/models/canvas.dart';
 import 'package:flutter/material.dart';
 
-import 'package:drawme/components/avatar_canvas.dart';
+import 'package:drawme/components/avatar/avatar_painter/layer_image_grid.dart';
+import 'package:drawme/components/avatar/avatar_painter/layer_tab_list.dart';
+import 'package:drawme/components/avatar/avatar_painter/avatar_canvas.dart';
 
+import 'package:drawme/models/canvas.dart';
 import 'package:drawme/models/avatar.dart';
 
 class AvatarPainterScreen extends StatefulWidget {

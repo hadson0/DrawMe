@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:drawme/components/avatar_tag_bar.dart';
+import 'package:drawme/components/avatar/avatar_detail/avatar_tag_bar.dart';
 
 import 'package:drawme/models/avatar.dart';
 

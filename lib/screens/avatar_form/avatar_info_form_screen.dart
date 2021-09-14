@@ -1,15 +1,18 @@
 import 'dart:io';
 import 'dart:math';
 
-import 'package:drawme/utils/AppRoutes.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:image_picker/image_picker.dart';
 
+import 'package:drawme/components/avatar_form/avatar_form_tag_bar.dart';
+
 import 'package:drawme/models/avatar.dart';
 import 'package:drawme/models/avatar_list.dart';
 import 'package:drawme/models/canvas.dart';
+
+import 'package:drawme/utils/AppRoutes.dart';
 
 class AvatarInfoFormScreen extends StatefulWidget {
   final Map<LayerNames, List<XFile>> layerMap;
@@ -106,9 +109,14 @@ class _AvatarInfoFormScreenState extends State<AvatarInfoFormScreen> {
       appBar: AppBar(
         title: Text('Informações'),
         actions: [
-          IconButton(
-            onPressed: _submitForm,
-            icon: Icon(Icons.save),
+          TextButton( /* TODO: Alert Dialog */
+            onPressed: () {
+              Navigator.of(context).pushReplacementNamed(AppRoutes.HOME);
+            },
+            child: Text(  
+              'CANCELAR',
+              style: TextStyle(color: Colors.white),
+            ),
           ),
         ],
       ),
@@ -118,6 +126,7 @@ class _AvatarInfoFormScreenState extends State<AvatarInfoFormScreen> {
           key: _formKey,
           child: ListView(
             children: [
+              SizedBox(height: 20),
               TextFormField(
                 decoration: InputDecoration(labelText: 'Nome do Avatar'),
                 textInputAction: TextInputAction.next,
@@ -137,71 +146,42 @@ class _AvatarInfoFormScreenState extends State<AvatarInfoFormScreen> {
                   return null;
                 },
               ),
+              SizedBox(height: 20),
               TextFormField(
                 decoration: InputDecoration(labelText: 'Tags'),
                 textInputAction: TextInputAction.next,
                 focusNode: _tagFocus,
                 onFieldSubmitted: (tags) {
                   setState(() {
-                    _tagList.add(tags);
+                    for (var tag in tags.split(', ')) {
+                      _tagList.add(tag);
+                    }
                   });
                   FocusScope.of(context).requestFocus(_descriptionFocus);
                 },
-                validator: (_tags) {
-                  final tags = _tags ?? '';
-
-                  if (tags.trim().isEmpty) {
+                validator: (_) {
+                  if (_tagList.length < 3) {
                     return 'Insira ao menos 3 tags!';
-                  } else if (tags.trim().length < 3) {
-                    return 'As tags precisam de no mínimo 3 letras!';
+                  }
+
+                  for (var tag in _tagList) {
+                    if (tag.trim().length < 3)
+                      return 'As tags precisam de no mínimo 3 letras!';
                   }
 
                   return null;
                 },
               ),
               SizedBox(height: 20),
-              /* TODO add remove button */
-              Container(
-                height: 35,
-                width: double.infinity,
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.tag_rounded,
-                      color: Colors.blue.shade900,
-                    ),
-                    SizedBox(width: 6),
-                    SingleChildScrollView(
-                      child: Row(
-                        children: _tagList.map((tag) {
-                          return Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 3,
-                            ),
-                            child: Container(
-                              padding: const EdgeInsets.all(5),
-                              decoration: BoxDecoration(
-                                color: Colors.grey.shade100,
-                                border: Border.all(color: Colors.black),
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              child: Text(
-                                tag,
-                                style: TextStyle(color: Colors.blue.shade900),
-                              ),
-                            ),
-                          );
-                        }).toList(),
-                      ),
-                    ),
-                  ],
-                ),
+              AvatarFormTagBar(
+                tagList: _tagList,
+                onDeleteTapped: (deletedTag) {
+                  setState(() {
+                    _tagList.removeWhere((tag) => tag == deletedTag);
+                  });
+                },
               ),
+              SizedBox(height: 20),
               TextFormField(
                 decoration: InputDecoration(labelText: 'Descrição'),
                 keyboardType: TextInputType.multiline,
@@ -228,7 +208,13 @@ class _AvatarInfoFormScreenState extends State<AvatarInfoFormScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('Selecionar modelo'),
+                  Container(
+                    width: 200,
+                    child: Text(
+                      'Selecione uma imagem que servirá de modelo para o avatar',
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
                   GestureDetector(
                     onTap: _selectGaleryImage,
                     child: ClipRRect(

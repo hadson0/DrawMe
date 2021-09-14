@@ -4,7 +4,7 @@ import 'package:drawme/models/canvas.dart';
 import 'package:drawme/screens/avatar_overview/avatar_item/avatar_painter_screen.dart';
 import 'package:flutter/material.dart';
 
-import 'package:drawme/components/avatar_info.dart';
+import 'package:drawme/components/avatar/avatar_detail/avatar_info.dart';
 
 import 'package:drawme/models/avatar.dart';
 

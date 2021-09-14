@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:drawme/components/avatar_grid_item.dart';
+import 'package:drawme/components/avatar/avatar_grid_item.dart';
 
 import 'package:drawme/models/avatar.dart';
 import 'package:drawme/models/avatar_list.dart';
 
 class AvatarGridScreen extends StatelessWidget {
-
   AvatarGridScreen({
     Key? key,
   }) : super(key: key);

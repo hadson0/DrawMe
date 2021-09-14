@@ -4,7 +4,7 @@ import 'package:drawme/models/avatar.dart';
 
 class AvatarTagBar extends StatelessWidget {
   final Avatar avatar;
-  
+
   const AvatarTagBar({
     Key? key,
     required this.avatar,

@@ -35,7 +35,8 @@ class HomeScreen extends StatelessWidget {
             ),
             OptionItem(
               onTap: () {
-                Navigator.of(context).pushReplacementNamed(AppRoutes.LAYER_SELECTION_FORM);
+                Navigator.of(context)
+                    .pushReplacementNamed(AppRoutes.LAYER_SELECTION_FORM);
               },
               title: 'Criar o meu Avatar',
               color: Colors.orange.shade600,
