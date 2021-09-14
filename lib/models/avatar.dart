@@ -1,5 +1,6 @@
-import 'package:drawme/models/canvas.dart';
 import 'package:flutter/widgets.dart';
+
+import 'package:drawme/models/canvas.dart';
 
 class Avatar with ChangeNotifier {
   final String id;
@@ -10,14 +11,6 @@ class Avatar with ChangeNotifier {
   final String description;
 
   Canvas canvas = Canvas();
-
-  /* final Map<String, List<String>> layers = {
-    'background': [''],
-    'body': [''],
-    'eyes': [''],
-    'nose': [''],
-    'mouth': [''],
-  }; */
 
   bool isFavorite;
 
@@ -30,25 +23,6 @@ class Avatar with ChangeNotifier {
     required this.description,
     this.isFavorite = false,
   });
-
-  void addLayerImage(String layerName, String imagePath) {
-    if (canvas.layers.containsKey(layerName)) {
-      canvas.layers[layerName]?.add(imagePath);
-      /* notifyListeners(); */
-    }
-  }
-
-  void removeLayerImage(String layerName, String imagePath) {
-    if (canvas.layers.containsKey(layerName)) {
-      int index =
-          canvas.layers[layerName]!.indexWhere((imageP) => imageP == imagePath);
-
-      if (index >= 0) {
-        canvas.layers[layerName]!.removeWhere((imageP) => imageP == imagePath);
-        notifyListeners();
-      }
-    }
-  }
 
   void toggleFavorite() {
     isFavorite = !isFavorite;

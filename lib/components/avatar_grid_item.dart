@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -16,8 +18,8 @@ class AvatarGridItem extends StatelessWidget {
       borderRadius: BorderRadius.circular(10),
       child: GridTile(
         child: GestureDetector(
-          child: Image.asset(
-            avatar.avatarSample,
+          child: Image.file(
+            File(avatar.avatarSample),
             fit: BoxFit.cover,
           ),
           onTap: () {

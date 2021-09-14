@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'package:drawme/components/app_drawer.dart';
 
-import 'package:drawme/screens/avatar_grid_screen.dart';
-import 'package:drawme/screens/favorite_avatar_screen.dart';
+import 'package:drawme/screens/avatar_overview/avatar_grid_screen.dart';
+import 'package:drawme/screens/avatar_overview/favorite_avatar_screen.dart';
 
 class TabsAvatarScreen extends StatefulWidget {
   const TabsAvatarScreen({Key? key}) : super(key: key);

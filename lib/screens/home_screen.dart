@@ -5,8 +5,8 @@ import 'package:drawme/components/option_item.dart';
 
 import 'package:drawme/utils/AppRoutes.dart';
 
-class OptionsScreen extends StatelessWidget {
-  const OptionsScreen({Key? key}) : super(key: key);
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,20 +23,22 @@ class OptionsScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             OptionItem(
-              title: 'Me Desenhe!',
-              color: Colors.amber.shade600,
               onTap: () {
                 Navigator.of(context)
                     .pushReplacementNamed(AppRoutes.AVATAR_LIST);
               },
+              title: 'Me Desenhe!',
+              color: Colors.amber.shade600,
             ),
             SizedBox(
               height: 35,
             ),
             OptionItem(
-              onTap: () {},
-              color: Colors.orange.shade600,
+              onTap: () {
+                Navigator.of(context).pushReplacementNamed(AppRoutes.LAYER_SELECTION_FORM);
+              },
               title: 'Criar o meu Avatar',
+              color: Colors.orange.shade600,
             ),
           ],
         ),

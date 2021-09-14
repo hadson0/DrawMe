@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:drawme/models/avatar.dart';
 
 class AvatarNameBar extends StatelessWidget {
-  const AvatarNameBar(
-    this.avatar, {
-    Key? key,
-  }) : super(key: key);
-
   final Avatar avatar;
+
+  const AvatarNameBar({
+    Key? key,
+    required this.avatar,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

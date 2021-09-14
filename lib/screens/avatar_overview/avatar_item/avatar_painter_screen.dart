@@ -1,5 +1,8 @@
+import 'dart:math';
+
 import 'package:drawme/components/layer_image_grid.dart';
 import 'package:drawme/components/layer_tab_list.dart';
+import 'package:drawme/models/canvas.dart';
 import 'package:flutter/material.dart';
 
 import 'package:drawme/components/avatar_canvas.dart';
@@ -7,24 +10,35 @@ import 'package:drawme/components/avatar_canvas.dart';
 import 'package:drawme/models/avatar.dart';
 
 class AvatarPainterScreen extends StatefulWidget {
-  const AvatarPainterScreen({Key? key}) : super(key: key);
+  final Avatar avatar;
+
+  const AvatarPainterScreen({
+    Key? key,
+    required this.avatar,
+  }) : super(key: key);
+
+  static Route<Route<MaterialPageRoute>> route({
+    required Avatar avatar,
+  }) {
+    return MaterialPageRoute(
+      builder: (context) => AvatarPainterScreen(
+        avatar: avatar,
+      ),
+    );
+  }
 
   @override
   _AvatarPainterScreenState createState() => _AvatarPainterScreenState();
 }
 
 class _AvatarPainterScreenState extends State<AvatarPainterScreen> {
-  Map<int, String> layers = {
-    0: 'lib/assets/images/Man/background.png',
-    1: 'lib/assets/images/Man/body.png',
-    2: 'lib/assets/images/Man/eyes.png',
-    3: 'lib/assets/images/Man/nose.png',
-    4: 'lib/assets/images/Man/mouth.png',
-  };
+  Map<LayerNames, String> _layers = {};
 
-  int _selectedLayer = 0;
+  LayerNames _selectedLayer = LayerNames.BACKGROUND;
 
-  void _selectLayer(int layer) {
+  Avatar get avatar => widget.avatar;
+
+  void _selectLayer(LayerNames layer) {
     setState(() {
       _selectedLayer = layer;
     });
@@ -32,21 +46,28 @@ class _AvatarPainterScreenState extends State<AvatarPainterScreen> {
 
   void _selectLayerImage(String imagePath) {
     setState(() {
-      layers[_selectedLayer] = imagePath;
+      _layers[_selectedLayer] = imagePath;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    avatar.canvas.layers.forEach((layer, imageList) {
+      _layers[layer] = imageList[Random().nextInt(imageList.length)];
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    final avatar = ModalRoute.of(context)?.settings.arguments as Avatar;
-
     return Scaffold(
       appBar: AppBar(
         title: Text(avatar.name),
       ),
       body: Column(
         children: [
-          AvatarCanvas(layers),
+          AvatarCanvas(layers: _layers),
           LayerTabList(
             onSelectLayer: _selectLayer,
             layersMap: avatar.canvas.layers,
@@ -54,7 +75,7 @@ class _AvatarPainterScreenState extends State<AvatarPainterScreen> {
           ),
           LayerImageGrid(
             onSelectLayerImage: _selectLayerImage,
-            layerImageList: avatar.canvas.layers[_selectedLayer]!,
+            layerImageList: avatar.canvas.layers[_selectedLayer] ?? [],
           ),
         ],
       ),

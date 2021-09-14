@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 class LayerImageGrid extends StatelessWidget {
@@ -31,8 +33,8 @@ class LayerImageGrid extends StatelessWidget {
                         child: Text('X'),
                         fit: BoxFit.contain,
                       )
-                    : Image.asset(
-                        layerImageList[i],
+                    : Image.file(
+                        File(layerImageList[i]),
                         fit: BoxFit.cover,
                       ),
               ),

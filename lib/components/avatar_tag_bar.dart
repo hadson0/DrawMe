@@ -4,11 +4,11 @@ import 'package:drawme/models/avatar.dart';
 
 class AvatarTagBar extends StatelessWidget {
   final Avatar avatar;
-  const AvatarTagBar(
-    this.avatar,{
+  
+  const AvatarTagBar({
     Key? key,
+    required this.avatar,
   }) : super(key: key);
-
 
   @override
   Widget build(BuildContext context) {

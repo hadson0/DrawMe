@@ -1,11 +1,15 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
-class AvatarCanvas extends StatelessWidget {
-  final Map<int, String> layers;
+import 'package:drawme/models/canvas.dart';
 
-  const AvatarCanvas(
-    this.layers, {
+class AvatarCanvas extends StatelessWidget {
+  final Map<LayerNames, String> layers;
+
+  const AvatarCanvas({
     Key? key,
+    required this.layers,
   }) : super(key: key);
 
   @override
@@ -17,8 +21,8 @@ class AvatarCanvas extends StatelessWidget {
           width: 360,
           child: entry.value == ''
               ? null
-              : Image.asset(
-                  entry.value,
+              : Image.file(
+                  File(entry.value),
                   fit: BoxFit.contain,
                 ),
         );

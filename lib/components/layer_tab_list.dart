@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
-class LayerTabList extends StatelessWidget {
-  final void Function(int) onSelectLayer;
-  final Map<int, List<String>> layersMap;
-  final int selectedLayer;
+import 'package:drawme/models/canvas.dart';
+
+class   LayerTabList extends StatelessWidget {
+  final void Function(LayerNames) onSelectLayer;
+  final Map<LayerNames, List<String>> layersMap;
+  final LayerNames selectedLayer;
 
   const LayerTabList({
     Key? key,

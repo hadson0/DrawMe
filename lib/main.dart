@@ -1,12 +1,12 @@
-import 'package:drawme/screens/avatar_painter_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:drawme/models/avatar_list.dart';
 
-import 'package:drawme/screens/avatar_detail_screen.dart';
-import 'package:drawme/screens/options_screen.dart';
-import 'package:drawme/screens/tabs_avatar_screen.dart';
+import 'package:drawme/screens/avatar_overview/avatar_item/avatar_detail_screen.dart';
+import 'package:drawme/screens/home_screen.dart';
+import 'package:drawme/screens/avatar_overview/tabs_avatar_screen.dart';
+import 'package:drawme/screens/avatar_form/layer_selection_form_screen.dart';
 
 import 'package:drawme/utils/AppRoutes.dart';
 
@@ -26,14 +26,14 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.lightBlue,
           colorScheme: ThemeData.light().colorScheme.copyWith(
-            secondary: Colors.amber,
-          ),
+                secondary: Colors.amber,
+              ),
           appBarTheme: AppBarTheme(
             toolbarTextStyle: TextStyle(
-                    fontFamily: 'RobotoCondensed',
-                    fontSize: 25,
-                    color: Colors.white,
-                  ),              
+              fontFamily: 'RobotoCondensed',
+              fontSize: 25,
+              color: Colors.white,
+            ),
           ),
           primaryIconTheme: IconThemeData(color: Colors.white),
           textTheme: ThemeData.light().textTheme.copyWith(
@@ -44,10 +44,10 @@ class MyApp extends StatelessWidget {
               ),
         ),
         routes: {
-          AppRoutes.HOME: (ctx) => OptionsScreen(),
+          AppRoutes.HOME: (ctx) => HomeScreen(),
           AppRoutes.AVATAR_LIST: (ctx) => TabsAvatarScreen(),
           AppRoutes.AVATAR_DETAIL: (ctx) => AvatarDetailScreen(),
-          AppRoutes.AVATAR_PAINTER: (ctx) => AvatarPainterScreen(),
+          AppRoutes.LAYER_SELECTION_FORM: (ctx) => LayerSelectionFormScreen(),
         },
         debugShowCheckedModeBanner: false,
       ),
