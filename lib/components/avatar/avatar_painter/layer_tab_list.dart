@@ -27,29 +27,28 @@ class LayerTabList extends StatelessWidget {
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: layersMap.entries.map((entry) {
-            return GestureDetector(
-              onTap: () => onSelectLayer(entry.key),
-              child: Container(
-                height: 50,
-                width: 50,
-                decoration: BoxDecoration(
-                  color: Colors.grey.shade100,
-                  borderRadius: BorderRadius.circular(10),
-                  border: Border.all(
-                    color: Colors.blue.shade800,
-                    width: 2,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: layersMap.entries.map((entry) {
+              return GestureDetector(
+                onTap: () => onSelectLayer(entry.key),
+                child: Container(
+                  height: 50,
+                  width: 50,
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade100,
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(
+                      color: Colors.blue.shade800,
+                      width: 2,
+                    ),
+                  ),
+                  child: Text(
+                    entry.key.toString(),
+                    textAlign: TextAlign.center,
                   ),
                 ),
-                child: Text(
-                  entry.key.toString(),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            );
-          }).toList(),
-        ),
+              );
+            }).toList()),
       ),
     );
   }

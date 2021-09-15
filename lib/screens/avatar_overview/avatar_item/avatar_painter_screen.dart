@@ -1,4 +1,6 @@
+import 'dart:io';
 import 'dart:math';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 
@@ -8,6 +10,10 @@ import 'package:drawme/components/avatar/avatar_painter/avatar_canvas.dart';
 
 import 'package:drawme/models/canvas.dart';
 import 'package:drawme/models/avatar.dart';
+import 'package:image_gallery_saver/image_gallery_saver.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:screenshot/screenshot.dart';
+import 'package:share_plus/share_plus.dart';
 
 class AvatarPainterScreen extends StatefulWidget {
   final Avatar avatar;
@@ -32,6 +38,8 @@ class AvatarPainterScreen extends StatefulWidget {
 }
 
 class _AvatarPainterScreenState extends State<AvatarPainterScreen> {
+  final _controller = ScreenshotController();
+
   Map<LayerNames, String> _layers = {};
 
   LayerNames _selectedLayer = LayerNames.BACKGROUND;
@@ -48,6 +56,18 @@ class _AvatarPainterScreenState extends State<AvatarPainterScreen> {
     setState(() {
       _layers[_selectedLayer] = imagePath;
     });
+  }
+
+  Future<String> saveAvatarImage(Uint8List bytes) async {
+    final time = DateTime.now()
+        .toIso8601String()
+        .replaceAll('.', '-')
+        .replaceAll(':', '-');
+    final name = avatar.name + '$time';
+
+    final result = await ImageGallerySaver.saveImage(bytes, name: name);
+
+    return result['filePath'];
   }
 
   @override
@@ -77,6 +97,24 @@ class _AvatarPainterScreenState extends State<AvatarPainterScreen> {
             onSelectLayerImage: _selectLayerImage,
             layerImageList: avatar.canvas.layers[_selectedLayer] ?? [],
           ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              ElevatedButton(
+                onPressed: () async {},
+                child: Text('Compartilhar'),
+              ),
+              ElevatedButton(
+                onPressed: () async {
+                  final avatarImage = await _controller
+                      .captureFromWidget(AvatarCanvas(layers: _layers));
+
+                  await saveAvatarImage(avatarImage);
+                },
+                child: Text('Salvar'),
+              ),
+            ],
+          )
         ],
       ),
     );

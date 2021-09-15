@@ -65,7 +65,9 @@ class AvatarInfo extends StatelessWidget {
               SizedBox(
                 height: 6,
               ),
-              SingleChildScrollView(child: Text(avatar.description)),
+              SingleChildScrollView(
+                child: Text(avatar.description),
+              ),
             ],
           ),
         ),

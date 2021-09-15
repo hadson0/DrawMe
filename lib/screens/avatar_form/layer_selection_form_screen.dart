@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:drawme/components/avatar_form/cancel_form_dialog.dart';
+
 import 'package:drawme/models/canvas.dart';
 
 import 'package:drawme/screens/avatar_form/image_selection_form_screen.dart';
@@ -40,6 +42,20 @@ class _LayerSelectionFormScreenState extends State<LayerSelectionFormScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Selecionar Camadas'),
+        actions: [
+          TextButton(
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (ctx) => CancelFormDialog(),
+              );
+            },
+            child: Text(
+              'CANCELAR',
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(15),
@@ -57,13 +73,21 @@ class _LayerSelectionFormScreenState extends State<LayerSelectionFormScreen> {
               child: ListView(
                 children: [
                   _buildCheckBoxTile(
-                      label: 'Corpo', layerNames: LayerNames.BODY),
+                    label: 'Corpo',
+                    layerNames: LayerNames.BODY,
+                  ),
                   _buildCheckBoxTile(
-                      label: 'Olhos', layerNames: LayerNames.EYES),
+                    label: 'Olhos',
+                    layerNames: LayerNames.EYES,
+                  ),
                   _buildCheckBoxTile(
-                      label: 'Boca', layerNames: LayerNames.MOUTH),
+                    label: 'Boca',
+                    layerNames: LayerNames.MOUTH,
+                  ),
                   _buildCheckBoxTile(
-                      label: 'Nariz', layerNames: LayerNames.NOSE),
+                    label: 'Nariz',
+                    layerNames: LayerNames.NOSE,
+                  ),
                 ],
               ),
             ),

@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:math';
 
+import 'package:drawme/components/avatar_form/cancel_form_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -109,11 +110,14 @@ class _AvatarInfoFormScreenState extends State<AvatarInfoFormScreen> {
       appBar: AppBar(
         title: Text('Informações'),
         actions: [
-          TextButton( /* TODO: Alert Dialog */
+          TextButton(
             onPressed: () {
-              Navigator.of(context).pushReplacementNamed(AppRoutes.HOME);
+              showDialog(
+                context: context,
+                builder: (ctx) => CancelFormDialog(),
+              );
             },
-            child: Text(  
+            child: Text(
               'CANCELAR',
               style: TextStyle(color: Colors.white),
             ),
