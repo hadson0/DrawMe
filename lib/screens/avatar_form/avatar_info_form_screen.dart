@@ -158,7 +158,9 @@ class _AvatarInfoFormScreenState extends State<AvatarInfoFormScreen> {
                 onFieldSubmitted: (tags) {
                   setState(() {
                     for (var tag in tags.split(', ')) {
-                      _tagList.add(tag);
+                      if (!_tagList.contains(tag)) {
+                        _tagList.add(tag);
+                      }
                     }
                   });
                   FocusScope.of(context).requestFocus(_descriptionFocus);

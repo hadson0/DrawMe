@@ -4,16 +4,17 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 
+import 'package:path_provider/path_provider.dart';
+import 'package:image_gallery_saver/image_gallery_saver.dart';
+import 'package:screenshot/screenshot.dart';
+import 'package:share_plus/share_plus.dart';
+
 import 'package:drawme/components/avatar/avatar_painter/layer_image_grid.dart';
 import 'package:drawme/components/avatar/avatar_painter/layer_tab_list.dart';
 import 'package:drawme/components/avatar/avatar_painter/avatar_canvas.dart';
 
 import 'package:drawme/models/canvas.dart';
 import 'package:drawme/models/avatar.dart';
-import 'package:image_gallery_saver/image_gallery_saver.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:screenshot/screenshot.dart';
-import 'package:share_plus/share_plus.dart';
 
 class AvatarPainterScreen extends StatefulWidget {
   final Avatar avatar;
@@ -70,6 +71,20 @@ class _AvatarPainterScreenState extends State<AvatarPainterScreen> {
     return result['filePath'];
   }
 
+  Future shareAvatarImage(Uint8List bytes) async {
+    final directory = await getApplicationDocumentsDirectory();
+    final box = context.findRenderObject() as RenderBox?;
+
+    final image = File('${directory.path}/avatar.png');
+    image.writeAsBytesSync(bytes);
+
+    final message = 'Feito no app DrawMe';
+
+    await Share.shareFiles([image.path],
+        text: message,
+        sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size);
+  }
+
   @override
   void initState() {
     super.initState();
@@ -101,8 +116,19 @@ class _AvatarPainterScreenState extends State<AvatarPainterScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               ElevatedButton(
-                onPressed: () async {},
-                child: Text('Compartilhar'),
+                onPressed: () async {
+                  /* TODO: Fix share option */
+                  final avatarImage = await _controller
+                      .captureFromWidget(AvatarCanvas(layers: _layers));
+
+                  await shareAvatarImage(avatarImage);
+                },
+                child: Row(
+                  children: [
+                    Icon(Icons.share),
+                    Text(' Compartilhar'),
+                  ],
+                ),
               ),
               ElevatedButton(
                 onPressed: () async {
@@ -112,6 +138,17 @@ class _AvatarPainterScreenState extends State<AvatarPainterScreen> {
                   await saveAvatarImage(avatarImage);
                 },
                 child: Text('Salvar'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  setState(() {
+                    avatar.canvas.layers.forEach((layer, imageList) {
+                      _layers[layer] =
+                          imageList[Random().nextInt(imageList.length)];
+                    });
+                  });
+                },
+                child: Text('Random'),
               ),
             ],
           )

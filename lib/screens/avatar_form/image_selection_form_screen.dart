@@ -52,6 +52,29 @@ class _ImageSelectionFormScreenState extends State<ImageSelectionFormScreen> {
     }
   }
 
+  void _addOptinal() {
+    XFile _empty = XFile('');
+    selectedLayer.add(_empty);
+  }
+
+  void _showErrorDialog(String msg) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text('Ocorreu um Erro!'),
+        content: Text(msg),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(false);
+            },
+            child: Text('OK'),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -108,39 +131,27 @@ class _ImageSelectionFormScreenState extends State<ImageSelectionFormScreen> {
         onPressed: () {
           setState(() {
             if (selectedLayer.isEmpty) {
-              showDialog(
-                context: context,
-                builder: (ctx) => AlertDialog(
-                  title: Text('Camada Vazia!'),
-                  content: Text('Insira ao menos 1 imagem por camada!'),
-                  actions: [
-                    TextButton(
-                      onPressed: () {
-                        Navigator.of(context).pop(false);
-                      },
-                      child: Text('OK'),
-                    ),
-                  ],
-                ),
-              );
-            } else if (_selectedIndex >= layerList.length - 1) {
-              Map<LayerNames, List<XFile>> _layerMap = {};
-
-              for (int i = 0; i < layerList.length; i++) {
-                _layerMap[layerList[i]] = _imageList[i];
+              _showErrorDialog('Insira ao menos 1 imagem por camada!');
+            } else {
+              if (_optional) {
+                _addOptinal();
               }
 
-              Navigator.of(context).pushReplacement(
-                  AvatarInfoFormScreen.route(layerMap: _layerMap));
-            } else {
-              if (selectedLayer.isNotEmpty) {  
-                if(_optional) {
-                  XFile _empty = XFile('');
-                  selectedLayer.add(_empty);
-                }              
+              if (_selectedIndex >= layerList.length - 1) {
+                Map<LayerNames, List<XFile>> _layerMap = {};
+
+                for (int i = 0; i < layerList.length; i++) {
+                  _layerMap[layerList[i]] = _imageList[i];
+                }
+
+                Navigator.of(context).pushReplacement(
+                    AvatarInfoFormScreen.route(layerMap: _layerMap));
+              } else {
+                if (selectedLayer.isNotEmpty) {
                   _imageList.add([]);
-                
-                _selectedIndex++;
+
+                  _selectedIndex++;
+                }
               }
             }
           });
