@@ -1,11 +1,10 @@
 import 'dart:io';
 
+import 'package:drawme/components/avatar/avatar_detail/avatar_detail_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:drawme/models/avatar.dart';
-
-import 'package:drawme/utils/AppRoutes.dart';
 
 class AvatarGridItem extends StatelessWidget {
   const AvatarGridItem({Key? key}) : super(key: key);
@@ -22,21 +21,27 @@ class AvatarGridItem extends StatelessWidget {
             File(avatar.avatarSample),
             fit: BoxFit.cover,
           ),
-          onTap: () {
-            Navigator.of(context).pushNamed(
-              AppRoutes.AVATAR_DETAIL,
-              arguments: avatar,
-            );
-          },
+          onTap: () => showModalBottomSheet(
+            context: context,
+            builder: (context) => AvatarDetailSheet(avatar),
+            backgroundColor: Colors.transparent,
+            isScrollControlled: true,
+            enableDrag: false,
+            isDismissible: false,
+          ),
         ),
         footer: Container(
           height: 40,
           child: GridTileBar(
-            title: Text(
-              avatar.name,
-              style: TextStyle(
-                fontFamily: 'RobotoCondensed',
-                fontSize: 15,
+            title: Container(
+              child: FittedBox(
+                child: Text(
+                  avatar.name,
+                  style: TextStyle(
+                    fontFamily: 'RobotoCondensed',
+                    fontSize: 15,
+                  ),
+                ),
               ),
             ),
             subtitle: Text(

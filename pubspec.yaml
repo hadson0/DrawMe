@@ -37,6 +37,9 @@ dependencies:
   share_plus: ^2.1.4
   path_provider: ^2.0.3
 
+  # Navigation Tab Bar
+  bottom_navy_bar: ^6.0.0
+
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

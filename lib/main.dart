@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 
 import 'package:drawme/models/avatar_list.dart';
 
-import 'package:drawme/screens/avatar_overview/avatar_item/avatar_detail_screen.dart';
+import 'package:drawme/components/avatar/avatar_detail/avatar_detail_sheet.dart';
 import 'package:drawme/screens/home_screen.dart';
 import 'package:drawme/screens/avatar_overview/tabs_avatar_screen.dart';
 import 'package:drawme/screens/avatar_form/layer_selection_form_screen.dart';
@@ -46,7 +46,6 @@ class MyApp extends StatelessWidget {
         routes: {
           AppRoutes.HOME: (ctx) => HomeScreen(),
           AppRoutes.AVATAR_LIST: (ctx) => TabsAvatarScreen(),
-          AppRoutes.AVATAR_DETAIL: (ctx) => AvatarDetailScreen(),
           AppRoutes.LAYER_SELECTION_FORM: (ctx) => LayerSelectionFormScreen(),
         },
         debugShowCheckedModeBanner: false,
