@@ -1,13 +1,10 @@
 import 'dart:io';
 
-import 'package:flutter/material.dart';
-
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:provider/provider.dart';
-
 import 'package:drawme/components/avatar/avatar_detail/avatar_detail_sheet.dart';
-
 import 'package:drawme/models/avatar.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class AvatarGridItem extends StatelessWidget {
   const AvatarGridItem({Key? key}) : super(key: key);
@@ -19,33 +16,17 @@ class AvatarGridItem extends StatelessWidget {
     return ClipRRect(
       borderRadius: BorderRadius.circular(10),
       child: GridTile(
-        child: GestureDetector(
-          child: Image.file(
-            File(avatar.avatarSample),
-            fit: BoxFit.cover,
-          ),
-          onTap: () => showModalBottomSheet(
-            context: context,
-            builder: (context) => AvatarDetailSheet(avatar),
-            backgroundColor: Colors.transparent,
-            isScrollControlled: true,
-            enableDrag: false,
-            isDismissible: false,
-          ),
-        ),
-        footer: Container(
+        footer: SizedBox(
           height: 40,
           child: GridTileBar(
-            title: Container(
-              child: AutoSizeText(
-                avatar.name,
-                maxLines: 1,
-                minFontSize: 10,
-                overflow: TextOverflow.ellipsis,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontFamily: 'RobotoCondensed',
-                ),
+            title: AutoSizeText(
+              avatar.name,
+              maxLines: 1,
+              minFontSize: 10,
+              overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                fontFamily: 'RobotoCondensed',
               ),
             ),
             subtitle: AutoSizeText(
@@ -53,7 +34,7 @@ class AvatarGridItem extends StatelessWidget {
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                 fontFamily: 'RobotoCondensed',
                 color: Colors.blue,
                 fontSize: 10,
@@ -66,10 +47,25 @@ class AvatarGridItem extends StatelessWidget {
                   avt.toggleFavorite();
                 },
                 icon: Icon(
-                    avt.isFavorite ? Icons.favorite : Icons.favorite_border),
+                  avt.isFavorite ? Icons.favorite : Icons.favorite_border,
+                ),
                 color: Theme.of(context).colorScheme.secondary,
               ),
             ),
+          ),
+        ),
+        child: GestureDetector(
+          child: Image.file(
+            File(avatar.avatarSample),
+            fit: BoxFit.cover,
+          ),
+          onTap: () => showModalBottomSheet(
+            context: context,
+            builder: (context) => AvatarDetailSheet(avatar),
+            backgroundColor: Colors.transparent,
+            isScrollControlled: true,
+            enableDrag: false,
+            isDismissible: false,
           ),
         ),
       ),

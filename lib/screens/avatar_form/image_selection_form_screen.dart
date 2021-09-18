@@ -19,9 +19,10 @@ class ImageSelectionFormScreen extends StatefulWidget {
 
   static Route<MaterialPageRoute> route(List<LayerNames> selectedLayers) {
     return MaterialPageRoute(
-        builder: (context) => ImageSelectionFormScreen(
-              layerList: selectedLayers,
-            ));
+      builder: (context) => ImageSelectionFormScreen(
+        layerList: selectedLayers,
+      ),
+    );
   }
 
   @override
@@ -40,20 +41,20 @@ class _ImageSelectionFormScreenState extends State<ImageSelectionFormScreen> {
   List<XFile> get selectedLayer => _imageList[_selectedIndex];
   List<LayerNames> get layerList => widget.layerList;
 
-  void _selectGaleryImage() async {
+  Future<void> _selectGaleryImage() async {
     final List<XFile>? selectedImage =
         await _picker.pickMultiImage(maxHeight: 600, maxWidth: 600);
     if (selectedImage!.isNotEmpty) {
-      selectedImage.forEach((image) {
+      for (final image in selectedImage) {
         setState(() {
           selectedLayer.add(image);
         });
-      });
+      }
     }
   }
 
   void _addOptinal() {
-    XFile _empty = XFile('');
+    final XFile _empty = XFile('');
     selectedLayer.add(_empty);
   }
 
@@ -61,14 +62,14 @@ class _ImageSelectionFormScreenState extends State<ImageSelectionFormScreen> {
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: Text('Ocorreu um Erro!'),
+        title: const Text('Ocorreu um Erro!'),
         content: Text(msg),
         actions: [
           TextButton(
             onPressed: () {
               Navigator.of(context).pop(false);
             },
-            child: Text('OK'),
+            child: const Text('OK'),
           ),
         ],
       ),
@@ -85,10 +86,10 @@ class _ImageSelectionFormScreenState extends State<ImageSelectionFormScreen> {
             onPressed: () {
               showDialog(
                 context: context,
-                builder: (ctx) => CancelFormDialog(),
+                builder: (ctx) => const CancelFormDialog(),
               );
             },
-            child: Text(
+            child: const Text(
               'CANCELAR',
               style: TextStyle(color: Colors.white),
             ),
@@ -99,30 +100,30 @@ class _ImageSelectionFormScreenState extends State<ImageSelectionFormScreen> {
         padding: const EdgeInsets.all(15),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text('Camada opcional'),
+                const Text('Camada opcional'),
                 Switch(
-                    value: _optional,
-                    onChanged: (value) {
-                      setState(() {
-                        _optional = value;
-                      });
-                    }),
+                  value: _optional,
+                  onChanged: (value) {
+                    setState(() {
+                      _optional = value;
+                    });
+                  },
+                ),
               ],
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: _selectGaleryImage,
-              child: Text('Selecionar'),
+              child: const Text('Selecionar'),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ImageDisplayGrid(
               selectedLayer: selectedLayer,
-              itemCount: _imageList.length == 0 ? 0 : selectedLayer.length,
+              itemCount: _imageList.isEmpty ? 0 : selectedLayer.length,
             ),
           ],
         ),
@@ -145,7 +146,8 @@ class _ImageSelectionFormScreenState extends State<ImageSelectionFormScreen> {
                 }
 
                 Navigator.of(context).pushReplacement(
-                    AvatarInfoFormScreen.route(layerMap: _layerMap));
+                  AvatarInfoFormScreen.route(layerMap: _layerMap),
+                );
               } else {
                 if (selectedLayer.isNotEmpty) {
                   _imageList.add([]);
@@ -156,7 +158,7 @@ class _ImageSelectionFormScreenState extends State<ImageSelectionFormScreen> {
             }
           });
         },
-        child: Icon(Icons.arrow_forward_ios_rounded),
+        child: const Icon(Icons.arrow_forward_ios_rounded),
       ),
     );
   }

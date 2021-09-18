@@ -20,7 +20,7 @@ class AvatarList with ChangeNotifier {
   }
 
   void removeAvatar(Avatar avatar) {
-    int index = _avatars.indexWhere((avt) => avt.id == avatar.id);
+    final index = _avatars.indexWhere((avt) => avt.id == avatar.id);
 
     if (index >= 0) {
       _avatars.removeWhere((avt) => avt.id == avatar.id);

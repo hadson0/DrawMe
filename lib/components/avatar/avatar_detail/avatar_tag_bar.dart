@@ -1,7 +1,6 @@
+import 'package:drawme/models/avatar.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-
-import 'package:drawme/models/avatar.dart';
 
 class AvatarTagBar extends StatelessWidget {
   final Avatar avatar;
@@ -18,7 +17,7 @@ class AvatarTagBar extends StatelessWidget {
         padding: const EdgeInsets.all(5),
         decoration: BoxDecoration(
           color: Colors.grey.shade100,
-          border: Border.all(color: Colors.black),
+          border: Border.all(),
           borderRadius: BorderRadius.circular(20),
         ),
         child: Text(

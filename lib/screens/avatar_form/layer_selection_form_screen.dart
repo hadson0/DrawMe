@@ -15,7 +15,7 @@ class LayerSelectionFormScreen extends StatefulWidget {
 }
 
 class _LayerSelectionFormScreenState extends State<LayerSelectionFormScreen> {
-  Map<LayerNames, bool> _layers = {
+  final Map<LayerNames, bool> _layers = {
     LayerNames.BACKGROUND: true,
     LayerNames.BODY: true,
     LayerNames.EYES: true,
@@ -25,7 +25,10 @@ class _LayerSelectionFormScreenState extends State<LayerSelectionFormScreen> {
 
   List<LayerNames> _selectedLayers = [];
 
-  _buildCheckBoxTile({required String label, required LayerNames layerNames}) {
+  CheckboxListTile _buildCheckBoxTile({
+    required String label,
+    required LayerNames layerNames,
+  }) {
     return CheckboxListTile(
       title: Text(label),
       value: _layers[layerNames],
@@ -41,16 +44,16 @@ class _LayerSelectionFormScreenState extends State<LayerSelectionFormScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Selecionar Camadas'),
+        title: const Text('Selecionar Camadas'),
         actions: [
           TextButton(
             onPressed: () {
               showDialog(
                 context: context,
-                builder: (ctx) => CancelFormDialog(),
+                builder: (ctx) => const CancelFormDialog(),
               );
             },
-            child: Text(
+            child: const Text(
               'CANCELAR',
               style: TextStyle(color: Colors.white),
             ),
@@ -65,13 +68,13 @@ class _LayerSelectionFormScreenState extends State<LayerSelectionFormScreen> {
             Container(
               height: 50,
               padding: const EdgeInsets.all(10),
-              child: Text('Selecione quais camadas irá utilizar:'),
+              child: const Text('Selecione quais camadas irá utilizar:'),
             ),
-            Container(
+            SizedBox(
               height: 300,
               width: double.infinity,
               child: ListView(
-                children: [
+                children: <Widget>[
                   _buildCheckBoxTile(
                     label: 'Corpo',
                     layerNames: LayerNames.BODY,
@@ -105,7 +108,7 @@ class _LayerSelectionFormScreenState extends State<LayerSelectionFormScreen> {
           Navigator.of(context)
               .pushReplacement(ImageSelectionFormScreen.route(_selectedLayers));
         },
-        child: Icon(Icons.arrow_forward_ios_rounded),
+        child: const Icon(Icons.arrow_forward_ios_rounded),
       ),
     );
   }

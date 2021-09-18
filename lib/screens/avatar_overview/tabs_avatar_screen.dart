@@ -24,7 +24,7 @@ class _TabsAvatarScreenState extends State<TabsAvatarScreen> {
   List<Widget> _screens = [];
 
   Widget _buildBottomNavigationBar() {
-    final inactiveColor = Colors.grey;
+    const inactiveColor = Colors.grey;
     return BottomNavyBar(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       containerHeight: 70,
@@ -34,15 +34,15 @@ class _TabsAvatarScreenState extends State<TabsAvatarScreen> {
       onItemSelected: (index) => setState(() => _selectedScreenIndex = index),
       items: [
         BottomNavyBarItem(
-          icon: Icon(Icons.apps),
-          title: Text('Avatares'),
+          icon: const Icon(Icons.apps),
+          title: const Text('Avatares'),
           textAlign: TextAlign.center,
           activeColor: Colors.amber,
           inactiveColor: inactiveColor,
         ),
         BottomNavyBarItem(
-          icon: Icon(Icons.favorite),
-          title: Text('Favoritos'),
+          icon: const Icon(Icons.favorite),
+          title: const Text('Favoritos'),
           textAlign: TextAlign.center,
           activeColor: Colors.red,
           inactiveColor: inactiveColor,
@@ -69,8 +69,8 @@ class _TabsAvatarScreenState extends State<TabsAvatarScreen> {
   void initState() {
     super.initState();
     _screens = [
-      AvatarGridScreen(),
-      FavoriteAvatarScreen(),
+      const AvatarGridScreen(),
+      const FavoriteAvatarScreen(),
     ];
   }
 
@@ -80,7 +80,7 @@ class _TabsAvatarScreenState extends State<TabsAvatarScreen> {
       appBar: AppBar(
         title: Text(_titles[_selectedScreenIndex]),
       ),
-      drawer: AppDrawer(),
+      drawer: const AppDrawer(),
       body: _screens[_selectedScreenIndex],
       bottomNavigationBar: _buildBottomNavigationBar(),
     );

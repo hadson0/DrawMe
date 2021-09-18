@@ -1,6 +1,5 @@
-import 'package:flutter/material.dart';
-
 import 'package:drawme/utils/AppRoutes.dart';
+import 'package:flutter/material.dart';
 
 class CancelFormDialog extends StatelessWidget {
   const CancelFormDialog({
@@ -10,21 +9,21 @@ class CancelFormDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text('Tem Certeza?'),
-      content: Text('Deseja cancelar o processo?'),
+      title: const Text('Tem Certeza?'),
+      content: const Text('Deseja cancelar o processo?'),
       actions: [
         TextButton(
           onPressed: () {
             Navigator.of(context).pop();
           },
-          child: Text('Não'),
+          child: const Text('Não'),
         ),
         TextButton(
           onPressed: () {
             Navigator.of(context).pop();
             Navigator.of(context).pushReplacementNamed(AppRoutes.HOME);
           },
-          child: Text('Sim'),
+          child: const Text('Sim'),
         ),
       ],
     );

@@ -41,7 +41,7 @@ class _AvatarInfoFormScreenState extends State<AvatarInfoFormScreen> {
   final ImagePicker _picker = ImagePicker();
   XFile? _image;
 
-  final _formData = Map<String, Object>();
+  final _formData = <String, Object>{};
   List<String> _tagList = [];
 
   final _tagFocus = FocusNode();
@@ -52,7 +52,7 @@ class _AvatarInfoFormScreenState extends State<AvatarInfoFormScreen> {
 
   Map<LayerNames, List<XFile>> get layerMap => widget.layerMap;
 
-  void _selectGaleryImage() async {
+  Future<void> _selectGaleryImage() async {
     final XFile? selectedImage =
         await _picker.pickImage(source: ImageSource.gallery);
     if (selectedImage!.path.isNotEmpty) {
@@ -65,8 +65,6 @@ class _AvatarInfoFormScreenState extends State<AvatarInfoFormScreen> {
   void _submitForm() {
     final isValid = _formKey.currentState?.validate() ?? false;
     if (!isValid || _image == null) {
-      print(!isValid);
-      print(_image == null);
       return;
     }
 
@@ -74,19 +72,19 @@ class _AvatarInfoFormScreenState extends State<AvatarInfoFormScreen> {
 
     final avatar = Avatar(
       id: Random().nextDouble().toString(),
-      name: _formData['name'] as String,
+      name: _formData['name']! as String,
       tags: _tagList,
       author: 'Hadson',
       avatarSample: _image!.path,
-      description: _formData['description'] as String,
+      description: _formData['description']! as String,
     );
 
     layerMap.forEach((layerName, imageList) {
       avatar.canvas.addLayer(layerName);
 
-      imageList.forEach((image) {
+      for (final image in imageList) {
         avatar.canvas.addLayerImage(layerName, image.path);
-      });
+      }
     });
 
     Provider.of<AvatarList>(context, listen: false).addAvatar(avatar);
@@ -108,16 +106,16 @@ class _AvatarInfoFormScreenState extends State<AvatarInfoFormScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Informações'),
+        title: const Text('Informações'),
         actions: [
           TextButton(
             onPressed: () {
               showDialog(
                 context: context,
-                builder: (ctx) => CancelFormDialog(),
+                builder: (ctx) => const CancelFormDialog(),
               );
             },
-            child: Text(
+            child: const Text(
               'CANCELAR',
               style: TextStyle(color: Colors.white),
             ),
@@ -130,9 +128,9 @@ class _AvatarInfoFormScreenState extends State<AvatarInfoFormScreen> {
           key: _formKey,
           child: ListView(
             children: [
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               TextFormField(
-                decoration: InputDecoration(labelText: 'Nome do Avatar'),
+                decoration: const InputDecoration(labelText: 'Nome do Avatar'),
                 textInputAction: TextInputAction.next,
                 onFieldSubmitted: (_) {
                   FocusScope.of(context).requestFocus(_tagFocus);
@@ -150,14 +148,14 @@ class _AvatarInfoFormScreenState extends State<AvatarInfoFormScreen> {
                   return null;
                 },
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               TextFormField(
-                decoration: InputDecoration(labelText: 'Tags'),
+                decoration: const InputDecoration(labelText: 'Tags'),
                 textInputAction: TextInputAction.next,
                 focusNode: _tagFocus,
                 onFieldSubmitted: (tags) {
                   setState(() {
-                    for (var tag in tags.split(', ')) {
+                    for (final tag in tags.split(', ')) {
                       if (!_tagList.contains(tag)) {
                         _tagList.add(tag);
                       }
@@ -170,15 +168,16 @@ class _AvatarInfoFormScreenState extends State<AvatarInfoFormScreen> {
                     return 'Insira ao menos 3 tags!';
                   }
 
-                  for (var tag in _tagList) {
-                    if (tag.trim().length < 3)
+                  for (final tag in _tagList) {
+                    if (tag.trim().length < 3) {
                       return 'As tags precisam de no mínimo 3 letras!';
+                    }
                   }
 
                   return null;
                 },
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               AvatarFormTagBar(
                 tagList: _tagList,
                 onDeleteTapped: (deletedTag) {
@@ -187,9 +186,9 @@ class _AvatarInfoFormScreenState extends State<AvatarInfoFormScreen> {
                   });
                 },
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               TextFormField(
-                decoration: InputDecoration(labelText: 'Descrição'),
+                decoration: const InputDecoration(labelText: 'Descrição'),
                 keyboardType: TextInputType.multiline,
                 maxLines: 10,
                 focusNode: _descriptionFocus,
@@ -210,14 +209,14 @@ class _AvatarInfoFormScreenState extends State<AvatarInfoFormScreen> {
                   return null;
                 },
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Container(
+                  const SizedBox(
                     width: 200,
                     child: Text(
-                      'Selecione uma imagem que servirá de modelo para o avatar',
+                      'Selecione um modelo para o avatar',
                       textAlign: TextAlign.center,
                     ),
                   ),
@@ -233,11 +232,11 @@ class _AvatarInfoFormScreenState extends State<AvatarInfoFormScreen> {
                                 border: Border.all(color: Colors.grey),
                                 borderRadius: BorderRadius.circular(10),
                               ),
-                              child: Center(
+                              child: const Center(
                                 child: Text('Selecionar\n Imagem'),
                               ),
                             )
-                          : Container(
+                          : SizedBox(
                               height: 100,
                               width: 100,
                               child: Image.file(
@@ -255,7 +254,7 @@ class _AvatarInfoFormScreenState extends State<AvatarInfoFormScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _submitForm,
-        child: Icon(Icons.save),
+        child: const Icon(Icons.save),
       ),
     );
   }

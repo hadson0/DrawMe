@@ -7,7 +7,7 @@ import 'package:drawme/models/avatar.dart';
 import 'package:drawme/models/avatar_list.dart';
 
 class AvatarGridScreen extends StatelessWidget {
-  AvatarGridScreen({
+  const AvatarGridScreen({
     Key? key,
   }) : super(key: key);
 
@@ -24,16 +24,15 @@ class AvatarGridScreen extends StatelessWidget {
           itemCount: avatars.length,
           itemBuilder: (ctx, i) => ChangeNotifierProvider.value(
             value: avatars[i],
-            child: AvatarGridItem(),
+            child: const AvatarGridItem(),
           ),
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: constraints.maxWidth > 400 ? 4 : 2,
-            childAspectRatio: 1,
             crossAxisSpacing: 10,
             mainAxisSpacing: 10,
           ),
         ),
       );
-    });
+    },);
   }
 }

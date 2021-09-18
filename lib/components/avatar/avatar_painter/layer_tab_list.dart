@@ -1,6 +1,5 @@
-import 'package:flutter/material.dart';
-
 import 'package:drawme/models/canvas.dart';
+import 'package:flutter/material.dart';
 
 class LayerTabList extends StatelessWidget {
   final void Function(LayerNames) onSelectLayer;
@@ -44,7 +43,7 @@ class LayerTabList extends StatelessWidget {
       height: 55,
       width: double.infinity,
       padding: const EdgeInsets.all(2),
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: Colors.black54,
         borderRadius: BorderRadius.vertical(
           top: Radius.circular(10),
@@ -62,7 +61,7 @@ class LayerTabList extends StatelessWidget {
                 color: Colors.grey.shade100,
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: Text(
+              child: const Text(
                 'RANDOM',
                 textAlign: TextAlign.center,
               ),

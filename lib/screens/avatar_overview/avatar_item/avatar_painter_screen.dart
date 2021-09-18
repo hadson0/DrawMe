@@ -64,25 +64,25 @@ class _AvatarPainterScreenState extends State<AvatarPainterScreen> {
         .toIso8601String()
         .replaceAll('.', '-')
         .replaceAll(':', '-');
-    final name = avatar.name + '$time';
+    final name = avatar.name + time;
 
     final result = await ImageGallerySaver.saveImage(bytes, name: name);
 
-    return result['filePath'];
+    return result['filePath'] as String;
   }
 
   Future shareAvatarImage(Uint8List bytes) async {
     final directory = await getApplicationDocumentsDirectory();
-    final box = context.findRenderObject() as RenderBox?;
 
     final image = File('${directory.path}/avatar.png');
     image.writeAsBytesSync(bytes);
 
-    final message = 'Feito no app DrawMe';
+    const message = 'Feito no app DrawMe';
 
-    await Share.shareFiles([image.path],
-        text: message,
-        sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size);
+    await Share.shareFiles(
+      [image.path],
+      text: message,
+    );
   }
 
   @override
@@ -95,7 +95,7 @@ class _AvatarPainterScreenState extends State<AvatarPainterScreen> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) {    
     return Scaffold(
       appBar: AppBar(
         title: Text(avatar.name),
@@ -140,7 +140,7 @@ class _AvatarPainterScreenState extends State<AvatarPainterScreen> {
                         await shareAvatarImage(avatarImage);
                       },
                       child: Row(
-                        children: [
+                        children: const [
                           Icon(Icons.share),
                           Text(' Compartilhar'),
                         ],
@@ -153,7 +153,7 @@ class _AvatarPainterScreenState extends State<AvatarPainterScreen> {
 
                         await saveAvatarImage(avatarImage);
                       },
-                      child: Text('Salvar'),
+                      child: const Text('Salvar'),
                     ),
                   ],
                 )

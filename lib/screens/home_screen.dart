@@ -13,7 +13,7 @@ class HomeScreen extends StatelessWidget {
     final screenSize = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        title: Text('DrawMe!'),
+        title: const Text('DrawMe!'),
       ),
       body: Padding(
         padding: const EdgeInsets.only(
@@ -33,7 +33,7 @@ class HomeScreen extends StatelessWidget {
               title: 'Me Desenhe!',
               color: Colors.amber.shade600,
             ),
-            SizedBox(
+            const SizedBox(
               height: 35,
             ),
             OptionItem(
@@ -49,7 +49,7 @@ class HomeScreen extends StatelessWidget {
           ],
         ),
       ),
-      drawer: AppDrawer(),
+      drawer: const AppDrawer(),
     );
   }
 }

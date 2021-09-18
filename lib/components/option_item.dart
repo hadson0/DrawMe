@@ -7,7 +7,7 @@ class OptionItem extends StatelessWidget {
   final Color color;
   final Function() onTap;
 
-  OptionItem({
+  const OptionItem({
     Key? key,
     required this.height,
     required this.width,
@@ -24,21 +24,25 @@ class OptionItem extends StatelessWidget {
         height: height,
         width: width,
         alignment: Alignment.bottomCenter,
-        padding: EdgeInsets.all(5),
+        padding: const EdgeInsets.all(5),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(15),
+          gradient: LinearGradient(
+            colors: [
+              color,
+              color.withOpacity(0.4),
+            ],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
         child: Text(
           title,
           textAlign: TextAlign.center,
-          style: TextStyle(
+          style: const TextStyle(
             fontFamily: 'RobotoCondensed',
             fontSize: 30,
           ),
-        ),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15),
-          gradient: LinearGradient(colors: [
-            color,
-            color.withOpacity(0.4),
-          ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
         ),
       ),
     );

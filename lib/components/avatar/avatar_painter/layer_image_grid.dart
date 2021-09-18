@@ -28,9 +28,8 @@ class LayerImageGrid extends StatelessWidget {
               child: Container(
                 color: Colors.white,
                 child: layerImageList[i] == ''
-                    ? FittedBox(
+                    ? const FittedBox(
                         child: Text('X'),
-                        fit: BoxFit.contain,
                       )
                     : Image.file(
                         File(layerImageList[i]),
@@ -40,9 +39,8 @@ class LayerImageGrid extends StatelessWidget {
             ),
           );
         },
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 4,
-          childAspectRatio: 1,
           crossAxisSpacing: 5,
           mainAxisSpacing: 5,
         ),

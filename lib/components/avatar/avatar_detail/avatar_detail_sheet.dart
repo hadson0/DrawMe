@@ -1,12 +1,9 @@
 import 'dart:io';
 
-import 'package:drawme/screens/avatar_overview/avatar_item/avatar_painter_screen.dart';
-import 'package:drawme/models/canvas.dart';
-import 'package:flutter/material.dart';
-
 import 'package:drawme/components/avatar/avatar_detail/avatar_info.dart';
-
 import 'package:drawme/models/avatar.dart';
+import 'package:drawme/screens/avatar_overview/avatar_item/avatar_painter_screen.dart';
+import 'package:flutter/material.dart';
 
 class AvatarDetailSheet extends StatelessWidget {
   final Avatar avatar;
@@ -31,7 +28,6 @@ class AvatarDetailSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(avatar.canvas.layers[LayerNames.BACKGROUND]);
 
     return makeDismissible(
       context: context,
@@ -40,7 +36,7 @@ class AvatarDetailSheet extends StatelessWidget {
         minChildSize: 0.7,
         maxChildSize: 0.9,
         builder: (_, controller) => ClipRRect(
-          borderRadius: BorderRadius.vertical(
+          borderRadius: const BorderRadius.vertical(
             top: Radius.circular(20),
           ),
           child: Container(
@@ -48,7 +44,7 @@ class AvatarDetailSheet extends StatelessWidget {
             child: ListView(
               controller: controller,
               children: [
-                Container(
+                SizedBox(
                   height: 310,
                   width: double.infinity,
                   child: Image.file(
@@ -64,7 +60,7 @@ class AvatarDetailSheet extends StatelessWidget {
                       onPressed: () {
                         Navigator.of(context).pop();
                       },
-                      child: Text(
+                      child: const Text(
                         'Fechar',
                         style: TextStyle(color: Colors.white),
                       ),
@@ -74,7 +70,7 @@ class AvatarDetailSheet extends StatelessWidget {
                         Navigator.of(context)
                             .push(AvatarPainterScreen.route(avatar: avatar));
                       },
-                      child: Text(
+                      child: const Text(
                         'Desenhar!',
                         style: TextStyle(color: Colors.white),
                       ),

@@ -1,10 +1,7 @@
-import 'package:flutter/material.dart';
-
 import 'package:auto_size_text/auto_size_text.dart';
-
 import 'package:drawme/components/avatar/avatar_detail/avatar_tag_bar.dart';
-
 import 'package:drawme/models/avatar.dart';
+import 'package:flutter/material.dart';
 
 class AvatarInfo extends StatelessWidget {
   final Avatar avatar;
@@ -31,7 +28,7 @@ class AvatarInfo extends StatelessWidget {
                 avatar.name,
                 maxLines: 2,
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   fontFamily: 'RobotoCondensed',
                   fontSize: 20,
                   color: Colors.white,
@@ -41,7 +38,7 @@ class AvatarInfo extends StatelessWidget {
                 avatar.author,
                 maxLines: 1,
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   fontFamily: 'RobotoCondensed',
                   color: Colors.blue,
                   fontSize: 15,
@@ -54,8 +51,8 @@ class AvatarInfo extends StatelessWidget {
         Container(
           height: 250,
           width: double.infinity,
-          padding: EdgeInsets.all(5),
-          margin: EdgeInsets.all(5),
+          padding: const EdgeInsets.all(5),
+          margin: const EdgeInsets.all(5),
           decoration: BoxDecoration(
             color: Colors.white,
             border: Border.all(color: Colors.grey),
@@ -67,10 +64,10 @@ class AvatarInfo extends StatelessWidget {
                 'Descrição:',
                 style: Theme.of(context).textTheme.headline6,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 5,
               ),
-              Container(
+              SizedBox(
                 height: 210,
                 child: SelectableText(avatar.description),
               ),

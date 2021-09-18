@@ -1,8 +1,7 @@
 import 'dart:io';
 
-import 'package:flutter/material.dart';
-
 import 'package:drawme/models/canvas.dart';
+import 'package:flutter/material.dart';
 
 class AvatarCanvas extends StatelessWidget {
   final Map<LayerNames, String> layers;
@@ -17,7 +16,7 @@ class AvatarCanvas extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
     return Stack(
       children: layers.entries.map((entry) {
-        return Container(
+        return SizedBox(
           height: screenWidth,
           width: screenWidth,
           child: entry.value == ''

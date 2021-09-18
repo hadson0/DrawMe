@@ -6,10 +6,9 @@ class AvatarFormTagBar extends StatefulWidget {
 
   const AvatarFormTagBar({
     Key? key,
-    required List<String> tagList,
+    required this.tagList,
     required this.onDeleteTapped,
-  })  : tagList = tagList,
-        super(key: key);
+  })  : super(key: key);
 
   @override
   State<AvatarFormTagBar> createState() => _AvatarFormTagBarState();
@@ -26,10 +25,10 @@ class _AvatarFormTagBarState extends State<AvatarFormTagBar> {
         margin: const EdgeInsets.all(1),
         padding: const EdgeInsets.all(5),
         decoration: BoxDecoration(
-          border: Border.all(color: Colors.black),
+          border: Border.all(),
           borderRadius: BorderRadius.circular(20),
         ),
-        child: Container(
+        child: SizedBox(
           height: 20,
           child: Row(
             children: [
@@ -43,7 +42,7 @@ class _AvatarFormTagBarState extends State<AvatarFormTagBar> {
                     onDeletedTapped(tag);
                   });
                 },
-                child: Icon(
+                child: const Icon(
                   Icons.highlight_remove_sharp,
                   color: Colors.grey,
                 ),
@@ -61,7 +60,7 @@ class _AvatarFormTagBarState extends State<AvatarFormTagBar> {
       height: 35,
       width: double.infinity,
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.black),
+        border: Border.all(),
         borderRadius: BorderRadius.circular(10),
       ),
       child: Row(

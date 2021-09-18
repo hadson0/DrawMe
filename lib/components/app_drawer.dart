@@ -1,6 +1,5 @@
-import 'package:flutter/material.dart';
-
 import 'package:drawme/utils/AppRoutes.dart';
+import 'package:flutter/material.dart';
 
 class AppDrawer extends StatelessWidget {
   const AppDrawer({Key? key}) : super(key: key);
@@ -23,19 +22,19 @@ class AppDrawer extends StatelessWidget {
               children: [
                 IconButton(
                   onPressed: () {},
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.person_outline,
                     color: Colors.white,
                     size: 45,
                   ),
                 ),
-                SizedBox(width: 10),
+                const SizedBox(width: 10),
                 GestureDetector(
                   onTap: () {},
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.end,
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
+                    children: const [
                       Text(
                         'Acesse a sua conta agora!',
                         style: TextStyle(
@@ -58,31 +57,31 @@ class AppDrawer extends StatelessWidget {
               ],
             ),
           ),
-          Divider(),
+          const Divider(),
           ListTile(
-            leading: Icon(Icons.home_outlined),
-            title: Text('Tela Inicial'),
+            leading: const Icon(Icons.home_outlined),
+            title: const Text('Tela Inicial'),
             onTap: () {
               Navigator.of(context).pushReplacementNamed(AppRoutes.HOME);
             },
           ),
-          Divider(),
+          const Divider(),
           ListTile(
-            leading: Icon(Icons.person_pin_outlined),
-            title: Text('Me Desenhe!'),
+            leading: const Icon(Icons.person_pin_outlined),
+            title: const Text('Me Desenhe!'),
             onTap: () {
               Navigator.of(context).pushReplacementNamed(AppRoutes.AVATAR_LIST);
             },
           ),
-          Divider(),
+          const Divider(),
           ListTile(
-            leading: Icon(Icons.brush_outlined),
-            title: Text('Criar o meu Avatar'),
+            leading: const Icon(Icons.brush_outlined),
+            title: const Text('Criar o meu Avatar'),
             onTap: () {
               Navigator.of(context).pushReplacementNamed(AppRoutes.HOME);
             },
           ),
-          Divider(),
+          const Divider(),
         ],
       ),
     );

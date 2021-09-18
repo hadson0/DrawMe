@@ -36,25 +36,25 @@ class MyApp extends StatelessWidget {
           colorScheme: ThemeData.light().colorScheme.copyWith(
                 secondary: Colors.amber,
               ),
-          appBarTheme: AppBarTheme(
+          appBarTheme: const AppBarTheme(
             toolbarTextStyle: TextStyle(
               fontFamily: 'RobotoCondensed',
               fontSize: 25,
               color: Colors.white,
             ),
           ),
-          primaryIconTheme: IconThemeData(color: Colors.white),
+          primaryIconTheme: const IconThemeData(color: Colors.white),
           textTheme: ThemeData.light().textTheme.copyWith(
-                headline6: TextStyle(
+                headline6: const TextStyle(
                   fontSize: 20,
                   fontFamily: 'RobotoCondensed',
                 ),
               ),
         ),
         routes: {
-          AppRoutes.HOME: (ctx) => HomeScreen(),
-          AppRoutes.AVATAR_LIST: (ctx) => TabsAvatarScreen(),
-          AppRoutes.LAYER_SELECTION_FORM: (ctx) => LayerSelectionFormScreen(),
+          AppRoutes.HOME: (ctx) => const HomeScreen(),
+          AppRoutes.AVATAR_LIST: (ctx) => const TabsAvatarScreen(),
+          AppRoutes.LAYER_SELECTION_FORM: (ctx) => const LayerSelectionFormScreen(),
         },
         debugShowCheckedModeBanner: false,
       ),

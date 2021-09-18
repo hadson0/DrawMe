@@ -41,7 +41,7 @@ class _ImageDisplayGridState extends State<ImageDisplayGrid> {
             child: Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(5),
-                color: Color.fromRGBO(255, 255, 244, 0.5),
+                color: const Color.fromRGBO(255, 255, 244, 0.5),
               ),
               child: IconButton(
                 onPressed: onDeletePressed,
@@ -64,30 +64,31 @@ class _ImageDisplayGridState extends State<ImageDisplayGrid> {
       width: double.infinity,
       padding: const EdgeInsets.all(5),
       decoration: BoxDecoration(
-          border: Border.all(
-            color: Colors.grey,
-          ),
-          borderRadius: BorderRadius.circular(10)),
+        border: Border.all(
+          color: Colors.grey,
+        ),
+        borderRadius: BorderRadius.circular(10),
+      ),
       child: GridView.builder(
         itemCount: itemCount,
         itemBuilder: (ctx, i) {
           return _buildImageGridItem(
-              image: selectedLayer[i],
-              onDeletePressed: () {
-                setState(
-                  () {
-                    selectedLayer.removeAt(i);
-                  },
-                );
-              });
+            image: selectedLayer[i],
+            onDeletePressed: () {
+              setState(
+                () {
+                  selectedLayer.removeAt(i);
+                },
+              );
+            },
+          );
         },
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
-          childAspectRatio: 1,
           crossAxisSpacing: 5,
           mainAxisSpacing: 5,
         ),
       ),
     );
-  }  
+  }
 }
