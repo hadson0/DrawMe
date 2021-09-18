@@ -21,18 +21,21 @@ class FavoriteAvatarScreen extends StatelessWidget {
         child: Text('Nenhum avatar foi marcado como favorito!'),
       );
     } else {
-      return GridView.builder(
-        padding: const EdgeInsets.all(10),
-        itemCount: favoriteAvatars.length,
-        itemBuilder: (ctx, i) => ChangeNotifierProvider.value(
-          value: favoriteAvatars[i],
-          child: AvatarGridItem(),
-        ),
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          childAspectRatio: 1,
-          crossAxisSpacing: 10,
-          mainAxisSpacing: 10,
+      return Scrollbar(
+        isAlwaysShown: true,
+        child: GridView.builder(
+          padding: const EdgeInsets.all(10),
+          itemCount: favoriteAvatars.length,
+          itemBuilder: (ctx, i) => ChangeNotifierProvider.value(
+            value: favoriteAvatars[i],
+            child: AvatarGridItem(),
+          ),
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            childAspectRatio: 1,
+            crossAxisSpacing: 10,
+            mainAxisSpacing: 10,
+          ),
         ),
       );
     }
