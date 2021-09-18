@@ -1,29 +1,25 @@
-import 'package:drawme/utils/AppRoutes.dart';
 import 'package:flutter/material.dart';
 
 class CancelFormDialog extends StatelessWidget {
-  const CancelFormDialog({
+  final BuildContext ctx;
+  const CancelFormDialog(
+    this.ctx, {
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('Tem Certeza?'),
-      content: const Text('Deseja cancelar o processo?'),
+      title: const Text('Descartar alterações?'),
+      content: const Text('As alterações desta página não serão salvas.'),
       actions: [
         TextButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          child: const Text('Não'),
+          onPressed: () => Navigator.pop(ctx, false),
+          child: const Text('Cancelar'),
         ),
         TextButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-            Navigator.of(context).pushReplacementNamed(AppRoutes.HOME);
-          },
-          child: const Text('Sim'),
+          onPressed: () => Navigator.pop(ctx, true),
+          child: const Text('Sair'),
         ),
       ],
     );

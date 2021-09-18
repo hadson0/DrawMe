@@ -1,3 +1,4 @@
+// ignore: file_names
 class AppRoutes {
   static const HOME = '/';
   static const AVATAR_LIST = '/avatar-list';

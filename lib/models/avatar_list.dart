@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:drawme/models/avatar.dart';
 
 class AvatarList with ChangeNotifier {
-  List<Avatar> _avatars = [];
+  final List<Avatar> _avatars = [];
 
   List<Avatar> get avatars => [..._avatars];
 

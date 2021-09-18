@@ -33,7 +33,7 @@ class ImageSelectionFormScreen extends StatefulWidget {
 class _ImageSelectionFormScreenState extends State<ImageSelectionFormScreen> {
   final ImagePicker _picker = ImagePicker();
 
-  List<List<XFile>> _imageList = [[]];
+  final List<List<XFile>> _imageList = [[]];
 
   int _selectedIndex = 0;
   bool _optional = false;
@@ -76,89 +76,92 @@ class _ImageSelectionFormScreenState extends State<ImageSelectionFormScreen> {
     );
   }
 
+  Future<bool?> _showDialog() async {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return CancelFormDialog(context);
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(layerList[_selectedIndex].toString()),
-        actions: [
-          TextButton(
-            onPressed: () {
-              showDialog(
-                context: context,
-                builder: (ctx) => const CancelFormDialog(),
-              );
-            },
-            child: const Text(
-              'CANCELAR',
-              style: TextStyle(color: Colors.white),
-            ),
-          ),
-        ],
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(15),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text('Camada opcional'),
-                Switch(
-                  value: _optional,
-                  onChanged: (value) {
-                    setState(() {
-                      _optional = value;
-                    });
-                  },
-                ),
-              ],
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: _selectGaleryImage,
-              child: const Text('Selecionar'),
-            ),
-            const SizedBox(height: 20),
-            ImageDisplayGrid(
-              selectedLayer: selectedLayer,
-              itemCount: _imageList.isEmpty ? 0 : selectedLayer.length,
-            ),
-          ],
+    final screenHeight = MediaQuery.of(context).size.height;
+    return WillPopScope(
+      onWillPop: () async {
+        final bool? shouldPop = await _showDialog();
+        return shouldPop ?? false;
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(layerList[_selectedIndex].toString()),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          setState(() {
-            if (selectedLayer.isEmpty) {
-              _showErrorDialog('Insira ao menos 1 imagem por camada!');
-            } else {
-              if (_optional) {
-                _addOptinal();
-              }
-
-              if (_selectedIndex >= layerList.length - 1) {
-                Map<LayerNames, List<XFile>> _layerMap = {};
-
-                for (int i = 0; i < layerList.length; i++) {
-                  _layerMap[layerList[i]] = _imageList[i];
-                }
-
-                Navigator.of(context).pushReplacement(
-                  AvatarInfoFormScreen.route(layerMap: _layerMap),
-                );
+        body: Padding(
+          padding: const EdgeInsets.all(15),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text('Camada opcional'),
+                  Switch(
+                    value: _optional,
+                    onChanged: (value) {
+                      setState(() {
+                        _optional = value;
+                      });
+                    },
+                  ),
+                ],
+              ),
+              const SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: _selectGaleryImage,
+                child: const Text('Selecionar'),
+              ),
+              const SizedBox(height: 20),
+              ImageDisplayGrid(
+                height: screenHeight * 0.5,
+                selectedLayer: selectedLayer,
+                itemCount: _imageList.isEmpty ? 0 : selectedLayer.length,
+              ),
+            ],
+          ),
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            setState(() {
+              if (selectedLayer.isEmpty) {
+                _showErrorDialog('Insira ao menos 1 imagem por camada!');
               } else {
-                if (selectedLayer.isNotEmpty) {
-                  _imageList.add([]);
+                if (_optional) {
+                  _addOptinal();
+                }
 
-                  _selectedIndex++;
+                if (_selectedIndex >= layerList.length - 1) {
+                  final Map<LayerNames, List<XFile>> _layerMap = {};
+
+                  for (int i = 0; i < layerList.length; i++) {
+                    _layerMap[layerList[i]] = _imageList[i];
+                  }
+
+                  Navigator.of(context).pushReplacement(
+                    AvatarInfoFormScreen.route(layerMap: _layerMap),
+                  );
+                } else {
+                  if (selectedLayer.isNotEmpty) {
+                    _imageList.add([]);
+
+                    _selectedIndex++;
+                  }
                 }
               }
-            }
-          });
-        },
-        child: const Icon(Icons.arrow_forward_ios_rounded),
+            });
+          },
+          child: const Icon(Icons.arrow_forward_ios_rounded),
+        ),
       ),
     );
   }

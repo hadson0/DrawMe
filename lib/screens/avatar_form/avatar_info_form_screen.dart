@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:math';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:drawme/components/avatar_form/cancel_form_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -42,7 +43,7 @@ class _AvatarInfoFormScreenState extends State<AvatarInfoFormScreen> {
   XFile? _image;
 
   final _formData = <String, Object>{};
-  List<String> _tagList = [];
+  final List<String> _tagList = [];
 
   final _tagFocus = FocusNode();
   final _authorFocus = FocusNode();
@@ -93,6 +94,15 @@ class _AvatarInfoFormScreenState extends State<AvatarInfoFormScreen> {
     Navigator.of(context).pushReplacementNamed(AppRoutes.HOME);
   }
 
+  Future<bool?> _showDialog() async {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return CancelFormDialog(context);
+      },
+    );
+  }
+
   @override
   void dispose() {
     _tagFocus.dispose();
@@ -104,157 +114,154 @@ class _AvatarInfoFormScreenState extends State<AvatarInfoFormScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Informações'),
-        actions: [
-          TextButton(
-            onPressed: () {
-              showDialog(
-                context: context,
-                builder: (ctx) => const CancelFormDialog(),
-              );
-            },
-            child: const Text(
-              'CANCELAR',
-              style: TextStyle(color: Colors.white),
+    return WillPopScope(
+      onWillPop: () async {
+        final bool? shouldPop = await _showDialog();
+        return shouldPop ?? false;
+      },
+      child: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: Scaffold(
+          appBar: AppBar(
+            title: const Text('Informações'),
+          ),
+          body: Padding(
+            padding: const EdgeInsets.all(15),
+            child: Form(
+              key: _formKey,
+              child: ListView(
+                keyboardDismissBehavior:
+                    ScrollViewKeyboardDismissBehavior.onDrag,
+                children: [
+                  const SizedBox(height: 20),
+                  TextFormField(
+                    decoration:
+                        const InputDecoration(labelText: 'Nome do Avatar'),
+                    textInputAction: TextInputAction.next,
+                    onFieldSubmitted: (_) {
+                      FocusScope.of(context).requestFocus(_tagFocus);
+                    },
+                    onSaved: (name) => _formData['name'] = name ?? '',
+                    validator: (_name) {
+                      final name = _name ?? '';
+
+                      if (name.trim().isEmpty) {
+                        return 'Nome é obrigatório!';
+                      } else if (name.trim().length < 5) {
+                        return 'Nome precisa de no mínimo 5 letras!';
+                      }
+
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 20),
+                  TextFormField(
+                    decoration: const InputDecoration(labelText: 'Tags'),
+                    textInputAction: TextInputAction.next,
+                    focusNode: _tagFocus,
+                    onFieldSubmitted: (tags) {
+                      setState(() {
+                        for (final tag in tags.split(', ')) {
+                          if (!_tagList.contains(tag)) {
+                            _tagList.add(tag);
+                          }
+                        }
+                      });
+                      FocusScope.of(context).requestFocus(_descriptionFocus);
+                    },
+                    validator: (_) {
+                      if (_tagList.length < 3) {
+                        return 'Insira ao menos 3 tags!';
+                      }
+
+                      for (final tag in _tagList) {
+                        if (tag.trim().length < 3) {
+                          return 'As tags precisam de no mínimo 3 letras!';
+                        }
+                      }
+
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 20),
+                  AvatarFormTagBar(
+                    tagList: _tagList,
+                    onDeleteTapped: (deletedTag) {
+                      setState(() {
+                        _tagList.removeWhere((tag) => tag == deletedTag);
+                      });
+                    },
+                  ),
+                  const SizedBox(height: 20),
+                  TextFormField(
+                    decoration: const InputDecoration(labelText: 'Descrição'),
+                    keyboardType: TextInputType.multiline,
+                    maxLines: 10,
+                    focusNode: _descriptionFocus,
+                    onFieldSubmitted: (_) {
+                      FocusScope.of(context).requestFocus(_descriptionFocus);
+                    },
+                    onSaved: (description) =>
+                        _formData['description'] = description ?? '',
+                    validator: (_description) {
+                      final description = _description ?? '';
+
+                      if (description.trim().isEmpty) {
+                        return 'A descrição é obrigatória!';
+                      } else if (description.trim().length < 10) {
+                        return 'A descrição precisa de no mínimo 10 letras!';
+                      }
+
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      const Expanded(
+                        child: AutoSizeText(
+                          'Selecione um modelo para o avatar',
+                          maxLines: 2,
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: _selectGaleryImage,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(10),
+                          child: _image == null
+                              ? Container(
+                                  height: 100,
+                                  width: 100,
+                                  decoration: BoxDecoration(
+                                    border: Border.all(color: Colors.grey),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: const Center(
+                                    child: Text('Selecionar\n Imagem'),
+                                  ),
+                                )
+                              : SizedBox(
+                                  height: 100,
+                                  width: 100,
+                                  child: Image.file(
+                                    File(_image!.path),
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                        ),
+                      ),
+                    ],
+                  )
+                ],
+              ),
             ),
           ),
-        ],
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(15),
-        child: Form(
-          key: _formKey,
-          child: ListView(
-            children: [
-              const SizedBox(height: 20),
-              TextFormField(
-                decoration: const InputDecoration(labelText: 'Nome do Avatar'),
-                textInputAction: TextInputAction.next,
-                onFieldSubmitted: (_) {
-                  FocusScope.of(context).requestFocus(_tagFocus);
-                },
-                onSaved: (name) => _formData['name'] = name ?? '',
-                validator: (_name) {
-                  final name = _name ?? '';
-
-                  if (name.trim().isEmpty) {
-                    return 'Nome é obrigatório!';
-                  } else if (name.trim().length < 5) {
-                    return 'Nome precisa de no mínimo 5 letras!';
-                  }
-
-                  return null;
-                },
-              ),
-              const SizedBox(height: 20),
-              TextFormField(
-                decoration: const InputDecoration(labelText: 'Tags'),
-                textInputAction: TextInputAction.next,
-                focusNode: _tagFocus,
-                onFieldSubmitted: (tags) {
-                  setState(() {
-                    for (final tag in tags.split(', ')) {
-                      if (!_tagList.contains(tag)) {
-                        _tagList.add(tag);
-                      }
-                    }
-                  });
-                  FocusScope.of(context).requestFocus(_descriptionFocus);
-                },
-                validator: (_) {
-                  if (_tagList.length < 3) {
-                    return 'Insira ao menos 3 tags!';
-                  }
-
-                  for (final tag in _tagList) {
-                    if (tag.trim().length < 3) {
-                      return 'As tags precisam de no mínimo 3 letras!';
-                    }
-                  }
-
-                  return null;
-                },
-              ),
-              const SizedBox(height: 20),
-              AvatarFormTagBar(
-                tagList: _tagList,
-                onDeleteTapped: (deletedTag) {
-                  setState(() {
-                    _tagList.removeWhere((tag) => tag == deletedTag);
-                  });
-                },
-              ),
-              const SizedBox(height: 20),
-              TextFormField(
-                decoration: const InputDecoration(labelText: 'Descrição'),
-                keyboardType: TextInputType.multiline,
-                maxLines: 10,
-                focusNode: _descriptionFocus,
-                onFieldSubmitted: (_) {
-                  FocusScope.of(context).requestFocus(_descriptionFocus);
-                },
-                onSaved: (description) =>
-                    _formData['description'] = description ?? '',
-                validator: (_description) {
-                  final description = _description ?? '';
-
-                  if (description.trim().isEmpty) {
-                    return 'A descrição é obrigatória!';
-                  } else if (description.trim().length < 10) {
-                    return 'A descrição precisa de no mínimo 10 letras!';
-                  }
-
-                  return null;
-                },
-              ),
-              const SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const SizedBox(
-                    width: 200,
-                    child: Text(
-                      'Selecione um modelo para o avatar',
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: _selectGaleryImage,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: _image == null
-                          ? Container(
-                              height: 100,
-                              width: 100,
-                              decoration: BoxDecoration(
-                                border: Border.all(color: Colors.grey),
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: const Center(
-                                child: Text('Selecionar\n Imagem'),
-                              ),
-                            )
-                          : SizedBox(
-                              height: 100,
-                              width: 100,
-                              child: Image.file(
-                                File(_image!.path),
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                    ),
-                  ),
-                ],
-              )
-            ],
+          floatingActionButton: FloatingActionButton(
+            onPressed: _submitForm,
+            child: const Icon(Icons.save),
           ),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _submitForm,
-        child: const Icon(Icons.save),
       ),
     );
   }

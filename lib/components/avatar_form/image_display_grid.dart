@@ -7,9 +7,11 @@ import 'package:image_picker/image_picker.dart';
 class ImageDisplayGrid extends StatefulWidget {
   final List<XFile> selectedLayer;
   final int itemCount;
+  final double height;
 
   const ImageDisplayGrid({
     Key? key,
+    required this.height,
     required this.selectedLayer,
     required this.itemCount,
   }) : super(key: key);
@@ -60,7 +62,7 @@ class _ImageDisplayGridState extends State<ImageDisplayGrid> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 500,
+      height: widget.height,
       width: double.infinity,
       padding: const EdgeInsets.all(5),
       decoration: BoxDecoration(

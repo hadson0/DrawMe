@@ -8,6 +8,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:drawme/components/avatar/avatar_painter/layer_image_grid.dart';
 import 'package:drawme/components/avatar/avatar_painter/layer_tab_list.dart';
@@ -41,7 +42,7 @@ class AvatarPainterScreen extends StatefulWidget {
 class _AvatarPainterScreenState extends State<AvatarPainterScreen> {
   final _controller = ScreenshotController();
 
-  Map<LayerNames, String> _layers = {};
+  final Map<LayerNames, String> _layers = {};
 
   LayerNames _selectedLayer = LayerNames.BACKGROUND;
 
@@ -59,7 +60,7 @@ class _AvatarPainterScreenState extends State<AvatarPainterScreen> {
     });
   }
 
-  Future<String> saveAvatarImage(Uint8List bytes) async {
+  Future<String> _saveAvatarImage(Uint8List bytes) async {
     final time = DateTime.now()
         .toIso8601String()
         .replaceAll('.', '-')
@@ -71,7 +72,7 @@ class _AvatarPainterScreenState extends State<AvatarPainterScreen> {
     return result['filePath'] as String;
   }
 
-  Future shareAvatarImage(Uint8List bytes) async {
+  Future _shareAvatarImage(Uint8List bytes) async {
     final directory = await getApplicationDocumentsDirectory();
 
     final image = File('${directory.path}/avatar.png');
@@ -85,6 +86,13 @@ class _AvatarPainterScreenState extends State<AvatarPainterScreen> {
     );
   }
 
+  void _showToast(String message) {
+    Fluttertoast.showToast(
+      msg: message,
+      fontSize: 15,
+    );
+  }
+
   @override
   void initState() {
     super.initState();
@@ -95,14 +103,19 @@ class _AvatarPainterScreenState extends State<AvatarPainterScreen> {
   }
 
   @override
-  Widget build(BuildContext context) {    
+  Widget build(BuildContext context) {
+    final double screenWidht = MediaQuery.of(context).size.width;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(avatar.name),
       ),
       body: ListView(
         children: [
-          AvatarCanvas(_layers),
+          AvatarCanvas(
+            size: screenWidht,
+            layers: _layers,
+          ),
           Card(
             elevation: 8,
             color: Colors.grey.shade400,
@@ -134,10 +147,14 @@ class _AvatarPainterScreenState extends State<AvatarPainterScreen> {
                   children: [
                     ElevatedButton(
                       onPressed: () async {
-                        final avatarImage = await _controller
-                            .captureFromWidget(AvatarCanvas(_layers));
+                        final avatarImage = await _controller.captureFromWidget(
+                          AvatarCanvas(
+                            size: screenWidht,
+                            layers: _layers,
+                          ),
+                        );
 
-                        await shareAvatarImage(avatarImage);
+                        await _shareAvatarImage(avatarImage);
                       },
                       child: Row(
                         children: const [
@@ -148,10 +165,16 @@ class _AvatarPainterScreenState extends State<AvatarPainterScreen> {
                     ),
                     ElevatedButton(
                       onPressed: () async {
-                        final avatarImage = await _controller
-                            .captureFromWidget(AvatarCanvas(_layers));
+                        final avatarImage = await _controller.captureFromWidget(
+                          AvatarCanvas(
+                            size: screenWidht,
+                            layers: _layers,
+                          ),
+                        );
 
-                        await saveAvatarImage(avatarImage);
+                        await _saveAvatarImage(avatarImage).then((_) {
+                          _showToast('Salvo na galeria!');
+                        });
                       },
                       child: const Text('Salvar'),
                     ),
