@@ -18,7 +18,6 @@ class LayerImageGrid extends StatelessWidget {
       height: 230,
       width: double.infinity,
       padding: const EdgeInsets.all(5),
-      color: Colors.grey.shade400,
       child: GridView.builder(
         itemCount: layerImageList.length,
         itemBuilder: (ctx, i) {

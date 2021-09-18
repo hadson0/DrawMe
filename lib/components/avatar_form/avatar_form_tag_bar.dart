@@ -18,61 +18,67 @@ class AvatarFormTagBar extends StatefulWidget {
 class _AvatarFormTagBarState extends State<AvatarFormTagBar> {
   Function(String) get onDeletedTapped => widget.onDeleteTapped;
 
+  List<String> get tagList => widget.tagList;
+
+  List<Widget> _buildTagList() {
+    return tagList.map((tag) {
+      return Container(
+        margin: const EdgeInsets.all(1),
+        padding: const EdgeInsets.all(5),
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.black),
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Container(
+          height: 20,
+          child: Row(
+            children: [
+              Text(
+                tag,
+                style: TextStyle(color: Colors.blue.shade900),
+              ),
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    onDeletedTapped(tag);
+                  });
+                },
+                child: Icon(
+                  Icons.highlight_remove_sharp,
+                  color: Colors.grey,
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }).toList();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 35,
       width: double.infinity,
-      padding: const EdgeInsets.symmetric(horizontal: 10),
       decoration: BoxDecoration(
         border: Border.all(color: Colors.black),
         borderRadius: BorderRadius.circular(10),
       ),
       child: Row(
         children: [
-          Icon(
-            Icons.tag_rounded,
-            color: Colors.blue.shade900,
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 5),
+            child: Icon(
+              Icons.tag_rounded,
+              color: Colors.blue.shade900,
+            ),
           ),
-          SizedBox(width: 6),
-          SingleChildScrollView(
-            child: Row(
-              children: widget.tagList.map((tag) {
-                return Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 3,
-                  ),
-                  child: Container(
-                    padding: const EdgeInsets.all(5),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.black),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Container(
-                      height: 20,
-                      child: Row(
-                        children: [
-                          Text(
-                            tag,
-                            style: TextStyle(color: Colors.blue.shade900),
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                onDeletedTapped(tag);
-                              });
-                            },
-                            child: Icon(
-                              Icons.highlight_remove_sharp,
-                              color: Colors.grey,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                );
-              }).toList(),
+          Expanded(
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+              children: [
+                ..._buildTagList(),
+              ],
             ),
           ),
         ],

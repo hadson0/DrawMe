@@ -10,6 +10,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         title: Text('DrawMe!'),
@@ -19,10 +20,12 @@ class HomeScreen extends StatelessWidget {
           right: 20,
           left: 20,
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: ListView(
+          padding: const EdgeInsets.symmetric(vertical: 30),
           children: [
             OptionItem(
+              height: screenSize.height * 0.35,
+              width: screenSize.width * 0.8,
               onTap: () {
                 Navigator.of(context)
                     .pushReplacementNamed(AppRoutes.AVATAR_LIST);
@@ -34,6 +37,8 @@ class HomeScreen extends StatelessWidget {
               height: 35,
             ),
             OptionItem(
+              height: screenSize.height * 0.35,
+              width: screenSize.width * 0.8,
               onTap: () {
                 Navigator.of(context)
                     .pushReplacementNamed(AppRoutes.LAYER_SELECTION_FORM);

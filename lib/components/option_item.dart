@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 
 class OptionItem extends StatelessWidget {
+  final double height;
+  final double width;
   final String title;
   final Color color;
   final Function() onTap;
 
   OptionItem({
     Key? key,
+    required this.height,
+    required this.width,
     required this.title,
     required this.color,
     required this.onTap,
@@ -17,7 +21,8 @@ class OptionItem extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        height: 280,
+        height: height,
+        width: width,
         alignment: Alignment.bottomCenter,
         padding: EdgeInsets.all(5),
         child: Text(

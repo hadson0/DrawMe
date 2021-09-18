@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:auto_size_text/auto_size_text.dart';
+
 import 'package:drawme/components/avatar/avatar_detail/avatar_tag_bar.dart';
 
 import 'package:drawme/models/avatar.dart';
@@ -7,9 +9,9 @@ import 'package:drawme/models/avatar.dart';
 class AvatarInfo extends StatelessWidget {
   final Avatar avatar;
 
-  const AvatarInfo({
+  const AvatarInfo(
+    this.avatar, {
     Key? key,
-    required this.avatar,
   }) : super(key: key);
 
   @override
@@ -17,7 +19,7 @@ class AvatarInfo extends StatelessWidget {
     return Column(
       children: [
         Container(
-          height: 50,
+          padding: const EdgeInsets.all(5),
           width: double.infinity,
           decoration: BoxDecoration(
             color: Colors.grey.shade900,
@@ -25,16 +27,20 @@ class AvatarInfo extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
+              AutoSizeText(
                 avatar.name,
+                maxLines: 2,
+                textAlign: TextAlign.center,
                 style: TextStyle(
                   fontFamily: 'RobotoCondensed',
                   fontSize: 20,
                   color: Colors.white,
                 ),
               ),
-              Text(
+              AutoSizeText(
                 avatar.author,
+                maxLines: 1,
+                textAlign: TextAlign.center,
                 style: TextStyle(
                   fontFamily: 'RobotoCondensed',
                   color: Colors.blue,
@@ -55,7 +61,6 @@ class AvatarInfo extends StatelessWidget {
             border: Border.all(color: Colors.grey),
             borderRadius: BorderRadius.circular(10),
           ),
-          /* TODO: Update description box */
           child: Column(
             children: [
               Text(
@@ -63,10 +68,11 @@ class AvatarInfo extends StatelessWidget {
                 style: Theme.of(context).textTheme.headline6,
               ),
               SizedBox(
-                height: 6,
+                height: 5,
               ),
-              SingleChildScrollView(
-                child: Text(avatar.description),
+              Container(
+                height: 210,
+                child: SelectableText(avatar.description),
               ),
             ],
           ),

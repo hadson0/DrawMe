@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import 'package:drawme/models/canvas.dart';
 import 'package:drawme/screens/avatar_overview/avatar_item/avatar_painter_screen.dart';
+import 'package:drawme/models/canvas.dart';
 import 'package:flutter/material.dart';
 
 import 'package:drawme/components/avatar/avatar_detail/avatar_info.dart';
@@ -56,7 +56,7 @@ class AvatarDetailSheet extends StatelessWidget {
                     fit: BoxFit.cover,
                   ),
                 ),
-                AvatarInfo(avatar: avatar),
+                AvatarInfo(avatar),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [

@@ -100,58 +100,66 @@ class _AvatarPainterScreenState extends State<AvatarPainterScreen> {
       appBar: AppBar(
         title: Text(avatar.name),
       ),
-      body: Column(
+      body: ListView(
         children: [
-          AvatarCanvas(layers: _layers),
-          LayerTabList(
-            onSelectLayer: _selectLayer,
-            layersMap: avatar.canvas.layers,
-            selectedLayer: _selectedLayer,
-          ),
-          LayerImageGrid(
-            onSelectLayerImage: _selectLayerImage,
-            layerImageList: avatar.canvas.layers[_selectedLayer] ?? [],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              ElevatedButton(
-                onPressed: () async {
-                  /* TODO: Fix share option */
-                  final avatarImage = await _controller
-                      .captureFromWidget(AvatarCanvas(layers: _layers));
-
-                  await shareAvatarImage(avatarImage);
-                },
-                child: Row(
-                  children: [
-                    Icon(Icons.share),
-                    Text(' Compartilhar'),
-                  ],
-                ),
-              ),
-              ElevatedButton(
-                onPressed: () async {
-                  final avatarImage = await _controller
-                      .captureFromWidget(AvatarCanvas(layers: _layers));
-
-                  await saveAvatarImage(avatarImage);
-                },
-                child: Text('Salvar'),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  setState(() {
-                    avatar.canvas.layers.forEach((layer, imageList) {
-                      _layers[layer] =
-                          imageList[Random().nextInt(imageList.length)];
+          AvatarCanvas(_layers),
+          Card(
+            elevation: 8,
+            color: Colors.grey.shade400,
+            shadowColor: Colors.black,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Column(
+              children: [
+                LayerTabList(
+                  onRandomSelected: () {
+                    setState(() {
+                      avatar.canvas.layers.forEach((layer, imageList) {
+                        _layers[layer] =
+                            imageList[Random().nextInt(imageList.length)];
+                      });
                     });
-                  });
-                },
-                child: Text('Random'),
-              ),
-            ],
-          )
+                  },
+                  onSelectLayer: _selectLayer,
+                  layersMap: avatar.canvas.layers,
+                  selectedLayer: _selectedLayer,
+                ),
+                LayerImageGrid(
+                  onSelectLayerImage: _selectLayerImage,
+                  layerImageList: avatar.canvas.layers[_selectedLayer] ?? [],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () async {
+                        final avatarImage = await _controller
+                            .captureFromWidget(AvatarCanvas(_layers));
+
+                        await shareAvatarImage(avatarImage);
+                      },
+                      child: Row(
+                        children: [
+                          Icon(Icons.share),
+                          Text(' Compartilhar'),
+                        ],
+                      ),
+                    ),
+                    ElevatedButton(
+                      onPressed: () async {
+                        final avatarImage = await _controller
+                            .captureFromWidget(AvatarCanvas(_layers));
+
+                        await saveAvatarImage(avatarImage);
+                      },
+                      child: Text('Salvar'),
+                    ),
+                  ],
+                )
+              ],
+            ),
+          ),
         ],
       ),
     );

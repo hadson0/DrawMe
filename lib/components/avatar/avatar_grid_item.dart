@@ -1,8 +1,11 @@
 import 'dart:io';
 
-import 'package:drawme/components/avatar/avatar_detail/avatar_detail_sheet.dart';
 import 'package:flutter/material.dart';
+
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:provider/provider.dart';
+
+import 'package:drawme/components/avatar/avatar_detail/avatar_detail_sheet.dart';
 
 import 'package:drawme/models/avatar.dart';
 
@@ -34,18 +37,22 @@ class AvatarGridItem extends StatelessWidget {
           height: 40,
           child: GridTileBar(
             title: Container(
-              child: FittedBox(
-                child: Text(
-                  avatar.name,
-                  style: TextStyle(
-                    fontFamily: 'RobotoCondensed',
-                    fontSize: 15,
-                  ),
+              child: AutoSizeText(
+                avatar.name,
+                maxLines: 1,
+                minFontSize: 10,
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontFamily: 'RobotoCondensed',
                 ),
               ),
             ),
-            subtitle: Text(
+            subtitle: AutoSizeText(
               avatar.author,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.center,
               style: TextStyle(
                 fontFamily: 'RobotoCondensed',
                 color: Colors.blue,

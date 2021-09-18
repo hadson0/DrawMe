@@ -7,18 +7,19 @@ import 'package:drawme/models/canvas.dart';
 class AvatarCanvas extends StatelessWidget {
   final Map<LayerNames, String> layers;
 
-  const AvatarCanvas({
+  const AvatarCanvas(
+    this.layers, {
     Key? key,
-    required this.layers,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
     return Stack(
       children: layers.entries.map((entry) {
         return Container(
-          height: 360,
-          width: 360,
+          height: screenWidth,
+          width: screenWidth,
           child: entry.value == ''
               ? null
               : Image.file(
