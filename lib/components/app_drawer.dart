@@ -8,7 +8,7 @@ class AppDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Drawer(
       child: Column(
-        children: [
+        children: <Widget> [
           Container(
             height: 120,
             width: double.infinity,
@@ -19,7 +19,7 @@ class AppDrawer extends StatelessWidget {
             decoration: BoxDecoration(color: Theme.of(context).primaryColor),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
+              children: <Widget> [
                 IconButton(
                   onPressed: () {},
                   icon: const Icon(
@@ -34,7 +34,7 @@ class AppDrawer extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.end,
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
+                    children: const <Widget> [
                       Text(
                         'Acesse a sua conta agora!',
                         style: TextStyle(

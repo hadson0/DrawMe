@@ -24,7 +24,7 @@ class AvatarInfoFormScreen extends StatefulWidget {
     required Map<LayerNames, List<XFile>> layerMap,
   }) {
     return MaterialPageRoute(
-      builder: (context) => AvatarInfoFormScreen(
+      builder: (BuildContext context) => AvatarInfoFormScreen(
         layerMap: layerMap,
       ),
     );
@@ -38,7 +38,7 @@ class _AvatarInfoFormScreenState extends State<AvatarInfoFormScreen> {
   final ImagePicker _picker = ImagePicker();
   XFile? _image;
 
-  final _formData = <String, Object>{};
+  final Map<String, Object> _formData = <String, Object>{};
   final List<String> _tagList = [];
 
   final FocusNode _tagFocus = FocusNode();
@@ -76,10 +76,10 @@ class _AvatarInfoFormScreenState extends State<AvatarInfoFormScreen> {
       description: _formData['description']! as String,
     );
 
-    layerMap.forEach((layerName, imageList) {
+    layerMap.forEach((LayerNames layerName, List<XFile> imageList) {
       avatar.canvas.addLayer(layerName);
 
-      for (final image in imageList) {
+      for (final XFile image in imageList) {
         avatar.canvas.addLayerImage(layerName, 0, image.path);
       }
     });
@@ -93,7 +93,7 @@ class _AvatarInfoFormScreenState extends State<AvatarInfoFormScreen> {
   Future<bool?> _showDialog() async {
     return showDialog(
       context: context,
-      builder: (context) {
+      builder: (BuildContext context) {
         return CancelFormDialog(context);
       },
     );
@@ -128,7 +128,7 @@ class _AvatarInfoFormScreenState extends State<AvatarInfoFormScreen> {
               child: ListView(
                 keyboardDismissBehavior:
                     ScrollViewKeyboardDismissBehavior.onDrag,
-                children: [
+                children: <Widget> [
                   const SizedBox(height: 20),
                   TextFormField(
                     decoration:
@@ -137,9 +137,9 @@ class _AvatarInfoFormScreenState extends State<AvatarInfoFormScreen> {
                     onFieldSubmitted: (_) {
                       FocusScope.of(context).requestFocus(_tagFocus);
                     },
-                    onSaved: (name) => _formData['name'] = name ?? '',
-                    validator: (_name) {
-                      final name = _name ?? '';
+                    onSaved: (String? name) => _formData['name'] = name ?? '',
+                    validator: (String? _name) {
+                      final String name = _name ?? '';
 
                       if (name.trim().isEmpty) {
                         return 'Nome é obrigatório!';
@@ -158,10 +158,10 @@ class _AvatarInfoFormScreenState extends State<AvatarInfoFormScreen> {
                     ),
                     textInputAction: TextInputAction.next,
                     focusNode: _tagFocus,
-                    onSaved: (tags) {
+                    onSaved: (String? tags) {
                       setState(() {
                         if (tags != null) {
-                          for (final tag in tags.split(', ')) {
+                          for (final String tag in tags.split(', ')) {
                             if (!_tagList.contains(tag)) {
                               _tagList.add(tag);
                             }
@@ -169,9 +169,9 @@ class _AvatarInfoFormScreenState extends State<AvatarInfoFormScreen> {
                         }
                       });
                     },
-                    onFieldSubmitted: (tags) {
+                    onFieldSubmitted: (String tags) {
                       setState(() {
-                        for (final tag in tags.split(', ')) {
+                        for (final String tag in tags.split(', ')) {
                           if (!_tagList.contains(tag)) {
                             _tagList.add(tag);
                           }
@@ -184,7 +184,7 @@ class _AvatarInfoFormScreenState extends State<AvatarInfoFormScreen> {
                         return 'Insira ao menos 3 tags!';
                       }
 
-                      for (final tag in _tagList) {
+                      for (final String tag in _tagList) {
                         if (tag.trim().length < 3) {
                           return 'As tags precisam de no mínimo 3 letras!';
                         }
@@ -196,9 +196,9 @@ class _AvatarInfoFormScreenState extends State<AvatarInfoFormScreen> {
                   const SizedBox(height: 20),
                   AvatarFormTagBar(
                     tagList: _tagList,
-                    onDeleteTapped: (deletedTag) {
+                    onDeleteTapped: (String deletedTag) {
                       setState(() {
-                        _tagList.removeWhere((tag) => tag == deletedTag);
+                        _tagList.removeWhere((String tag) => tag == deletedTag);
                       });
                     },
                   ),
@@ -211,10 +211,10 @@ class _AvatarInfoFormScreenState extends State<AvatarInfoFormScreen> {
                     onFieldSubmitted: (_) {
                       FocusScope.of(context).requestFocus(_descriptionFocus);
                     },
-                    onSaved: (description) =>
+                    onSaved: (String? description) =>
                         _formData['description'] = description ?? '',
-                    validator: (_description) {
-                      final description = _description ?? '';
+                    validator: (String? _description) {
+                      final String description = _description ?? '';
 
                       if (description.trim().isEmpty) {
                         return 'A descrição é obrigatória!';
@@ -228,7 +228,7 @@ class _AvatarInfoFormScreenState extends State<AvatarInfoFormScreen> {
                   const SizedBox(height: 20),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
+                    children: <Widget> [
                       const Expanded(
                         child: AutoSizeText(
                           'Selecione um modelo para o avatar',

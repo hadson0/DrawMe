@@ -21,14 +21,14 @@ class _TabsAvatarScreenState extends State<TabsAvatarScreen> {
   List<Widget> _screens = [];
 
   Widget _buildBottomNavigationBar() {
-    const inactiveColor = Colors.grey;
+    const MaterialColor inactiveColor = Colors.grey;
     return BottomNavyBar(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       containerHeight: 70,
       backgroundColor: Colors.black,
       itemCornerRadius: 16,
       selectedIndex: _selectedScreenIndex,
-      onItemSelected: (index) => setState(() => _selectedScreenIndex = index),
+      onItemSelected: (int index) => setState(() => _selectedScreenIndex = index),
       items: [
         BottomNavyBarItem(
           icon: const Icon(Icons.apps),

@@ -11,16 +11,16 @@ class AvatarGridScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<AvatarList>(context);
+    final AvatarList provider = Provider.of(context);
     final List<Avatar> avatars = provider.avatars;
 
-    return LayoutBuilder(builder: (context, constraints) {
+    return LayoutBuilder(builder: (BuildContext context, BoxConstraints constraints) {
       return Scrollbar(
         isAlwaysShown: true,
         child: GridView.builder(
           padding: const EdgeInsets.all(10),
           itemCount: avatars.length,
-          itemBuilder: (ctx, i) => ChangeNotifierProvider.value(
+          itemBuilder: (BuildContext ctx, int i) => ChangeNotifierProvider.value(
             value: avatars[i],
             child: const AvatarGridItem(),
           ),

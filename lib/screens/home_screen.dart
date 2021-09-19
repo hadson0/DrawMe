@@ -8,7 +8,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final screenSize = MediaQuery.of(context).size;
+    final Size screenSize = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         title: const Text('DrawMe!'),
@@ -20,7 +20,7 @@ class HomeScreen extends StatelessWidget {
         ),
         child: ListView(
           padding: const EdgeInsets.symmetric(vertical: 30),
-          children: [
+          children: <Widget> [
             OptionItem(
               height: screenSize.height * 0.35,
               width: screenSize.width * 0.8,

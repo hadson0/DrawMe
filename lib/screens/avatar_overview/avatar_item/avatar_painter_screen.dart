@@ -26,7 +26,7 @@ class AvatarPainterScreen extends StatefulWidget {
     required Avatar avatar,
   }) {
     return MaterialPageRoute(
-      builder: (context) => AvatarPainterScreen(
+      builder: (BuildContext context) => AvatarPainterScreen(
         avatar: avatar,
       ),
     );
@@ -58,24 +58,24 @@ class _AvatarPainterScreenState extends State<AvatarPainterScreen> {
   }
 
   Future<String> _saveAvatarImage(Uint8List bytes) async {
-    final time = DateTime.now()
+    final String time = DateTime.now()
         .toIso8601String()
         .replaceAll('.', '-')
         .replaceAll(':', '-');
-    final name = avatar.name + time;
+    final String name = avatar.name + time;
 
     final result = await ImageGallerySaver.saveImage(bytes, name: name);
 
     return result['filePath'] as String;
   }
 
-  Future _shareAvatarImage(Uint8List bytes) async {
-    final directory = await getApplicationDocumentsDirectory();
+  Future<void> _shareAvatarImage(Uint8List bytes) async {
+    final Directory directory = await getApplicationDocumentsDirectory();
 
-    final image = File('${directory.path}/avatar.png');
+    final File image = File('${directory.path}/avatar.png');
     image.writeAsBytesSync(bytes);
 
-    const message = 'Feito no app DrawMe';
+    const String message = 'Feito no app DrawMe';
 
     await Share.shareFiles(
       [image.path],
@@ -115,7 +115,7 @@ class _AvatarPainterScreenState extends State<AvatarPainterScreen> {
         title: Text(avatar.name),
       ),
       body: ListView(
-        children: [
+        children: <Widget> [
           AvatarCanvas(
             size: screenWidht,
             layers: _layers,
@@ -166,7 +166,7 @@ class _AvatarPainterScreenState extends State<AvatarPainterScreen> {
                     ),
                     ElevatedButton(
                       onPressed: () async {
-                        final avatarImage = await _controller.captureFromWidget(
+                        final Uint8List avatarImage = await _controller.captureFromWidget(
                           AvatarCanvas(
                             size: screenWidht,
                             layers: _layers,

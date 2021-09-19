@@ -29,7 +29,7 @@ class _LayerSelectionFormScreenState extends State<LayerSelectionFormScreen> {
     return CheckboxListTile(
       title: Text(label),
       value: _layers[layerNames],
-      onChanged: (value) {
+      onChanged: (bool? value) {
         setState(() {
           _layers[layerNames] = value ?? false;
         });
@@ -40,7 +40,7 @@ class _LayerSelectionFormScreenState extends State<LayerSelectionFormScreen> {
   Future<bool?> _showDialog() async {
     return showDialog(
       context: context,
-      builder: (context) {
+      builder: (BuildContext context) {
         return CancelFormDialog(context);
       },
     );
@@ -61,7 +61,7 @@ class _LayerSelectionFormScreenState extends State<LayerSelectionFormScreen> {
           padding: const EdgeInsets.all(15),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
+            children: <Widget> [
               Container(
                 height: 50,
                 padding: const EdgeInsets.all(10),
@@ -96,7 +96,7 @@ class _LayerSelectionFormScreenState extends State<LayerSelectionFormScreen> {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            _layers.forEach((layer, isSelected) {
+            _layers.forEach((LayerNames layer, bool isSelected) {
               if (isSelected) {
                 _selectedLayers.add(layer);
               }

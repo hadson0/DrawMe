@@ -15,7 +15,7 @@ class ImageSelectionFormScreen extends StatefulWidget {
 
   static Route<MaterialPageRoute> route(List<LayerNames> selectedLayers) {
     return MaterialPageRoute(
-      builder: (context) => ImageSelectionFormScreen(
+      builder: (BuildContext context) => ImageSelectionFormScreen(
         layerList: selectedLayers,
       ),
     );
@@ -41,7 +41,7 @@ class _ImageSelectionFormScreenState extends State<ImageSelectionFormScreen> {
     final List<XFile>? selectedImage =
         await _picker.pickMultiImage(maxHeight: 600, maxWidth: 600);
     if (selectedImage!.isNotEmpty) {
-      for (final image in selectedImage) {
+      for (final XFile image in selectedImage) {
         setState(() {
           selectedLayer.add(image);
         });
@@ -57,10 +57,10 @@ class _ImageSelectionFormScreenState extends State<ImageSelectionFormScreen> {
   void _showErrorDialog(String msg) {
     showDialog(
       context: context,
-      builder: (ctx) => AlertDialog(
+      builder: (BuildContext ctx) => AlertDialog(
         title: const Text('Ocorreu um Erro!'),
         content: Text(msg),
-        actions: [
+        actions: <Widget> [
           TextButton(
             onPressed: () {
               Navigator.of(context).pop(false);
@@ -96,14 +96,14 @@ class _ImageSelectionFormScreenState extends State<ImageSelectionFormScreen> {
           padding: const EdgeInsets.all(15),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
+            children: <Widget> [
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [
+                children: <Widget> [
                   const Text('Camada opcional'),
                   Switch(
                     value: _optional,
-                    onChanged: (value) {
+                    onChanged: (bool value) {
                       setState(() {
                         _optional = value;
                       });
