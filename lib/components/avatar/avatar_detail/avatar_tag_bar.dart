@@ -3,15 +3,15 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class AvatarTagBar extends StatelessWidget {
-  final Avatar avatar;
-
   const AvatarTagBar({
     Key? key,
     required this.avatar,
   }) : super(key: key);
 
+  final Avatar avatar;
+  
   List<Widget> _buildTagList() {
-    return avatar.tags.map((avt) {
+    return avatar.tags.map((String tag) {
       return Container(
         margin: const EdgeInsets.all(1),
         padding: const EdgeInsets.all(5),
@@ -21,7 +21,7 @@ class AvatarTagBar extends StatelessWidget {
           borderRadius: BorderRadius.circular(20),
         ),
         child: Text(
-          avt,
+          tag,
           style: TextStyle(color: Colors.blue.shade900),
         ),
       );
@@ -37,7 +37,7 @@ class AvatarTagBar extends StatelessWidget {
         color: Colors.grey.shade400,
       ),
       child: Row(
-        children: [
+        children: <Widget> [
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 5),
             child: Icon(
@@ -48,7 +48,7 @@ class AvatarTagBar extends StatelessWidget {
           Expanded(
             child: ListView(
               scrollDirection: Axis.horizontal,
-              children: [
+              children: <Widget> [
                 ..._buildTagList(),
               ],
             ),

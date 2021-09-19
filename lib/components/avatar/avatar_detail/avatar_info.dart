@@ -4,17 +4,17 @@ import 'package:drawme/models/avatar.dart';
 import 'package:flutter/material.dart';
 
 class AvatarInfo extends StatelessWidget {
-  final Avatar avatar;
-
   const AvatarInfo(
     this.avatar, {
     Key? key,
   }) : super(key: key);
+  
+  final Avatar avatar;
 
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: [
+      children: <Widget> [
         Container(
           padding: const EdgeInsets.all(5),
           width: double.infinity,
@@ -23,7 +23,7 @@ class AvatarInfo extends StatelessWidget {
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
+            children: <Widget> [
               AutoSizeText(
                 avatar.name,
                 maxLines: 2,
@@ -49,7 +49,7 @@ class AvatarInfo extends StatelessWidget {
         ),
         AvatarTagBar(avatar: avatar),
         Container(
-          height: 250,
+          height: 300,
           width: double.infinity,
           padding: const EdgeInsets.all(5),
           margin: const EdgeInsets.all(5),
@@ -59,7 +59,7 @@ class AvatarInfo extends StatelessWidget {
             borderRadius: BorderRadius.circular(10),
           ),
           child: Column(
-            children: [
+            children: <Widget> [
               Text(
                 'Descrição:',
                 style: Theme.of(context).textTheme.headline6,
@@ -67,9 +67,11 @@ class AvatarInfo extends StatelessWidget {
               const SizedBox(
                 height: 5,
               ),
-              SizedBox(
-                height: 210,
-                child: SelectableText(avatar.description),
+              Expanded(
+                child: SelectableText(
+                  avatar.description,
+                  textAlign: TextAlign.justify,
+                ),
               ),
             ],
           ),

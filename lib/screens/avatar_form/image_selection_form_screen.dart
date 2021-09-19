@@ -1,21 +1,17 @@
-import 'package:flutter/material.dart';
-
-import 'package:image_picker/image_picker.dart';
-
 import 'package:drawme/components/avatar_form/cancel_form_dialog.dart';
 import 'package:drawme/components/avatar_form/image_display_grid.dart';
-
 import 'package:drawme/models/canvas.dart';
-
 import 'package:drawme/screens/avatar_form/avatar_info_form_screen.dart';
+import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ImageSelectionFormScreen extends StatefulWidget {
-  final List<LayerNames> layerList;
-
   const ImageSelectionFormScreen({
     Key? key,
     required this.layerList,
   }) : super(key: key);
+
+  final List<LayerNames> layerList;
 
   static Route<MaterialPageRoute> route(List<LayerNames> selectedLayers) {
     return MaterialPageRoute(
@@ -87,7 +83,6 @@ class _ImageSelectionFormScreenState extends State<ImageSelectionFormScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final screenHeight = MediaQuery.of(context).size.height;
     return WillPopScope(
       onWillPop: () async {
         final bool? shouldPop = await _showDialog();
@@ -122,10 +117,11 @@ class _ImageSelectionFormScreenState extends State<ImageSelectionFormScreen> {
                 child: const Text('Selecionar'),
               ),
               const SizedBox(height: 20),
-              ImageDisplayGrid(
-                height: screenHeight * 0.5,
-                selectedLayer: selectedLayer,
-                itemCount: _imageList.isEmpty ? 0 : selectedLayer.length,
+              Expanded(
+                child: ImageDisplayGrid(
+                  selectedLayer: selectedLayer,
+                  itemCount: _imageList.isEmpty ? 0 : selectedLayer.length,
+                ),
               ),
             ],
           ),

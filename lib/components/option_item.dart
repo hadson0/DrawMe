@@ -1,12 +1,6 @@
 import 'package:flutter/material.dart';
 
 class OptionItem extends StatelessWidget {
-  final double height;
-  final double width;
-  final String title;
-  final Color color;
-  final Function() onTap;
-
   const OptionItem({
     Key? key,
     required this.height,
@@ -15,6 +9,12 @@ class OptionItem extends StatelessWidget {
     required this.color,
     required this.onTap,
   }) : super(key: key);
+
+  final double height;
+  final double width;
+  final String title;
+  final Color color;
+  final Function() onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +28,7 @@ class OptionItem extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15),
           gradient: LinearGradient(
-            colors: [
+            colors: <Color> [
               color,
               color.withOpacity(0.4),
             ],

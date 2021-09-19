@@ -8,6 +8,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+// ignore: directives_ordering
 import 'package:drawme/main.dart';
 
 void main() {

@@ -2,27 +2,23 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:drawme/components/avatar_form/cancel_form_dialog.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
-import 'package:image_picker/image_picker.dart';
-
 import 'package:drawme/components/avatar_form/avatar_form_tag_bar.dart';
-
+import 'package:drawme/components/avatar_form/cancel_form_dialog.dart';
 import 'package:drawme/models/avatar.dart';
 import 'package:drawme/models/avatar_list.dart';
 import 'package:drawme/models/canvas.dart';
-
 import 'package:drawme/utils/AppRoutes.dart';
+import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 
 class AvatarInfoFormScreen extends StatefulWidget {
-  final Map<LayerNames, List<XFile>> layerMap;
-
   const AvatarInfoFormScreen({
     Key? key,
     required this.layerMap,
   }) : super(key: key);
+
+  final Map<LayerNames, List<XFile>> layerMap;
 
   static Route<Route<MaterialPageRoute>> route({
     required Map<LayerNames, List<XFile>> layerMap,
@@ -45,11 +41,11 @@ class _AvatarInfoFormScreenState extends State<AvatarInfoFormScreen> {
   final _formData = <String, Object>{};
   final List<String> _tagList = [];
 
-  final _tagFocus = FocusNode();
-  final _authorFocus = FocusNode();
-  final _descriptionFocus = FocusNode();
+  final FocusNode _tagFocus = FocusNode();
+  final FocusNode _authorFocus = FocusNode();
+  final FocusNode _descriptionFocus = FocusNode();
 
-  final _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   Map<LayerNames, List<XFile>> get layerMap => widget.layerMap;
 
@@ -64,14 +60,14 @@ class _AvatarInfoFormScreenState extends State<AvatarInfoFormScreen> {
   }
 
   void _submitForm() {
-    final isValid = _formKey.currentState?.validate() ?? false;
+    final bool isValid = _formKey.currentState?.validate() ?? false;
     if (!isValid || _image == null) {
       return;
     }
 
     _formKey.currentState?.save();
 
-    final avatar = Avatar(
+    final Avatar avatar = Avatar(
       id: Random().nextDouble().toString(),
       name: _formData['name']! as String,
       tags: _tagList,
@@ -84,7 +80,7 @@ class _AvatarInfoFormScreenState extends State<AvatarInfoFormScreen> {
       avatar.canvas.addLayer(layerName);
 
       for (final image in imageList) {
-        avatar.canvas.addLayerImage(layerName, image.path);
+        avatar.canvas.addLayerImage(layerName, 0, image.path);
       }
     });
 
@@ -156,9 +152,23 @@ class _AvatarInfoFormScreenState extends State<AvatarInfoFormScreen> {
                   ),
                   const SizedBox(height: 20),
                   TextFormField(
-                    decoration: const InputDecoration(labelText: 'Tags'),
+                    decoration: const InputDecoration(
+                      labelText: 'Tags',
+                      hintText: 'Ex.: cartoon, colorido, feliz',
+                    ),
                     textInputAction: TextInputAction.next,
                     focusNode: _tagFocus,
+                    onSaved: (tags) {
+                      setState(() {
+                        if (tags != null) {
+                          for (final tag in tags.split(', ')) {
+                            if (!_tagList.contains(tag)) {
+                              _tagList.add(tag);
+                            }
+                          }
+                        }
+                      });
+                    },
                     onFieldSubmitted: (tags) {
                       setState(() {
                         for (final tag in tags.split(', ')) {

@@ -1,10 +1,8 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
 import 'package:drawme/components/avatar/avatar_grid_item.dart';
-
 import 'package:drawme/models/avatar.dart';
 import 'package:drawme/models/avatar_list.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class AvatarGridScreen extends StatelessWidget {
   const AvatarGridScreen({

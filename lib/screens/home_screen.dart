@@ -1,9 +1,7 @@
-import 'package:flutter/material.dart';
-
 import 'package:drawme/components/app_drawer.dart';
 import 'package:drawme/components/option_item.dart';
-
 import 'package:drawme/utils/AppRoutes.dart';
+import 'package:flutter/material.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);

@@ -2,12 +2,6 @@ import 'package:drawme/models/canvas.dart';
 import 'package:flutter/material.dart';
 
 class LayerTabList extends StatelessWidget {
-  final void Function(LayerNames) onSelectLayer;
-  final VoidCallback onRandomSelected;
-
-  final Map<LayerNames, List<String>> layersMap;
-  final LayerNames selectedLayer;
-
   const LayerTabList({
     Key? key,
     required this.onSelectLayer,
@@ -16,10 +10,17 @@ class LayerTabList extends StatelessWidget {
     required this.selectedLayer,
   }) : super(key: key);
 
+  final void Function(LayerNames) onSelectLayer;
+  final VoidCallback onRandomSelected;
+
+  final Map<LayerNames, List<List<String>>> layersMap;
+  final LayerNames selectedLayer;
+
   List<Widget> _buildTabList() {
-    return layersMap.entries.map((entry) {
+    return layersMap.entries
+        .map((MapEntry<LayerNames, List<List<String>>> imageList) {
       return GestureDetector(
-        onTap: () => onSelectLayer(entry.key),
+        onTap: () => onSelectLayer(imageList.key),
         child: Container(
           height: 50,
           width: 50,
@@ -29,7 +30,7 @@ class LayerTabList extends StatelessWidget {
             borderRadius: BorderRadius.circular(10),
           ),
           child: Text(
-            entry.key.toString(),
+            imageList.key.toString(),
             textAlign: TextAlign.center,
           ),
         ),
@@ -50,6 +51,7 @@ class LayerTabList extends StatelessWidget {
         ),
       ),
       child: Row(
+        // ignore: always_specify_types
         children: [
           GestureDetector(
             onTap: onRandomSelected,
@@ -70,7 +72,7 @@ class LayerTabList extends StatelessWidget {
           Expanded(
             child: ListView(
               scrollDirection: Axis.horizontal,
-              children: [
+              children: <Widget>[
                 ..._buildTabList(),
               ],
             ),

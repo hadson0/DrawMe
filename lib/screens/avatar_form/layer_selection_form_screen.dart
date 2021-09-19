@@ -1,10 +1,7 @@
-import 'package:flutter/material.dart';
-
 import 'package:drawme/components/avatar_form/cancel_form_dialog.dart';
-
 import 'package:drawme/models/canvas.dart';
-
 import 'package:drawme/screens/avatar_form/image_selection_form_screen.dart';
+import 'package:flutter/material.dart';
 
 class LayerSelectionFormScreen extends StatefulWidget {
   const LayerSelectionFormScreen({Key? key}) : super(key: key);

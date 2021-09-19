@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
 class AvatarFormTagBar extends StatefulWidget {
-  final List<String> tagList;
-  final Function(String) onDeleteTapped;
-
   const AvatarFormTagBar({
     Key? key,
     required this.tagList,
     required this.onDeleteTapped,
   })  : super(key: key);
+
+  final List<String> tagList;
+  final Function(String) onDeleteTapped;
 
   @override
   State<AvatarFormTagBar> createState() => _AvatarFormTagBarState();
@@ -20,7 +20,7 @@ class _AvatarFormTagBarState extends State<AvatarFormTagBar> {
   List<String> get tagList => widget.tagList;
 
   List<Widget> _buildTagList() {
-    return tagList.map((tag) {
+    return tagList.map((String tag) {
       return Container(
         margin: const EdgeInsets.all(1),
         padding: const EdgeInsets.all(5),
@@ -31,7 +31,7 @@ class _AvatarFormTagBarState extends State<AvatarFormTagBar> {
         child: SizedBox(
           height: 20,
           child: Row(
-            children: [
+            children: <Widget> [
               Text(
                 tag,
                 style: TextStyle(color: Colors.blue.shade900),
@@ -64,7 +64,7 @@ class _AvatarFormTagBarState extends State<AvatarFormTagBar> {
         borderRadius: BorderRadius.circular(10),
       ),
       child: Row(
-        children: [
+        children: <Widget> [
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 5),
             child: Icon(
@@ -75,7 +75,7 @@ class _AvatarFormTagBarState extends State<AvatarFormTagBar> {
           Expanded(
             child: ListView(
               scrollDirection: Axis.horizontal,
-              children: [
+              children: <Widget> [
                 ..._buildTagList(),
               ],
             ),

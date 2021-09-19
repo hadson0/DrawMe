@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 
 class CancelFormDialog extends StatelessWidget {
-  final BuildContext ctx;
   const CancelFormDialog(
     this.ctx, {
     Key? key,
   }) : super(key: key);
+  
+  final BuildContext ctx;
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
       title: const Text('Descartar alterações?'),
       content: const Text('As alterações desta página não serão salvas.'),
-      actions: [
+      actions: <Widget> [
         TextButton(
           onPressed: () => Navigator.pop(ctx, false),
           child: const Text('Cancelar'),

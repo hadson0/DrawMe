@@ -11,7 +11,7 @@ class AvatarGridItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final avatar = Provider.of<Avatar>(context, listen: false);
+    final Avatar avatar = Provider.of(context, listen: false);
 
     return ClipRRect(
       borderRadius: BorderRadius.circular(10),
@@ -42,7 +42,7 @@ class AvatarGridItem extends StatelessWidget {
             ),
             backgroundColor: Colors.black87,
             leading: Consumer<Avatar>(
-              builder: (ctx, avt, _) => IconButton(
+              builder: (BuildContext ctx, Avatar avt, _) => IconButton(
                 onPressed: () {
                   avt.toggleFavorite();
                 },
@@ -61,7 +61,7 @@ class AvatarGridItem extends StatelessWidget {
           ),
           onTap: () => showModalBottomSheet(
             context: context,
-            builder: (context) => AvatarDetailSheet(avatar),
+            builder: (BuildContext context) => AvatarDetailSheet(avatar),
             backgroundColor: Colors.transparent,
             isScrollControlled: true,
             enableDrag: false,

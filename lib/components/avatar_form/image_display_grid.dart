@@ -5,16 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ImageDisplayGrid extends StatefulWidget {
-  final List<XFile> selectedLayer;
-  final int itemCount;
-  final double height;
-
   const ImageDisplayGrid({
     Key? key,
-    required this.height,
     required this.selectedLayer,
     required this.itemCount,
   }) : super(key: key);
+
+  final List<XFile> selectedLayer;
+  final int itemCount;
 
   @override
   State<ImageDisplayGrid> createState() => _ImageDisplayGridState();
@@ -32,7 +30,7 @@ class _ImageDisplayGridState extends State<ImageDisplayGrid> {
       borderRadius: BorderRadius.circular(10),
       child: Stack(
         fit: StackFit.expand,
-        children: [
+        children: <Widget> [
           Image.file(
             File(image.path),
             fit: BoxFit.cover,
@@ -62,7 +60,6 @@ class _ImageDisplayGridState extends State<ImageDisplayGrid> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: widget.height,
       width: double.infinity,
       padding: const EdgeInsets.all(5),
       decoration: BoxDecoration(
@@ -73,7 +70,7 @@ class _ImageDisplayGridState extends State<ImageDisplayGrid> {
       ),
       child: GridView.builder(
         itemCount: itemCount,
-        itemBuilder: (ctx, i) {
+        itemBuilder: (BuildContext ctx, int i) {
           return _buildImageGridItem(
             image: selectedLayer[i],
             onDeletePressed: () {

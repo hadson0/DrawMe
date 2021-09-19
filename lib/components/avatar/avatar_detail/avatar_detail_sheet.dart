@@ -6,11 +6,12 @@ import 'package:drawme/screens/avatar_overview/avatar_item/avatar_painter_screen
 import 'package:flutter/material.dart';
 
 class AvatarDetailSheet extends StatelessWidget {
-  final Avatar avatar;
   const AvatarDetailSheet(
     this.avatar, {
     Key? key,
   }) : super(key: key);
+  
+  final Avatar avatar;
 
   Widget makeDismissible({
     required BuildContext context,
@@ -35,7 +36,7 @@ class AvatarDetailSheet extends StatelessWidget {
         initialChildSize: 0.9,
         minChildSize: 0.7,
         maxChildSize: 0.9,
-        builder: (_, controller) => ClipRRect(
+        builder: (_, ScrollController controller) => ClipRRect(
           borderRadius: const BorderRadius.vertical(
             top: Radius.circular(20),
           ),
@@ -43,7 +44,7 @@ class AvatarDetailSheet extends StatelessWidget {
             color: Colors.white,
             child: ListView(
               controller: controller,
-              children: [
+              children: <Widget> [
                 SizedBox(
                   height: 310,
                   width: double.infinity,
@@ -55,7 +56,7 @@ class AvatarDetailSheet extends StatelessWidget {
                 AvatarInfo(avatar),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
+                  children: <Widget> [
                     ElevatedButton(
                       onPressed: () {
                         Navigator.of(context).pop();

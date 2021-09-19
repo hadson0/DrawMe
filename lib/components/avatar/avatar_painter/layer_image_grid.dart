@@ -3,14 +3,14 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 class LayerImageGrid extends StatelessWidget {
-  final void Function(String) onSelectLayerImage;
-  final List<String> layerImageList;
-
   const LayerImageGrid({
     Key? key,
     required this.onSelectLayerImage,
     required this.layerImageList,
   }) : super(key: key);
+
+  final void Function(String) onSelectLayerImage;
+  final List<String> layerImageList;
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,7 @@ class LayerImageGrid extends StatelessWidget {
       padding: const EdgeInsets.all(5),
       child: GridView.builder(
         itemCount: layerImageList.length,
-        itemBuilder: (ctx, i) {
+        itemBuilder: (BuildContext ctx, int i) {
           return GestureDetector(
             onTap: () => onSelectLayerImage(layerImageList[i]),
             child: ClipRRect(

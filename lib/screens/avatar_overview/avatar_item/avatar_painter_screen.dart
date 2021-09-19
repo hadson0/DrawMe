@@ -2,28 +2,25 @@ import 'dart:io';
 import 'dart:math';
 import 'dart:typed_data';
 
-import 'package:flutter/material.dart';
-
-import 'package:path_provider/path_provider.dart';
-import 'package:image_gallery_saver/image_gallery_saver.dart';
-import 'package:screenshot/screenshot.dart';
-import 'package:share_plus/share_plus.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-
+import 'package:drawme/components/avatar/avatar_painter/avatar_canvas.dart';
 import 'package:drawme/components/avatar/avatar_painter/layer_image_grid.dart';
 import 'package:drawme/components/avatar/avatar_painter/layer_tab_list.dart';
-import 'package:drawme/components/avatar/avatar_painter/avatar_canvas.dart';
-
-import 'package:drawme/models/canvas.dart';
 import 'package:drawme/models/avatar.dart';
+import 'package:drawme/models/canvas.dart';
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:image_gallery_saver/image_gallery_saver.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:screenshot/screenshot.dart';
+import 'package:share_plus/share_plus.dart';
 
 class AvatarPainterScreen extends StatefulWidget {
-  final Avatar avatar;
-
   const AvatarPainterScreen({
     Key? key,
     required this.avatar,
   }) : super(key: key);
+
+  final Avatar avatar;
 
   static Route<Route<MaterialPageRoute>> route({
     required Avatar avatar,
@@ -93,13 +90,20 @@ class _AvatarPainterScreenState extends State<AvatarPainterScreen> {
     );
   }
 
+  void _randomLayerList() {
+    avatar.canvas.layers
+        .forEach((LayerNames layer, List<List<String>> imageList) {
+      final int randomIndex = Random().nextInt(imageList.length);
+      _layers[layer] = imageList[randomIndex]
+          [Random().nextInt(imageList[randomIndex].length)];
+    });
+  }
+
   @override
   void initState() {
     super.initState();
 
-    avatar.canvas.layers.forEach((layer, imageList) {
-      _layers[layer] = imageList[Random().nextInt(imageList.length)];
-    });
+    _randomLayerList();
   }
 
   @override
@@ -128,10 +132,7 @@ class _AvatarPainterScreenState extends State<AvatarPainterScreen> {
                 LayerTabList(
                   onRandomSelected: () {
                     setState(() {
-                      avatar.canvas.layers.forEach((layer, imageList) {
-                        _layers[layer] =
-                            imageList[Random().nextInt(imageList.length)];
-                      });
+                      _randomLayerList();
                     });
                   },
                   onSelectLayer: _selectLayer,
@@ -140,14 +141,14 @@ class _AvatarPainterScreenState extends State<AvatarPainterScreen> {
                 ),
                 LayerImageGrid(
                   onSelectLayerImage: _selectLayerImage,
-                  layerImageList: avatar.canvas.layers[_selectedLayer] ?? [],
+                  layerImageList: avatar.canvas.layers[_selectedLayer]?[0] ?? [],
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
+                  children: <Widget> [
                     ElevatedButton(
                       onPressed: () async {
-                        final avatarImage = await _controller.captureFromWidget(
+                        final Uint8List avatarImage = await _controller.captureFromWidget(
                           AvatarCanvas(
                             size: screenWidht,
                             layers: _layers,
@@ -157,7 +158,7 @@ class _AvatarPainterScreenState extends State<AvatarPainterScreen> {
                         await _shareAvatarImage(avatarImage);
                       },
                       child: Row(
-                        children: const [
+                        children: const <Widget> [
                           Icon(Icons.share),
                           Text(' Compartilhar'),
                         ],
