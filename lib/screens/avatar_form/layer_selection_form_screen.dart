@@ -1,4 +1,5 @@
 import 'package:drawme/components/avatar_form/cancel_form_dialog.dart';
+import 'package:drawme/components/number_picker.dart';
 import 'package:drawme/models/canvas.dart';
 import 'package:drawme/screens/avatar_form/image_selection_form_screen.dart';
 import 'package:flutter/material.dart';
@@ -12,28 +13,28 @@ class LayerSelectionFormScreen extends StatefulWidget {
 }
 
 class _LayerSelectionFormScreenState extends State<LayerSelectionFormScreen> {
-  final Map<LayerNames, bool> _layers = {
-    LayerNames.BACKGROUND: true,
-    LayerNames.BODY: true,
-    LayerNames.EYES: true,
-    LayerNames.MOUTH: true,
-    LayerNames.NOSE: true,
+  final Map<LayerNames, int> _layers = {
+    LayerNames.BACKGROUND: 1,
+    LayerNames.BODY: 1,
+    LayerNames.EYES: 1,
+    LayerNames.MOUTH: 1,
+    LayerNames.NOSE: 1,
   };
 
-  final List<LayerNames> _selectedLayers = [];
-
-  CheckboxListTile _buildCheckBoxTile({
+  ListTile _buildCheckBoxTile({
     required String label,
-    required LayerNames layerNames,
+    required LayerNames layerName,
   }) {
-    return CheckboxListTile(
+    return ListTile(
       title: Text(label),
-      value: _layers[layerNames],
-      onChanged: (bool? value) {
-        setState(() {
-          _layers[layerNames] = value ?? false;
-        });
-      },
+      trailing: NumberPicker(
+        initialValue: 1,
+        maxValue: 5,
+        minValue: 0,
+        onValue: (int value) {
+          _layers[layerName] = value;
+        },
+      ),
     );
   }
 
@@ -59,51 +60,76 @@ class _LayerSelectionFormScreenState extends State<LayerSelectionFormScreen> {
         ),
         body: Padding(
           padding: const EdgeInsets.all(15),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget> [
-              Container(
-                height: 50,
-                padding: const EdgeInsets.all(10),
-                child: const Text('Selecione quais camadas irá utilizar:'),
-              ),
-              SizedBox(
-                height: 300,
-                width: double.infinity,
-                child: ListView(
-                  children: <Widget>[
-                    _buildCheckBoxTile(
-                      label: 'Corpo',
-                      layerNames: LayerNames.BODY,
-                    ),
-                    _buildCheckBoxTile(
-                      label: 'Olhos',
-                      layerNames: LayerNames.EYES,
-                    ),
-                    _buildCheckBoxTile(
-                      label: 'Boca',
-                      layerNames: LayerNames.MOUTH,
-                    ),
-                    _buildCheckBoxTile(
-                      label: 'Nariz',
-                      layerNames: LayerNames.NOSE,
-                    ),
-                  ],
+          child: SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                Container(
+                  padding: const EdgeInsets.all(10),
+                  child: Column(
+                    children: [
+                      Text(
+                        'Selecione as camadas',
+                        style: Theme.of(context).textTheme.headline6?.copyWith(
+                              fontSize: 25,
+                            ),
+                      ),
+                      const SizedBox(height: 20),
+                      const Text(
+                        'Insira o número de subcamadas (cores) ou 0 para desabilitar a camada.',
+                        textAlign: TextAlign.justify,
+                        style: TextStyle(
+                          fontSize: 15,
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Colors.grey,
+                    ),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Column(
+                    children: [
+                      _buildCheckBoxTile(
+                        label: 'Corpo',
+                        layerName: LayerNames.BODY,
+                      ),
+                      _buildCheckBoxTile(
+                        label: 'Olhos',
+                        layerName: LayerNames.EYES,
+                      ),
+                      _buildCheckBoxTile(
+                        label: 'Boca',
+                        layerName: LayerNames.MOUTH,
+                      ),
+                      _buildCheckBoxTile(
+                        label: 'Nariz',
+                        layerName: LayerNames.NOSE,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            _layers.forEach((LayerNames layer, bool isSelected) {
-              if (isSelected) {
-                _selectedLayers.add(layer);
+            final Canvas canvas = Canvas();
+            _layers.forEach((LayerNames layerName, int colorNumber) {
+              if (colorNumber > 0) {
+                canvas.addLayer(layerName, colorNumber);
               }
             });
 
             Navigator.of(context).pushReplacement(
-              ImageSelectionFormScreen.route(_selectedLayers),
+              ImageSelectionFormScreen.route(canvas),
             );
           },
           child: const Icon(Icons.arrow_forward_ios_rounded),

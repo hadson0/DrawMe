@@ -4,12 +4,15 @@ enum LayerNames { BACKGROUND, BODY, EYES, NOSE, MOUTH }
 
 class Canvas with ChangeNotifier {
   final Map<LayerNames, List<List<String>>> _layers = {};
+  final Map<LayerNames, List<Color>> _colors = {};
 
   Map<LayerNames, List<List<String>>> get layers => {..._layers};
+  Map<LayerNames, List<Color>> get colors => {..._colors};
 
-  void addLayer(LayerNames layerName) {
+  void addLayer(LayerNames layerName, int colorNumber) {
     if (!_layers.containsKey(layerName)) {
-      _layers[layerName] = [];
+      _layers[layerName] = List.generate(colorNumber, (index) => []);
+      _colors[layerName] = [];
       notifyListeners();
     }
   }
@@ -17,6 +20,7 @@ class Canvas with ChangeNotifier {
   void removeLayer(LayerNames layerName) {
     if (_layers.containsKey(layerName)) {
       _layers.remove(layerName);
+      _colors.remove(layerName);
       notifyListeners();
     }
   }
@@ -31,17 +35,38 @@ class Canvas with ChangeNotifier {
   void removeLayerImage(
     LayerNames layerName,
     int colorIndex,
-    String imagePath,
+    int imageIndex,
   ) {
     if (_layers.containsKey(layerName)) {
-      final int index = _layers[layerName]![colorIndex]
-          .indexWhere((String imageP) => imageP == imagePath);
+      _layers[layerName]![colorIndex].removeAt(imageIndex);
+    }
+  }
 
-      if (index >= 0) {
-        _layers[layerName]![colorIndex]
-            .removeWhere((String imageP) => imageP == imagePath);
-        notifyListeners();
-      }
+  void addColorLayer(LayerNames layerName, int colorNumber) {
+    if (!_colors.containsKey(layerName)) {
+      _colors[layerName] = [];
+      notifyListeners();
+    }
+  }
+
+  void removeColorLayer(LayerNames layerName) {
+    if (_colors.containsKey(layerName)) {
+      _colors.remove(layerName);
+      notifyListeners();
+    }
+  }
+
+  void addColor(LayerNames layerName, Color color) {
+    if (_colors.containsKey(layerName)) {
+      _colors[layerName]!.add(color);
+      notifyListeners();
+    }
+  }
+
+  void removeColor(LayerNames layerName, int colorIndex) {
+    if (_colors.containsKey(layerName)) {
+      _colors[layerName]?.removeAt(colorIndex);
+      notifyListeners();
     }
   }
 }

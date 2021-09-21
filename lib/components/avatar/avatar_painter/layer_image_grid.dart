@@ -15,7 +15,7 @@ class LayerImageGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 230,
+      height: 275,
       width: double.infinity,
       padding: const EdgeInsets.all(5),
       child: GridView.builder(

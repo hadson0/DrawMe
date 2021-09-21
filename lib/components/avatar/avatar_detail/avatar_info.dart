@@ -8,13 +8,13 @@ class AvatarInfo extends StatelessWidget {
     this.avatar, {
     Key? key,
   }) : super(key: key);
-  
+
   final Avatar avatar;
 
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: <Widget> [
+      children: <Widget>[
         Container(
           padding: const EdgeInsets.all(5),
           width: double.infinity,
@@ -23,7 +23,7 @@ class AvatarInfo extends StatelessWidget {
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget> [
+            children: <Widget>[
               AutoSizeText(
                 avatar.name,
                 maxLines: 2,
@@ -47,7 +47,7 @@ class AvatarInfo extends StatelessWidget {
             ],
           ),
         ),
-        AvatarTagBar(avatar: avatar),
+        AvatarTagBar(avatar),
         Container(
           height: 300,
           width: double.infinity,
@@ -59,7 +59,7 @@ class AvatarInfo extends StatelessWidget {
             borderRadius: BorderRadius.circular(10),
           ),
           child: Column(
-            children: <Widget> [
+            children: <Widget>[
               Text(
                 'Descrição:',
                 style: Theme.of(context).textTheme.headline6,

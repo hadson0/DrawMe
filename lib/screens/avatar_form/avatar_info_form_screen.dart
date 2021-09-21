@@ -15,17 +15,17 @@ import 'package:provider/provider.dart';
 class AvatarInfoFormScreen extends StatefulWidget {
   const AvatarInfoFormScreen({
     Key? key,
-    required this.layerMap,
+    required this.canvas,
   }) : super(key: key);
 
-  final Map<LayerNames, List<XFile>> layerMap;
+  final Canvas canvas;
 
   static Route<Route<MaterialPageRoute>> route({
-    required Map<LayerNames, List<XFile>> layerMap,
+    required Canvas canvas,
   }) {
     return MaterialPageRoute(
       builder: (BuildContext context) => AvatarInfoFormScreen(
-        layerMap: layerMap,
+        canvas: canvas,
       ),
     );
   }
@@ -47,7 +47,7 @@ class _AvatarInfoFormScreenState extends State<AvatarInfoFormScreen> {
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  Map<LayerNames, List<XFile>> get layerMap => widget.layerMap;
+  Canvas get canvas => widget.canvas;
 
   Future<void> _selectGaleryImage() async {
     final XFile? selectedImage =
@@ -76,13 +76,7 @@ class _AvatarInfoFormScreenState extends State<AvatarInfoFormScreen> {
       description: _formData['description']! as String,
     );
 
-    layerMap.forEach((LayerNames layerName, List<XFile> imageList) {
-      avatar.canvas.addLayer(layerName);
-
-      for (final XFile image in imageList) {
-        avatar.canvas.addLayerImage(layerName, 0, image.path);
-      }
-    });
+    avatar.canvas = canvas;
 
     Provider.of<AvatarList>(context, listen: false).addAvatar(avatar);
     _formKey.currentState?.save();
@@ -128,7 +122,7 @@ class _AvatarInfoFormScreenState extends State<AvatarInfoFormScreen> {
               child: ListView(
                 keyboardDismissBehavior:
                     ScrollViewKeyboardDismissBehavior.onDrag,
-                children: <Widget> [
+                children: <Widget>[
                   const SizedBox(height: 20),
                   TextFormField(
                     decoration:
@@ -158,25 +152,20 @@ class _AvatarInfoFormScreenState extends State<AvatarInfoFormScreen> {
                     ),
                     textInputAction: TextInputAction.next,
                     focusNode: _tagFocus,
-                    onSaved: (String? tags) {
-                      setState(() {
-                        if (tags != null) {
-                          for (final String tag in tags.split(', ')) {
-                            if (!_tagList.contains(tag)) {
-                              _tagList.add(tag);
-                            }
-                          }
+                    onSaved: (String? _tags) {
+                      final String tags = _tags ?? '';
+                      for (final String tag in tags.split(', ')) {
+                        if (!_tagList.contains(tag) && tag != '') {
+                          setState(() => _tagList.add(tag));
                         }
-                      });
+                      }
                     },
                     onFieldSubmitted: (String tags) {
-                      setState(() {
-                        for (final String tag in tags.split(', ')) {
-                          if (!_tagList.contains(tag)) {
-                            _tagList.add(tag);
-                          }
+                      for (final String tag in tags.split(', ')) {
+                        if (!_tagList.contains(tag) && tag != '') {
+                          setState(() => _tagList.add(tag));
                         }
-                      });
+                      }
                       FocusScope.of(context).requestFocus(_descriptionFocus);
                     },
                     validator: (_) {
@@ -228,7 +217,7 @@ class _AvatarInfoFormScreenState extends State<AvatarInfoFormScreen> {
                   const SizedBox(height: 20),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: <Widget> [
+                    children: <Widget>[
                       const Expanded(
                         child: AutoSizeText(
                           'Selecione um modelo para o avatar',

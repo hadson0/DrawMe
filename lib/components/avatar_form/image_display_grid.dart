@@ -2,16 +2,16 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 
-import 'package:image_picker/image_picker.dart';
-
 class ImageDisplayGrid extends StatefulWidget {
   const ImageDisplayGrid({
     Key? key,
     required this.selectedLayer,
     required this.itemCount,
+    required this.onDeletePressed,
   }) : super(key: key);
 
-  final List<XFile> selectedLayer;
+  final Function(int) onDeletePressed;
+  final List<String> selectedLayer;
   final int itemCount;
 
   @override
@@ -19,20 +19,20 @@ class ImageDisplayGrid extends StatefulWidget {
 }
 
 class _ImageDisplayGridState extends State<ImageDisplayGrid> {
-  List<XFile> get selectedLayer => widget.selectedLayer;
+  List<String> get selectedLayer => widget.selectedLayer;
   int get itemCount => widget.itemCount;
 
   ClipRRect _buildImageGridItem({
-    required XFile image,
+    required String imagePath,
     required VoidCallback onDeletePressed,
   }) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(10),
       child: Stack(
         fit: StackFit.expand,
-        children: <Widget> [
+        children: <Widget>[
           Image.file(
-            File(image.path),
+            File(imagePath),
             fit: BoxFit.cover,
           ),
           Positioned(
@@ -72,14 +72,8 @@ class _ImageDisplayGridState extends State<ImageDisplayGrid> {
         itemCount: itemCount,
         itemBuilder: (BuildContext ctx, int i) {
           return _buildImageGridItem(
-            image: selectedLayer[i],
-            onDeletePressed: () {
-              setState(
-                () {
-                  selectedLayer.removeAt(i);
-                },
-              );
-            },
+            imagePath: selectedLayer[i],
+            onDeletePressed: () => widget.onDeletePressed(i),
           );
         },
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(

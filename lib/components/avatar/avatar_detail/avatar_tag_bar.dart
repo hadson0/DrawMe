@@ -3,13 +3,13 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class AvatarTagBar extends StatelessWidget {
-  const AvatarTagBar({
+  const AvatarTagBar(
+    this.avatar, {
     Key? key,
-    required this.avatar,
   }) : super(key: key);
 
   final Avatar avatar;
-  
+
   List<Widget> _buildTagList() {
     return avatar.tags.map((String tag) {
       return Container(
@@ -37,7 +37,7 @@ class AvatarTagBar extends StatelessWidget {
         color: Colors.grey.shade400,
       ),
       child: Row(
-        children: <Widget> [
+        children: <Widget>[
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 5),
             child: Icon(
@@ -48,7 +48,7 @@ class AvatarTagBar extends StatelessWidget {
           Expanded(
             child: ListView(
               scrollDirection: Axis.horizontal,
-              children: <Widget> [
+              children: <Widget>[
                 ..._buildTagList(),
               ],
             ),

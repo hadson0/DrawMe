@@ -5,7 +5,7 @@ class AvatarFormTagBar extends StatefulWidget {
     Key? key,
     required this.tagList,
     required this.onDeleteTapped,
-  })  : super(key: key);
+  }) : super(key: key);
 
   final List<String> tagList;
   final Function(String) onDeleteTapped;
@@ -31,7 +31,7 @@ class _AvatarFormTagBarState extends State<AvatarFormTagBar> {
         child: SizedBox(
           height: 20,
           child: Row(
-            children: <Widget> [
+            children: <Widget>[
               Text(
                 tag,
                 style: TextStyle(color: Colors.blue.shade900),
@@ -64,7 +64,7 @@ class _AvatarFormTagBarState extends State<AvatarFormTagBar> {
         borderRadius: BorderRadius.circular(10),
       ),
       child: Row(
-        children: <Widget> [
+        children: <Widget>[
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 5),
             child: Icon(
@@ -73,11 +73,16 @@ class _AvatarFormTagBarState extends State<AvatarFormTagBar> {
             ),
           ),
           Expanded(
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: <Widget> [
-                ..._buildTagList(),
-              ],
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: <Widget>[
+                    ..._buildTagList(),
+                  ],
+                ),
+              ),
             ),
           ),
         ],

@@ -22,11 +22,11 @@ class LayerTabList extends StatelessWidget {
       return GestureDetector(
         onTap: () => onSelectLayer(imageList.key),
         child: Container(
-          height: 50,
-          width: 50,
+          height: 64,
+          width: 64,
           margin: const EdgeInsets.symmetric(horizontal: 2),
           decoration: BoxDecoration(
-            color: Colors.grey.shade100,
+            color: Colors.white,
             borderRadius: BorderRadius.circular(10),
           ),
           child: Text(
@@ -41,11 +41,11 @@ class LayerTabList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 55,
+      height: 70,
       width: double.infinity,
-      padding: const EdgeInsets.all(2),
+      padding: const EdgeInsets.all(4),
       decoration: const BoxDecoration(
-        color: Colors.black54,
+        color: Colors.black,
         borderRadius: BorderRadius.vertical(
           top: Radius.circular(10),
         ),
@@ -56,11 +56,11 @@ class LayerTabList extends StatelessWidget {
           GestureDetector(
             onTap: onRandomSelected,
             child: Container(
-              height: 50,
-              width: 50,
-              margin: const EdgeInsets.symmetric(horizontal: 2),
+              height: 64,
+              width: 64,
+              margin: const EdgeInsets.only(right: 4),
               decoration: BoxDecoration(
-                color: Colors.grey.shade100,
+                color: Colors.white,
                 borderRadius: BorderRadius.circular(10),
               ),
               child: const Text(
@@ -70,11 +70,16 @@ class LayerTabList extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: <Widget>[
-                ..._buildTabList(),
-              ],
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: <Widget>[
+                    ..._buildTabList(),
+                  ],
+                ),
+              ),
             ),
           ),
         ],

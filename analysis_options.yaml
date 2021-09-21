@@ -42,6 +42,4 @@ linter:
 
     file_names: false
 
-    sort_pub_dependencies: false
-
 
