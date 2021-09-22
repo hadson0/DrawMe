@@ -1,4 +1,4 @@
-import 'package:drawme/models/avatar.dart';
+import 'package:drawme/models/avatar/avatar.dart';
 import 'package:flutter/material.dart';
 
 class AvatarList with ChangeNotifier {

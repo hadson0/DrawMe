@@ -1,6 +1,6 @@
 import 'package:drawme/components/avatar/avatar_grid_item.dart';
-import 'package:drawme/models/avatar.dart';
-import 'package:drawme/models/avatar_list.dart';
+import 'package:drawme/models/avatar/avatar.dart';
+import 'package:drawme/models/avatar/avatar_list.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -14,13 +14,13 @@ class AvatarGridScreen extends StatelessWidget {
     final AvatarList provider = Provider.of(context);
     final List<Avatar> avatars = provider.avatars;
 
-    return LayoutBuilder(builder: (BuildContext context, BoxConstraints constraints) {
-      return Scrollbar(
-        isAlwaysShown: true,
-        child: GridView.builder(
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        return GridView.builder(
           padding: const EdgeInsets.all(10),
           itemCount: avatars.length,
-          itemBuilder: (BuildContext ctx, int i) => ChangeNotifierProvider.value(
+          itemBuilder: (BuildContext ctx, int i) =>
+              ChangeNotifierProvider.value(
             value: avatars[i],
             child: const AvatarGridItem(),
           ),
@@ -29,8 +29,8 @@ class AvatarGridScreen extends StatelessWidget {
             crossAxisSpacing: 10,
             mainAxisSpacing: 10,
           ),
-        ),
-      );
-    },);
+        );
+      },
+    );
   }
 }

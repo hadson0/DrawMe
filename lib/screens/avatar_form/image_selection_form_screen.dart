@@ -1,24 +1,22 @@
 import 'package:drawme/components/avatar_form/cancel_form_dialog.dart';
-import 'package:drawme/components/avatar_form/image_display_grid.dart';
+import 'package:drawme/components/avatar_form/image_list_picker.dart';
 import 'package:drawme/components/custom_color_picker.dart';
-import 'package:drawme/models/canvas.dart';
+import 'package:drawme/models/avatar/canvas.dart';
 import 'package:drawme/screens/avatar_form/avatar_info_form_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ImageSelectionFormScreen extends StatefulWidget {
-  const ImageSelectionFormScreen({
+  const ImageSelectionFormScreen(
+    this.canvas, {
     Key? key,
-    required this.canvas,
   }) : super(key: key);
 
   final Canvas canvas;
 
   static Route<MaterialPageRoute> route(Canvas canvas) {
     return MaterialPageRoute(
-      builder: (BuildContext context) => ImageSelectionFormScreen(
-        canvas: canvas,
-      ),
+      builder: (BuildContext context) => ImageSelectionFormScreen(canvas),
     );
   }
 
@@ -32,16 +30,13 @@ class _ImageSelectionFormScreenState extends State<ImageSelectionFormScreen> {
 
   int _selectedIndex = 0;
   int _colorIndex = 0;
-
   Color _color = Colors.brown;
-
   bool _optional = false;
 
   Canvas get canvas => widget.canvas;
-
+  List<String> get selectedLayer => canvas.layers[layerName]![_colorIndex];
   int get colorNumber =>
       widget.canvas.layers.values.elementAt(_selectedIndex).length;
-
   LayerNames get layerName =>
       widget.canvas.layers.keys.elementAt(_selectedIndex);
 
@@ -62,7 +57,7 @@ class _ImageSelectionFormScreenState extends State<ImageSelectionFormScreen> {
     }
   }
 
-  Future<void> _selectGaleryImage() async {
+  Future<void> selectGaleryImage() async {
     final List<XFile>? selectedImage =
         await picker.pickMultiImage(maxHeight: 600, maxWidth: 600);
     if ((selectedImage?.length ?? 0) > 0) {
@@ -74,17 +69,7 @@ class _ImageSelectionFormScreenState extends State<ImageSelectionFormScreen> {
     }
   }
 
-  void _pickColor(BuildContext context) => showDialog(
-        context: context,
-        builder: (context) => CustomColorPicker(
-          onColorChanged: (color) {
-            setState(() => _color = color);
-          },
-          color: _color,
-        ),
-      );
-
-  void _showErrorDialog(String msg) {
+  void showErrorDialog(String msg) {
     showDialog(
       context: context,
       builder: (BuildContext ctx) => AlertDialog(
@@ -102,16 +87,7 @@ class _ImageSelectionFormScreenState extends State<ImageSelectionFormScreen> {
     );
   }
 
-  Future<bool?> _showDialog() async {
-    return showDialog(
-      context: context,
-      builder: (context) {
-        return CancelFormDialog(context);
-      },
-    );
-  }
-
-  void _submitLayer() {
+  void submitLayer() {
     if (_optional) {
       canvas.addLayerImage(layerName, _colorIndex, '');
     }
@@ -144,12 +120,17 @@ class _ImageSelectionFormScreenState extends State<ImageSelectionFormScreen> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        final bool? shouldPop = await _showDialog();
+        final bool? shouldPop = await showDialog<bool>(
+          context: context,
+          builder: (BuildContext context) {
+            return const CancelFormDialog();
+          },
+        );
         return shouldPop ?? false;
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Selecionar imagens $layerNameToString'),
+          title: const Text('Criar Avatar'),
         ),
         body: Padding(
           padding: const EdgeInsets.all(15),
@@ -196,63 +177,38 @@ class _ImageSelectionFormScreenState extends State<ImageSelectionFormScreen> {
                         fontSize: 15,
                       ),
                     ),
-                    GestureDetector(
-                      onTap: () => _pickColor(context),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          border: Border.all(),
-                          shape: BoxShape.circle,
-                          color: _color,
-                        ),
-                        height: 50,
-                        width: 50,
-                      ),
+                    CustomColorPicker(
+                      onColorChanged: (color) {
+                        setState(() => _color = color);
+                      },
+                      color: _color,
                     ),
                   ],
                 ),
               const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: _selectGaleryImage,
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.all(15),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30.0),
-                  ),
-                ),
-                child: const Text(
-                  'SELECIONAR IMAGENS',
-                  style: TextStyle(
-                    fontSize: 15,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 20),
-              Expanded(
-                child: ImageDisplayGrid(
-                  onDeletePressed: (imageIndex) {
-                    setState(
-                      () => canvas.removeLayerImage(
-                        layerName,
-                        _colorIndex,
-                        imageIndex,
-                      ),
+              ImageListPicker(
+                selectedLayer: selectedLayer,
+                itemCount: selectedLayer.isEmpty ? 0 : selectedLayer.length,
+                onSelectPressed: selectGaleryImage,
+                onDeletePressed: (imageIndex) {
+                  setState(() {
+                    canvas.removeLayerImage(
+                      layerName,
+                      _colorIndex,
+                      imageIndex,
                     );
-                  },
-                  selectedLayer: canvas.layers[layerName]![_colorIndex],
-                  itemCount: canvas.layers[layerName]![_colorIndex].isEmpty
-                      ? 0
-                      : canvas.layers[layerName]![_colorIndex].length,
-                ),
+                  });
+                },
               ),
             ],
           ),
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            if (canvas.layers[layerName]![_colorIndex].isEmpty) {
-              _showErrorDialog('Insira ao menos 1 imagem por camada!');
+            if (selectedLayer.isEmpty) {
+              showErrorDialog('Insira ao menos 1 imagem por camada!');
             } else {
-              _submitLayer();
+              submitLayer();
             }
           },
           child: const Icon(Icons.arrow_forward_ios_rounded),

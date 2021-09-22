@@ -4,18 +4,18 @@ import 'dart:math';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:drawme/components/avatar_form/avatar_form_tag_bar.dart';
 import 'package:drawme/components/avatar_form/cancel_form_dialog.dart';
-import 'package:drawme/models/avatar.dart';
-import 'package:drawme/models/avatar_list.dart';
-import 'package:drawme/models/canvas.dart';
+import 'package:drawme/models/avatar/avatar.dart';
+import 'package:drawme/models/avatar/avatar_list.dart';
+import 'package:drawme/models/avatar/canvas.dart';
 import 'package:drawme/utils/AppRoutes.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 class AvatarInfoFormScreen extends StatefulWidget {
-  const AvatarInfoFormScreen({
+  const AvatarInfoFormScreen(
+    this.canvas, {
     Key? key,
-    required this.canvas,
   }) : super(key: key);
 
   final Canvas canvas;
@@ -24,9 +24,7 @@ class AvatarInfoFormScreen extends StatefulWidget {
     required Canvas canvas,
   }) {
     return MaterialPageRoute(
-      builder: (BuildContext context) => AvatarInfoFormScreen(
-        canvas: canvas,
-      ),
+      builder: (BuildContext context) => AvatarInfoFormScreen(canvas),
     );
   }
 
@@ -36,30 +34,27 @@ class AvatarInfoFormScreen extends StatefulWidget {
 
 class _AvatarInfoFormScreenState extends State<AvatarInfoFormScreen> {
   final ImagePicker _picker = ImagePicker();
-  XFile? _image;
-
   final Map<String, Object> _formData = <String, Object>{};
   final List<String> _tagList = [];
-
   final FocusNode _tagFocus = FocusNode();
   final FocusNode _authorFocus = FocusNode();
   final FocusNode _descriptionFocus = FocusNode();
-
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  XFile? _image;
 
   Canvas get canvas => widget.canvas;
 
-  Future<void> _selectGaleryImage() async {
+  Future<void> selectGaleryImage() async {
     final XFile? selectedImage =
         await _picker.pickImage(source: ImageSource.gallery);
+
     if (selectedImage!.path.isNotEmpty) {
-      setState(() {
-        _image = selectedImage;
-      });
+      setState(() => _image = selectedImage);
     }
   }
 
-  void _submitForm() {
+  void submitForm() {
     final bool isValid = _formKey.currentState?.validate() ?? false;
     if (!isValid || _image == null) {
       return;
@@ -75,22 +70,12 @@ class _AvatarInfoFormScreenState extends State<AvatarInfoFormScreen> {
       avatarSample: _image!.path,
       description: _formData['description']! as String,
     );
-
     avatar.canvas = canvas;
 
     Provider.of<AvatarList>(context, listen: false).addAvatar(avatar);
     _formKey.currentState?.save();
 
     Navigator.of(context).pushReplacementNamed(AppRoutes.HOME);
-  }
-
-  Future<bool?> _showDialog() async {
-    return showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return CancelFormDialog(context);
-      },
-    );
   }
 
   @override
@@ -106,14 +91,19 @@ class _AvatarInfoFormScreenState extends State<AvatarInfoFormScreen> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        final bool? shouldPop = await _showDialog();
+        final bool? shouldPop = await showDialog<bool>(
+          context: context,
+          builder: (BuildContext context) {
+            return const CancelFormDialog();
+          },
+        );
         return shouldPop ?? false;
       },
       child: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
         child: Scaffold(
           appBar: AppBar(
-            title: const Text('Informações'),
+            title: const Text('Criar Avatar'),
           ),
           body: Padding(
             padding: const EdgeInsets.all(15),
@@ -128,9 +118,8 @@ class _AvatarInfoFormScreenState extends State<AvatarInfoFormScreen> {
                     decoration:
                         const InputDecoration(labelText: 'Nome do Avatar'),
                     textInputAction: TextInputAction.next,
-                    onFieldSubmitted: (_) {
-                      FocusScope.of(context).requestFocus(_tagFocus);
-                    },
+                    onFieldSubmitted: (_) =>
+                        FocusScope.of(context).requestFocus(_tagFocus),
                     onSaved: (String? name) => _formData['name'] = name ?? '',
                     validator: (String? _name) {
                       final String name = _name ?? '';
@@ -185,11 +174,9 @@ class _AvatarInfoFormScreenState extends State<AvatarInfoFormScreen> {
                   const SizedBox(height: 20),
                   AvatarFormTagBar(
                     tagList: _tagList,
-                    onDeleteTapped: (String deletedTag) {
-                      setState(() {
-                        _tagList.removeWhere((String tag) => tag == deletedTag);
-                      });
-                    },
+                    onDeleteTapped: (String oldTag) => setState(
+                      () => _tagList.removeWhere((String tag) => tag == oldTag),
+                    ),
                   ),
                   const SizedBox(height: 20),
                   TextFormField(
@@ -197,9 +184,8 @@ class _AvatarInfoFormScreenState extends State<AvatarInfoFormScreen> {
                     keyboardType: TextInputType.multiline,
                     maxLines: 10,
                     focusNode: _descriptionFocus,
-                    onFieldSubmitted: (_) {
-                      FocusScope.of(context).requestFocus(_descriptionFocus);
-                    },
+                    onFieldSubmitted: (_) =>
+                        FocusScope.of(context).requestFocus(_descriptionFocus),
                     onSaved: (String? description) =>
                         _formData['description'] = description ?? '',
                     validator: (String? _description) {
@@ -225,7 +211,7 @@ class _AvatarInfoFormScreenState extends State<AvatarInfoFormScreen> {
                         ),
                       ),
                       GestureDetector(
-                        onTap: _selectGaleryImage,
+                        onTap: selectGaleryImage,
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(10),
                           child: _image == null
@@ -257,7 +243,7 @@ class _AvatarInfoFormScreenState extends State<AvatarInfoFormScreen> {
             ),
           ),
           floatingActionButton: FloatingActionButton(
-            onPressed: _submitForm,
+            onPressed: submitForm,
             child: const Icon(Icons.save),
           ),
         ),

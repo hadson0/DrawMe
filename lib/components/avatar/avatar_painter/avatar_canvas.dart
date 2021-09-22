@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:drawme/models/canvas.dart';
+import 'package:drawme/models/avatar/canvas.dart';
 import 'package:flutter/material.dart';
 
 class AvatarCanvas extends StatelessWidget {
@@ -14,20 +14,20 @@ class AvatarCanvas extends StatelessWidget {
   final double size;
 
   @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: layers.entries.map((MapEntry<LayerNames, String> entry) {
-        return SizedBox(
-          height: size,
-          width: size,
-          child: entry.value == ''
-              ? null
-              : Image.file(
-                  File(entry.value),
-                  fit: BoxFit.contain,
-                ),
-        );
-      }).toList(),
+  Widget build(BuildContext context) => Stack(
+      children: layers.entries
+          .map(
+            (MapEntry<LayerNames, String> entry) => SizedBox(
+              height: size,
+              width: size,
+              child: entry.value == ''
+                  ? null
+                  : Image.file(
+                      File(entry.value),
+                      fit: BoxFit.contain,
+                    ),
+            ),
+          )
+          .toList(),
     );
-  }
 }

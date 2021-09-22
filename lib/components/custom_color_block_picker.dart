@@ -1,3 +1,7 @@
+// ignore_for_file: avoid_positional_boolean_parameters
+
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
@@ -22,19 +26,57 @@ class _CustomColorBlockPickerState extends State<CustomColorBlockPicker> {
   List<Color> get colorList => widget.colorList;
   Color get selectedColor => widget.selectedColor;
 
-  Widget _itemBuilder(
+  bool useblackShadow(Color color, {double bias = 1.0}) {
+    final int v = sqrt(
+      pow(color.red, 2) * 0.299 +
+          pow(color.green, 2) * 0.587 +
+          pow(color.blue, 2) * 0.114,
+    ).round();
+
+    if (v < 130 * bias) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Text('Selecionar cor'),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          BlockPicker(
+            pickerColor: selectedColor,
+            onColorChanged: onColorChanged,
+            availableColors: colorList,
+            itemBuilder: itemBuilder,
+          ),
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text(
+              'SELECIONAR',
+              style: TextStyle(fontSize: 20),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget itemBuilder(
     Color color,
     bool isCurrentColor,
     void Function() changeColor,
-  ) {
-    return Container(
+  ) => Container(
       margin: const EdgeInsets.all(5.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(50.0),
         color: color,
         boxShadow: [
           BoxShadow(
-            color: (useWhiteForeground(color) ? color : Colors.black)
+            color: (useblackShadow(color, bias: 1.6) ? Colors.grey : color)
                 .withOpacity(0.8),
             offset: const Offset(1.0, 2.0),
             blurRadius: 3.0,
@@ -57,30 +99,4 @@ class _CustomColorBlockPickerState extends State<CustomColorBlockPicker> {
         ),
       ),
     );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-      title: const Text('Selecionar cor'),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          BlockPicker(
-            pickerColor: selectedColor,
-            onColorChanged: onColorChanged,
-            availableColors: colorList,
-            itemBuilder: _itemBuilder,
-          ),
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: const Text(
-              'SELECIONAR',
-              style: TextStyle(fontSize: 20),
-            ),
-          )
-        ],
-      ),
-    );
-  }
 }

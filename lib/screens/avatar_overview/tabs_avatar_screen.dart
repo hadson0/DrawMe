@@ -1,11 +1,13 @@
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
-import 'package:drawme/components/app_drawer.dart';
+import 'package:drawme/components/drawer/app_drawer.dart';
 import 'package:drawme/screens/avatar_overview/avatar_grid_screen.dart';
 import 'package:drawme/screens/avatar_overview/favorite_avatar_screen.dart';
 import 'package:flutter/material.dart';
 
 class TabsAvatarScreen extends StatefulWidget {
-  const TabsAvatarScreen({Key? key}) : super(key: key);
+  const TabsAvatarScreen({
+    Key? key,
+  }) : super(key: key);
 
   @override
   _TabsAvatarScreenState createState() => _TabsAvatarScreenState();
@@ -20,7 +22,32 @@ class _TabsAvatarScreenState extends State<TabsAvatarScreen> {
 
   List<Widget> _screens = [];
 
-  Widget _buildBottomNavigationBar() {
+  @override
+  void initState() {
+    super.initState();
+    _screens = [
+      const AvatarGridScreen(),
+      const FavoriteAvatarScreen(),
+    ];
+  }
+
+  
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Theme.of(context).backgroundColor,
+      drawer: const AppDrawer(),
+      appBar: AppBar(        
+        title: Text(_titles[_selectedScreenIndex]),
+      ),
+      /* drawer: const AppDrawer(), */
+      body: _screens[_selectedScreenIndex],
+      bottomNavigationBar: buildBottomNavigationBar(),
+    );
+  }
+
+  Widget buildBottomNavigationBar() {
     const MaterialColor inactiveColor = Colors.grey;
     return BottomNavyBar(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -28,7 +55,8 @@ class _TabsAvatarScreenState extends State<TabsAvatarScreen> {
       backgroundColor: Colors.black,
       itemCornerRadius: 16,
       selectedIndex: _selectedScreenIndex,
-      onItemSelected: (int index) => setState(() => _selectedScreenIndex = index),
+      onItemSelected: (int index) =>
+          setState(() => _selectedScreenIndex = index),
       items: [
         BottomNavyBarItem(
           icon: const Icon(Icons.apps),
@@ -59,27 +87,6 @@ class _TabsAvatarScreenState extends State<TabsAvatarScreen> {
           inactiveColor: inactiveColor,
         ), */
       ],
-    );
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _screens = [
-      const AvatarGridScreen(),
-      const FavoriteAvatarScreen(),
-    ];
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(_titles[_selectedScreenIndex]),
-      ),
-      drawer: const AppDrawer(),
-      body: _screens[_selectedScreenIndex],
-      bottomNavigationBar: _buildBottomNavigationBar(),
     );
   }
 }

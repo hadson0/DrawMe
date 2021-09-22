@@ -1,4 +1,4 @@
-import 'package:drawme/models/canvas.dart';
+import 'package:drawme/models/avatar/canvas.dart';
 import 'package:flutter/widgets.dart';
 
 class Avatar with ChangeNotifier {
@@ -19,7 +19,17 @@ class Avatar with ChangeNotifier {
   final List<String> tags;
   final String description;
 
-  Canvas canvas = Canvas();
+  Canvas avatarCanvas = Canvas();
+
+  Canvas get canvas {
+    return avatarCanvas;
+  }
+
+  set canvas(Canvas newCanvas) {
+    if (newCanvas.layers.isNotEmpty && newCanvas.colors.isNotEmpty) {
+      avatarCanvas = newCanvas;
+    }
+  }
 
   bool isFavorite;
 

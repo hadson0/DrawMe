@@ -22,11 +22,38 @@ class _ImageDisplayGridState extends State<ImageDisplayGrid> {
   List<String> get selectedLayer => widget.selectedLayer;
   int get itemCount => widget.itemCount;
 
-  ClipRRect _buildImageGridItem({
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(5),
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: Colors.grey,
+        ),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: GridView.builder(
+        itemCount: itemCount,
+        itemBuilder: (BuildContext ctx, int i) {
+          return buildImageGridItem(
+            imagePath: selectedLayer[i],
+            onDeletePressed: () => widget.onDeletePressed(i),
+          );
+        },
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          crossAxisSpacing: 5,
+          mainAxisSpacing: 5,
+        ),
+      ),
+    );
+  }
+
+  ClipRRect buildImageGridItem({
     required String imagePath,
     required VoidCallback onDeletePressed,
-  }) {
-    return ClipRRect(
+  }) => ClipRRect(
       borderRadius: BorderRadius.circular(10),
       child: Stack(
         fit: StackFit.expand,
@@ -55,33 +82,4 @@ class _ImageDisplayGridState extends State<ImageDisplayGrid> {
         ],
       ),
     );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(5),
-      decoration: BoxDecoration(
-        border: Border.all(
-          color: Colors.grey,
-        ),
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: GridView.builder(
-        itemCount: itemCount,
-        itemBuilder: (BuildContext ctx, int i) {
-          return _buildImageGridItem(
-            imagePath: selectedLayer[i],
-            onDeletePressed: () => widget.onDeletePressed(i),
-          );
-        },
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          crossAxisSpacing: 5,
-          mainAxisSpacing: 5,
-        ),
-      ),
-    );
-  }
 }

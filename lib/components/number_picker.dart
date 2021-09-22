@@ -52,13 +52,3 @@ class _NumberPickerState extends State<NumberPicker> {
     );
   }
 }
-/* 
-initialValue: 1,
-        maxValue: 5,
-        minValue: 0,
-        step: 1,
-        onValue: (int value) {
-          setState(() => _layers[layerName] = value);
-          print(_layers[layerName]);
-        },
-   */

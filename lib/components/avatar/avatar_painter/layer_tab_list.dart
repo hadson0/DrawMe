@@ -1,4 +1,4 @@
-import 'package:drawme/models/canvas.dart';
+import 'package:drawme/models/avatar/canvas.dart';
 import 'package:flutter/material.dart';
 
 class LayerTabList extends StatelessWidget {
@@ -12,31 +12,8 @@ class LayerTabList extends StatelessWidget {
 
   final void Function(LayerNames) onSelectLayer;
   final VoidCallback onRandomSelected;
-
   final Map<LayerNames, List<List<String>>> layersMap;
   final LayerNames selectedLayer;
-
-  List<Widget> _buildTabList() {
-    return layersMap.entries
-        .map((MapEntry<LayerNames, List<List<String>>> imageList) {
-      return GestureDetector(
-        onTap: () => onSelectLayer(imageList.key),
-        child: Container(
-          height: 64,
-          width: 64,
-          margin: const EdgeInsets.symmetric(horizontal: 2),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: Text(
-            imageList.key.toString(),
-            textAlign: TextAlign.center,
-          ),
-        ),
-      );
-    }).toList();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +53,7 @@ class LayerTabList extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   children: <Widget>[
-                    ..._buildTabList(),
+                    ...buildTabList(),
                   ],
                 ),
               ),
@@ -86,4 +63,26 @@ class LayerTabList extends StatelessWidget {
       ),
     );
   }
+
+  List<Widget> buildTabList() => layersMap.entries
+        .map(
+          (MapEntry<LayerNames, List<List<String>>> imageList) =>
+              GestureDetector(
+            onTap: () => onSelectLayer(imageList.key),
+            child: Container(
+              height: 64,
+              width: 64,
+              margin: const EdgeInsets.symmetric(horizontal: 2),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Text(
+                imageList.key.toString(),
+                textAlign: TextAlign.center,
+              ),
+            ),
+          ),
+        )
+        .toList();
 }

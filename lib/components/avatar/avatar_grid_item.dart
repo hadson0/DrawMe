@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:drawme/components/avatar/avatar_detail/avatar_detail_sheet.dart';
-import 'package:drawme/models/avatar.dart';
+import 'package:drawme/models/avatar/avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -27,6 +27,7 @@ class AvatarGridItem extends StatelessWidget {
               textAlign: TextAlign.center,
               style: const TextStyle(
                 fontFamily: 'RobotoCondensed',
+                color: Colors.black,
               ),
             ),
             subtitle: AutoSizeText(
@@ -34,13 +35,13 @@ class AvatarGridItem extends StatelessWidget {
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               textAlign: TextAlign.center,
-              style: const TextStyle(
+              style: TextStyle(
                 fontFamily: 'RobotoCondensed',
-                color: Colors.blue,
+                color: Theme.of(context).primaryColor,
                 fontSize: 10,
               ),
             ),
-            backgroundColor: Colors.black87,
+            backgroundColor: Colors.white54,
             leading: Consumer<Avatar>(
               builder: (BuildContext ctx, Avatar avt, _) => IconButton(
                 onPressed: () {

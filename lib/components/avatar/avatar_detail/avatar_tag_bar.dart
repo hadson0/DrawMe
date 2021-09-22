@@ -1,4 +1,4 @@
-import 'package:drawme/models/avatar.dart';
+import 'package:drawme/models/avatar/avatar.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -9,24 +9,6 @@ class AvatarTagBar extends StatelessWidget {
   }) : super(key: key);
 
   final Avatar avatar;
-
-  List<Widget> _buildTagList() {
-    return avatar.tags.map((String tag) {
-      return Container(
-        margin: const EdgeInsets.all(1),
-        padding: const EdgeInsets.all(5),
-        decoration: BoxDecoration(
-          color: Colors.grey.shade100,
-          border: Border.all(),
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: Text(
-          tag,
-          style: TextStyle(color: Colors.blue.shade900),
-        ),
-      );
-    }).toList();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +31,7 @@ class AvatarTagBar extends StatelessWidget {
             child: ListView(
               scrollDirection: Axis.horizontal,
               children: <Widget>[
-                ..._buildTagList(),
+                ...buildTagList(),
               ],
             ),
           )
@@ -57,4 +39,22 @@ class AvatarTagBar extends StatelessWidget {
       ),
     );
   }
+
+  List<Widget> buildTagList() => avatar.tags
+        .map(
+          (String tag) => Container(
+            margin: const EdgeInsets.all(1),
+            padding: const EdgeInsets.all(5),
+            decoration: BoxDecoration(
+              color: Colors.grey.shade100,
+              border: Border.all(),
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Text(
+              tag,
+              style: TextStyle(color: Colors.blue.shade900),
+            ),
+          ),
+        )
+        .toList();
 }

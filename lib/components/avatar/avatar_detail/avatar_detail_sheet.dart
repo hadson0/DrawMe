@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:drawme/components/avatar/avatar_detail/avatar_info.dart';
-import 'package:drawme/models/avatar.dart';
+import 'package:drawme/models/avatar/avatar.dart';
 import 'package:drawme/screens/avatar_overview/avatar_item/avatar_painter_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -12,20 +12,6 @@ class AvatarDetailSheet extends StatelessWidget {
   }) : super(key: key);
   
   final Avatar avatar;
-
-  Widget makeDismissible({
-    required BuildContext context,
-    required Widget child,
-  }) {
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
-      onTap: () => Navigator.of(context).pop(),
-      child: GestureDetector(
-        onTap: () {},
-        child: child,
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -85,4 +71,16 @@ class AvatarDetailSheet extends StatelessWidget {
       ),
     );
   }
+
+  Widget makeDismissible({
+    required BuildContext context,
+    required Widget child,
+  }) => GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: () => Navigator.of(context).pop(),
+      child: GestureDetector(
+        onTap: () {},
+        child: child,
+      ),
+    );
 }

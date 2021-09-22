@@ -6,8 +6,8 @@ import 'package:drawme/components/avatar/avatar_painter/avatar_canvas.dart';
 import 'package:drawme/components/avatar/avatar_painter/layer_image_grid.dart';
 import 'package:drawme/components/avatar/avatar_painter/layer_tab_list.dart';
 import 'package:drawme/components/custom_color_block_picker.dart';
-import 'package:drawme/models/avatar.dart';
-import 'package:drawme/models/canvas.dart';
+import 'package:drawme/models/avatar/avatar.dart';
+import 'package:drawme/models/avatar/canvas.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -44,33 +44,30 @@ class _AvatarPainterScreenState extends State<AvatarPainterScreen> {
   final Map<LayerNames, String> _layers = {};
 
   Color _selectedColor = Colors.brown;
-
   LayerNames _selectedLayer = LayerNames.BACKGROUND;
 
   Avatar get avatar => widget.avatar;
-
   List<Color> get selectedColorList =>
       avatar.canvas.colors[_selectedLayer] ?? [];
-
   int get selectedColorIndex => selectedColorList.contains(_selectedColor)
       ? selectedColorList.indexOf(_selectedColor)
       : 0;
 
   ValueNotifier<bool> isDialOpen = ValueNotifier(false);
 
-  void _selectLayer(LayerNames layer) {
+  void selectLayer(LayerNames layer) {
     setState(() {
       _selectedLayer = layer;
     });
   }
 
-  void _selectLayerImage(String imagePath) {
+  void selectLayerImage(String imagePath) {
     setState(() {
       _layers[_selectedLayer] = imagePath;
     });
   }
 
-  Future<String> _saveAvatarImage(Uint8List bytes) async {
+  Future<String> saveAvatarImage(Uint8List bytes) async {
     final String time = DateTime.now()
         .toIso8601String()
         .replaceAll('.', '-')
@@ -82,7 +79,7 @@ class _AvatarPainterScreenState extends State<AvatarPainterScreen> {
     return result['filePath'] as String;
   }
 
-  Future<void> _shareAvatarImage(Uint8List bytes) async {
+  Future<void> shareAvatarImage(Uint8List bytes) async {
     final Directory directory = await getApplicationDocumentsDirectory();
 
     final File image = File('${directory.path}/avatar.png');
@@ -96,14 +93,14 @@ class _AvatarPainterScreenState extends State<AvatarPainterScreen> {
     );
   }
 
-  void _showToast(String message) {
+  void showToast(String message) {
     Fluttertoast.showToast(
       msg: message,
       fontSize: 15,
     );
   }
 
-  void _randomLayerList() {
+  void randomLayerList() {
     avatar.canvas.layers
         .forEach((LayerNames layer, List<List<String>> imageList) {
       final int randomIndex = Random().nextInt(imageList.length);
@@ -112,7 +109,7 @@ class _AvatarPainterScreenState extends State<AvatarPainterScreen> {
     });
   }
 
-  void _pickColor(BuildContext context) {
+  void pickColor(BuildContext context) {
     showDialog(
       context: context,
       builder: (context) => CustomColorBlockPicker(
@@ -129,7 +126,7 @@ class _AvatarPainterScreenState extends State<AvatarPainterScreen> {
   void initState() {
     super.initState();
 
-    _randomLayerList();
+    randomLayerList();
   }
 
   @override
@@ -153,7 +150,7 @@ class _AvatarPainterScreenState extends State<AvatarPainterScreen> {
                   bottom: 5,
                   right: 5,
                   child: FloatingActionButton(
-                    onPressed: () => _pickColor(context),
+                    onPressed: () => pickColor(context),
                     child: const Icon(Icons.brush),
                   ),
                 ),
@@ -170,14 +167,14 @@ class _AvatarPainterScreenState extends State<AvatarPainterScreen> {
               children: [
                 LayerTabList(
                   onRandomSelected: () {
-                    setState(() => _randomLayerList());
+                    setState(() => randomLayerList());
                   },
-                  onSelectLayer: _selectLayer,
+                  onSelectLayer: selectLayer,
                   layersMap: avatar.canvas.layers,
                   selectedLayer: _selectedLayer,
                 ),
                 LayerImageGrid(
-                  onSelectLayerImage: _selectLayerImage,
+                  onSelectLayerImage: selectLayerImage,
                   layerImageList: avatar.canvas
                           .layers[_selectedLayer]?[selectedColorIndex].reversed
                           .toList() ??
@@ -217,8 +214,8 @@ class _AvatarPainterScreenState extends State<AvatarPainterScreen> {
                               ),
                             );
 
-                            _saveAvatarImage(avatarImage).then((_) {
-                              _showToast('Salvo na galeria!');
+                            saveAvatarImage(avatarImage).then((_) {
+                              showToast('Salvo na galeria!');
                             });
                           },
                         ),
@@ -234,7 +231,7 @@ class _AvatarPainterScreenState extends State<AvatarPainterScreen> {
                               ),
                             );
 
-                            await _shareAvatarImage(avatarImage);
+                            await shareAvatarImage(avatarImage);
                           },
                         ),
                       ],

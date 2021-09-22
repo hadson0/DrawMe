@@ -1,6 +1,6 @@
 import 'package:drawme/components/avatar_form/cancel_form_dialog.dart';
 import 'package:drawme/components/number_picker.dart';
-import 'package:drawme/models/canvas.dart';
+import 'package:drawme/models/avatar/canvas.dart';
 import 'package:drawme/screens/avatar_form/image_selection_form_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -21,42 +21,21 @@ class _LayerSelectionFormScreenState extends State<LayerSelectionFormScreen> {
     LayerNames.NOSE: 1,
   };
 
-  ListTile _buildCheckBoxTile({
-    required String label,
-    required LayerNames layerName,
-  }) {
-    return ListTile(
-      title: Text(label),
-      trailing: NumberPicker(
-        initialValue: 1,
-        maxValue: 5,
-        minValue: 0,
-        onValue: (int value) {
-          _layers[layerName] = value;
-        },
-      ),
-    );
-  }
-
-  Future<bool?> _showDialog() async {
-    return showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return CancelFormDialog(context);
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        final bool? shouldPop = await _showDialog();
+        final bool? shouldPop = await showDialog<bool>(
+          context: context,
+          builder: (BuildContext context) {
+            return const CancelFormDialog();
+          },
+        );
         return shouldPop ?? false;
       },
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Selecionar Camadas'),
+          title: const Text('Criar Avatar'),
         ),
         body: Padding(
           padding: const EdgeInsets.all(15),
@@ -96,19 +75,19 @@ class _LayerSelectionFormScreenState extends State<LayerSelectionFormScreen> {
                   ),
                   child: Column(
                     children: [
-                      _buildCheckBoxTile(
+                      buildCheckBoxTile(
                         label: 'Corpo',
                         layerName: LayerNames.BODY,
                       ),
-                      _buildCheckBoxTile(
+                      buildCheckBoxTile(
                         label: 'Olhos',
                         layerName: LayerNames.EYES,
                       ),
-                      _buildCheckBoxTile(
+                      buildCheckBoxTile(
                         label: 'Boca',
                         layerName: LayerNames.MOUTH,
                       ),
-                      _buildCheckBoxTile(
+                      buildCheckBoxTile(
                         label: 'Nariz',
                         layerName: LayerNames.NOSE,
                       ),
@@ -137,4 +116,22 @@ class _LayerSelectionFormScreenState extends State<LayerSelectionFormScreen> {
       ),
     );
   }
+
+  ListTile buildCheckBoxTile({
+    required String label,
+    required LayerNames layerName,
+  }) {
+    return ListTile(
+      title: Text(label),
+      trailing: NumberPicker(
+        initialValue: 1,
+        maxValue: 5,
+        minValue: 0,
+        onValue: (int value) {
+          _layers[layerName] = value;
+        },
+      ),
+    );
+  }
+
 }

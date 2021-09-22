@@ -1,7 +1,7 @@
-import 'package:drawme/models/avatar_list.dart';
+import 'package:drawme/models/avatar/avatar_list.dart';
+import 'package:drawme/screens/avatar_form/avatar_form_screen.dart';
 import 'package:drawme/screens/avatar_form/layer_selection_form_screen.dart';
 import 'package:drawme/screens/avatar_overview/tabs_avatar_screen.dart';
-import 'package:drawme/screens/home_screen.dart';
 import 'package:drawme/utils/AppRoutes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -31,8 +31,11 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'DrawMe!',
         theme: ThemeData(
+          backgroundColor: const Color.fromRGBO(15, 25, 59, 1),
+          primaryColor: const Color.fromRGBO(28, 44, 100, 1),
           primarySwatch: Colors.lightBlue,
           colorScheme: ThemeData.light().colorScheme.copyWith(
+                primary: const Color.fromRGBO(28, 44, 100, 1),
                 secondary: Colors.amber,
               ),
           appBarTheme: const AppBarTheme(
@@ -50,11 +53,9 @@ class MyApp extends StatelessWidget {
                 ),
               ),
         ),
-        routes: <String, WidgetBuilder> {
-          AppRoutes.HOME: (BuildContext ctx) => const HomeScreen(),
-          AppRoutes.AVATAR_LIST: (BuildContext ctx) => const TabsAvatarScreen(),
-          AppRoutes.LAYER_SELECTION_FORM: (BuildContext ctx) =>
-              const LayerSelectionFormScreen(),
+        routes: <String, WidgetBuilder>{
+          AppRoutes.HOME: (BuildContext ctx) => const TabsAvatarScreen(),
+          AppRoutes.AVATAR_FORM: (BuildContext ctx) => const AvatarFormScreen(),
         },
         debugShowCheckedModeBanner: false,
       ),
