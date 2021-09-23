@@ -3,7 +3,9 @@ import 'package:flutter/widgets.dart';
 enum LayerNames { BACKGROUND, BODY, EYES, NOSE, MOUTH }
 
 class Canvas with ChangeNotifier {
-  final Map<LayerNames, List<List<String>>> _layers = {};
+  final Map<LayerNames, List<List<String>>> _layers = {
+    LayerNames.BACKGROUND: [[]],
+  };
   final Map<LayerNames, List<Color>> _colors = {};
 
   Map<LayerNames, List<List<String>>> get layers => {..._layers};
@@ -26,7 +28,8 @@ class Canvas with ChangeNotifier {
   }
 
   void addLayerImage(LayerNames layerName, int colorIndex, String imagePath) {
-    if (_layers.containsKey(layerName)) {
+    if (_layers.containsKey(layerName) &&
+        !(_layers[layerName]?[colorIndex].contains(imagePath) ?? false)) {
       _layers[layerName]?[colorIndex].add(imagePath);
       notifyListeners();
     }
@@ -56,9 +59,13 @@ class Canvas with ChangeNotifier {
     }
   }
 
-  void addColor(LayerNames layerName, Color color) {
+  void addColor(LayerNames layerName, Color color, int colorIndex) {
     if (_colors.containsKey(layerName)) {
-      _colors[layerName]!.add(color);
+      if (colorIndex > _colors[layerName]!.length - 1) {
+        _colors[layerName]!.add(color);
+      } else {
+        _colors[layerName]![colorIndex] = color;
+      }
       notifyListeners();
     }
   }

@@ -1,24 +1,24 @@
-import 'package:drawme/components/avatar_form/cancel_form_dialog.dart';
 import 'package:drawme/components/avatar_form/image_list_picker.dart';
 import 'package:drawme/components/custom_color_picker.dart';
 import 'package:drawme/models/avatar/canvas.dart';
-import 'package:drawme/screens/avatar_form/avatar_info_form_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ImageSelectionFormScreen extends StatefulWidget {
-  const ImageSelectionFormScreen(
-    this.canvas, {
+  const ImageSelectionFormScreen({
     Key? key,
+    this.layerIndex = 0,
+    this.colorIndex = 0,
+    required this.canvas,
+    required this.onBackPressed,
+    required this.onNextPressed,
   }) : super(key: key);
 
+  final int layerIndex;
+  final int colorIndex;
   final Canvas canvas;
-
-  static Route<MaterialPageRoute> route(Canvas canvas) {
-    return MaterialPageRoute(
-      builder: (BuildContext context) => ImageSelectionFormScreen(canvas),
-    );
-  }
+  final VoidCallback onBackPressed;
+  final VoidCallback onNextPressed;
 
   @override
   _ImageSelectionFormScreenState createState() =>
@@ -28,20 +28,24 @@ class ImageSelectionFormScreen extends StatefulWidget {
 class _ImageSelectionFormScreenState extends State<ImageSelectionFormScreen> {
   final ImagePicker picker = ImagePicker();
 
-  int _selectedIndex = 0;
-  int _colorIndex = 0;
-  Color _color = Colors.brown;
-  bool _optional = false;
+  late int selectedIndex;
+  late int colorIndex;
+
+  Color color = Colors.brown;
+  bool optional = false;
 
   Canvas get canvas => widget.canvas;
-  List<String> get selectedLayer => canvas.layers[layerName]![_colorIndex];
+  void onBackPressed() => widget.onBackPressed();
+  void onNextPressed() => widget.onNextPressed();
+
+  List<List<String>> get selectedLayer => canvas.layers[layerName]!;
   int get colorNumber =>
-      widget.canvas.layers.values.elementAt(_selectedIndex).length;
+      widget.canvas.layers.values.elementAt(selectedIndex).length;
   LayerNames get layerName =>
-      widget.canvas.layers.keys.elementAt(_selectedIndex);
+      widget.canvas.layers.keys.elementAt(selectedIndex);
 
   String get layerNameToString {
-    switch (widget.canvas.layers.keys.elementAt(_selectedIndex)) {
+    switch (widget.canvas.layers.keys.elementAt(selectedIndex)) {
       case LayerNames.BACKGROUND:
         return 'Fundo';
       case LayerNames.BODY:
@@ -63,7 +67,7 @@ class _ImageSelectionFormScreenState extends State<ImageSelectionFormScreen> {
     if ((selectedImage?.length ?? 0) > 0) {
       for (final XFile image in selectedImage!) {
         setState(() {
-          canvas.addLayerImage(layerName, _colorIndex, image.path);
+          canvas.addLayerImage(layerName, colorIndex, image.path);
         });
       }
     }
@@ -88,132 +92,187 @@ class _ImageSelectionFormScreenState extends State<ImageSelectionFormScreen> {
   }
 
   void submitLayer() {
-    if (_optional) {
-      canvas.addLayerImage(layerName, _colorIndex, '');
+    if (optional) {
+      canvas.addLayerImage(layerName, colorIndex, '');
     }
 
-    if (_colorIndex == colorNumber - 1) {
+    if (colorIndex == colorNumber - 1) {
       if (colorNumber > 1) {
-        canvas.addColor(layerName, _color);
+        canvas.addColor(layerName, color, colorIndex);
       }
-      _selectedIndex++;
+      selectedIndex++;
 
-      if (_selectedIndex == canvas.layers.length) {
-        Navigator.of(context).pushReplacement(
-          AvatarInfoFormScreen.route(canvas: canvas),
-        );
-        return;
+      if (selectedIndex == canvas.layers.length) {
+        onNextPressed();
       } else {
-        setState(() => _colorIndex = 0);
+        colorIndex = 0;
+        setState(() {
+          if (colorIndex <= (canvas.colors[layerName]?.length ?? 0) - 1) {
+            color = canvas.colors[layerName]?[colorIndex] ?? color;
+          }
+        });
       }
     } else {
       if (colorNumber > 1) {
-        canvas.addColor(layerName, _color);
+        canvas.addColor(layerName, color, colorIndex);
       }
-      setState(() => _colorIndex++);
+      colorIndex++;
+      setState(() {
+        if (colorIndex <= (canvas.colors[layerName]?.length ?? 0) - 1) {
+          color = canvas.colors[layerName]?[colorIndex] ?? color;
+        }
+      });
     }
 
-    _optional = false;
+    optional = false;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    selectedIndex = widget.layerIndex;
+    colorIndex = widget.colorIndex;
   }
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        final bool? shouldPop = await showDialog<bool>(
-          context: context,
-          builder: (BuildContext context) {
-            return const CancelFormDialog();
-          },
-        );
-        return shouldPop ?? false;
-      },
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Criar Avatar'),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Text(
+          'Selecine as imagens:',
+          textAlign: TextAlign.center,
+          style: Theme.of(context).textTheme.headline6?.copyWith(
+                fontSize: 25,
+              ),
         ),
-        body: Padding(
-          padding: const EdgeInsets.all(15),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text(
-                layerNameToString,
-                textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.headline6?.copyWith(
-                      fontSize: 25,
-                    ),
+        const SizedBox(height: 10),
+        Text(
+          layerNameToString,
+          textAlign: TextAlign.center,
+          style: Theme.of(context).textTheme.headline6?.copyWith(
+                fontSize: 20,
               ),
-              if (colorNumber > 1)
-                Text(
-                  'cor ${_colorIndex + 1}',
-                  style: Theme.of(context).textTheme.headline6?.copyWith(
-                        fontSize: 18,
-                      ),
+        ),
+        if (colorNumber > 1)
+          Text(
+            'cor ${colorIndex + 1}',
+            style: Theme.of(context).textTheme.headline6?.copyWith(
+                  fontSize: 16,
                 ),
-              const SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: <Widget>[
-                  const Text(
-                    'Esta camada é opcional?',
-                    style: TextStyle(fontSize: 15),
-                  ),
-                  Switch(
-                    value: _optional,
-                    onChanged: (bool value) {
-                      setState(() => _optional = value);
-                    },
-                  ),
-                ],
+          ),
+        const SizedBox(height: 20),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: <Widget>[
+            const Text(
+              'Esta camada é opcional?',
+              style: TextStyle(fontSize: 15),
+            ),
+            Switch(
+              value: optional,
+              onChanged: (bool value) {
+                setState(() => optional = value);
+              },
+            ),
+          ],
+        ),
+        if (colorNumber > 1)
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              const Text(
+                'Selecione a cor da camada:',
+                style: TextStyle(
+                  fontSize: 15,
+                ),
               ),
-              if (colorNumber > 1)
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    const Text(
-                      'Selecione a cor da camada:',
-                      style: TextStyle(
-                        fontSize: 15,
-                      ),
-                    ),
-                    CustomColorPicker(
-                      onColorChanged: (color) {
-                        setState(() => _color = color);
-                      },
-                      color: _color,
-                    ),
-                  ],
-                ),
-              const SizedBox(height: 20),
-              ImageListPicker(
-                selectedLayer: selectedLayer,
-                itemCount: selectedLayer.isEmpty ? 0 : selectedLayer.length,
-                onSelectPressed: selectGaleryImage,
-                onDeletePressed: (imageIndex) {
-                  setState(() {
-                    canvas.removeLayerImage(
-                      layerName,
-                      _colorIndex,
-                      imageIndex,
-                    );
-                  });
+              CustomColorPicker(
+                onColorChanged: (_color) {
+                  setState(() => color = _color);
                 },
+                color: color,
               ),
             ],
           ),
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            if (selectedLayer.isEmpty) {
-              showErrorDialog('Insira ao menos 1 imagem por camada!');
-            } else {
-              submitLayer();
-            }
+        const SizedBox(height: 20),
+        ImageListPicker(
+          selectedLayer: selectedLayer[colorIndex],
+          itemCount: selectedLayer[colorIndex].isEmpty
+              ? 0
+              : selectedLayer[colorIndex].length,
+          onSelectPressed: selectGaleryImage,
+          onDeletePressed: (imageIndex) {
+            setState(() {
+              canvas.removeLayerImage(
+                layerName,
+                colorIndex,
+                imageIndex,
+              );
+            });
           },
-          child: const Icon(Icons.arrow_forward_ios_rounded),
         ),
-      ),
+        const SizedBox(height: 20),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            if (selectedIndex > 0)
+              ElevatedButton(
+                onPressed: () {
+                  if (colorIndex == 0) {
+                    if (selectedIndex == 0) {
+                      onBackPressed();
+                    } else {
+                      selectedIndex--;
+                      colorIndex = selectedLayer.length - 1;
+                      setState(() {
+                        if (canvas.colors[layerName]?.isNotEmpty ?? false) {
+                          color =
+                              canvas.colors[layerName]?[colorIndex] ?? color;
+                        }
+                      });
+                    }
+                  } else {
+                    colorIndex--;
+                    setState(() {
+                      if (canvas.colors[layerName]?.isNotEmpty ?? false) {
+                        color = canvas.colors[layerName]?[colorIndex] ?? color;
+                      }
+                    });
+                  }
+                },
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.all(15),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30.0),
+                  ),
+                ),
+                child: const Text('VOLTAR'),
+              ),
+            ElevatedButton(
+              onPressed: () {
+                if (selectedLayer[colorIndex].isEmpty) {
+                  showErrorDialog('Insira ao menos 1 imagem por camada!');
+                } else {
+                  submitLayer();
+                }
+              },
+              style: ElevatedButton.styleFrom(
+                padding: const EdgeInsets.all(15),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30.0),
+                ),
+              ),
+              child: Text(
+                (selectedIndex == canvas.layers.length &&
+                        colorIndex == colorNumber - 1)
+                    ? 'PRONTO'
+                    : 'PRÓXIMO',
+              ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }

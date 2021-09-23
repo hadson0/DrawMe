@@ -21,10 +21,15 @@ class NumberPicker extends StatefulWidget {
 class _NumberPickerState extends State<NumberPicker> {
   int number = 0;
 
+  int get initialValue => widget.initialValue;
+  int get maxValue => widget.maxValue;
+  int get minValue => widget.minValue;
+  Function(int) get onValue => widget.onValue;
+
   @override
   void initState() {
     super.initState();
-    number = widget.initialValue;
+    number = initialValue;
   }
 
   @override
@@ -34,16 +39,20 @@ class _NumberPickerState extends State<NumberPicker> {
         children: <Widget>[
           IconButton(
             onPressed: () {
-              setState(() => number--);
-              widget.onValue(number);
+              if (number > minValue) {
+                setState(() => number--);
+                onValue(number);
+              }
             },
             icon: const Icon(Icons.remove),
           ),
           Text('$number'),
           IconButton(
             onPressed: () {
-              setState(() => number++);
-              widget.onValue(number);
+              if (number < maxValue) {
+                setState(() => number++);
+                onValue(number);
+              }
             },
             icon: const Icon(Icons.add),
           ),

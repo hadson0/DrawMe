@@ -1,8 +1,9 @@
-import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:drawme/components/drawer/app_drawer.dart';
+import 'package:drawme/models/tab_bar/tab_bar_items.dart';
 import 'package:drawme/screens/avatar_overview/avatar_grid_screen.dart';
 import 'package:drawme/screens/avatar_overview/favorite_avatar_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class TabsAvatarScreen extends StatefulWidget {
   const TabsAvatarScreen({
@@ -14,79 +15,53 @@ class TabsAvatarScreen extends StatefulWidget {
 }
 
 class _TabsAvatarScreenState extends State<TabsAvatarScreen> {
-  int _selectedScreenIndex = 0;
-  final List<String> _titles = [
-    'Lista de Avatares',
-    'Favoritos',
-  ];
+  int selectedScreenIndex = 0;
 
-  List<Widget> _screens = [];
+  List<Widget> screens = [];
 
   @override
   void initState() {
     super.initState();
-    _screens = [
+    screens = [
       const AvatarGridScreen(),
       const FavoriteAvatarScreen(),
     ];
   }
 
-  
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Theme.of(context).backgroundColor,
-      drawer: const AppDrawer(),
-      appBar: AppBar(        
-        title: Text(_titles[_selectedScreenIndex]),
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        backgroundColor: Theme.of(context).backgroundColor,
+        drawer: const AppDrawer(),
+        appBar: AppBar(
+          title: Text(
+            'DrawMe!',
+            style: GoogleFonts.pacifico(
+              fontSize: 25,
+            ),
+          ),
+          bottom: TabBar(
+            unselectedLabelColor: Colors.white,
+            labelColor: Colors.cyan,
+            indicatorSize: TabBarIndicatorSize.label,
+            tabs: buildtabBar(),
+          ),
+        ),
+        /* drawer: const AppDrawer(), */
+        body: TabBarView(children: screens),
       ),
-      /* drawer: const AppDrawer(), */
-      body: _screens[_selectedScreenIndex],
-      bottomNavigationBar: buildBottomNavigationBar(),
     );
   }
 
-  Widget buildBottomNavigationBar() {
-    const MaterialColor inactiveColor = Colors.grey;
-    return BottomNavyBar(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      containerHeight: 70,
-      backgroundColor: Colors.black,
-      itemCornerRadius: 16,
-      selectedIndex: _selectedScreenIndex,
-      onItemSelected: (int index) =>
-          setState(() => _selectedScreenIndex = index),
-      items: [
-        BottomNavyBarItem(
-          icon: const Icon(Icons.apps),
-          title: const Text('Avatares'),
-          textAlign: TextAlign.center,
-          activeColor: Colors.amber,
-          inactiveColor: inactiveColor,
+  List<Widget> buildtabBar() => TabBarItems.all
+      .map(
+        (item) => Tab(
+          child: Align(
+            child: Text(item.title),
+          ),
         ),
-        BottomNavyBarItem(
-          icon: const Icon(Icons.favorite),
-          title: const Text('Favoritos'),
-          textAlign: TextAlign.center,
-          activeColor: Colors.red,
-          inactiveColor: inactiveColor,
-        ),
-        /* BottomNavyBarItem(
-          icon: Icon(Icons.person),
-          title: Text('Perfil'),
-          textAlign: TextAlign.center,
-          activeColor: Colors.blue,
-          inactiveColor: inactiveColor,
-        ),
-        BottomNavyBarItem(
-          icon: Icon(Icons.settings),
-          title: Text('Configurações'),
-          textAlign: TextAlign.center,
-          activeColor: Colors.orange,
-          inactiveColor: inactiveColor,
-        ), */
-      ],
-    );
-  }
+      )
+      .toList();
 }

@@ -55,35 +55,37 @@ class _AvatarFormTagBarState extends State<AvatarFormTagBar> {
   }
 
   List<Widget> _buildTagList() => tagList
-      .map((String tag) => Container(
-            margin: const EdgeInsets.all(1),
-            padding: const EdgeInsets.all(5),
-            decoration: BoxDecoration(
-              border: Border.all(),
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: SizedBox(
-              height: 20,
-              child: Row(
-                children: <Widget>[
-                  Text(
-                    tag,
-                    style: TextStyle(color: Colors.blue.shade900),
+      .map(
+        (String tag) => Container(
+          margin: const EdgeInsets.all(1),
+          padding: const EdgeInsets.all(5),
+          decoration: BoxDecoration(
+            border: Border.all(),
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: SizedBox(
+            height: 20,
+            child: Row(
+              children: <Widget>[
+                Text(
+                  tag,
+                  style: TextStyle(color: Colors.blue.shade900),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      onDeletedTapped(tag);
+                    });
+                  },
+                  child: const Icon(
+                    Icons.highlight_remove_sharp,
+                    color: Colors.grey,
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        onDeletedTapped(tag);
-                      });
-                    },
-                    child: const Icon(
-                      Icons.highlight_remove_sharp,
-                      color: Colors.grey,
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ))
+          ),
+        ),
+      )
       .toList();
 }
