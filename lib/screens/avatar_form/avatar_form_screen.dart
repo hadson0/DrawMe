@@ -66,7 +66,9 @@ class _AvatarFormScreenState extends State<AvatarFormScreen> {
       child: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
         child: Scaffold(
+          backgroundColor: Theme.of(context).backgroundColor,
           appBar: AppBar(
+            backgroundColor: Theme.of(context).primaryColorDark,
             title: const Text('Criar Avatar'),
           ),
           body: Padding(

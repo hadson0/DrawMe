@@ -36,6 +36,7 @@ class _TabsAvatarScreenState extends State<TabsAvatarScreen> {
         backgroundColor: Theme.of(context).backgroundColor,
         drawer: const AppDrawer(),
         appBar: AppBar(
+          backgroundColor: Theme.of(context).primaryColorDark,
           title: Text(
             'DrawMe!',
             style: GoogleFonts.pacifico(

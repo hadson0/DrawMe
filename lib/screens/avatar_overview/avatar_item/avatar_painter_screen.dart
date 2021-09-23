@@ -125,7 +125,6 @@ class _AvatarPainterScreenState extends State<AvatarPainterScreen> {
   @override
   void initState() {
     super.initState();
-
     randomLayerList();
   }
 
@@ -135,6 +134,7 @@ class _AvatarPainterScreenState extends State<AvatarPainterScreen> {
 
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Theme.of(context).primaryColorDark,
         title: Text(avatar.name),
       ),
       body: ListView(

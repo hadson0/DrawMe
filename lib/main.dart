@@ -32,13 +32,16 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           backgroundColor: const Color.fromRGBO(17, 25, 52, 1),
           primaryColor: const Color.fromRGBO(24, 35, 73, 1),
-          indicatorColor: Colors.cyan,
-          colorScheme: ThemeData.light().colorScheme.copyWith(
+          primaryColorLight: const Color.fromRGBO(74, 82, 134, 1),
+          primaryColorDark: const Color.fromRGBO(0, 0, 47, 1),
+          indicatorColor: const Color.fromRGBO(0, 187, 212, 1),
+          colorScheme: ThemeData.dark().colorScheme.copyWith(
+                background: const Color.fromRGBO(17, 25, 52, 1),
                 primary: const Color.fromRGBO(24, 35, 73, 1),
-                secondary: Colors.amber,
-              ),          
+                secondary: const Color.fromRGBO(0, 187, 212, 1),
+              ),
           primaryIconTheme: const IconThemeData(color: Colors.white),
-          textTheme: ThemeData.light().textTheme.copyWith(
+          textTheme: ThemeData.dark().textTheme.copyWith(
                 headline6: const TextStyle(
                   fontSize: 20,
                   fontFamily: 'RobotoCondensed',
