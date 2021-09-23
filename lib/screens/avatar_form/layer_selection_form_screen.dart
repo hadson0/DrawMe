@@ -1,5 +1,6 @@
 import 'package:drawme/components/number_picker.dart';
 import 'package:drawme/models/avatar/canvas.dart';
+import 'package:drawme/models/avatar/layers/layer_items.dart';
 import 'package:flutter/material.dart';
 
 class LayerSelectionFormScreen extends StatefulWidget {
@@ -18,13 +19,7 @@ class LayerSelectionFormScreen extends StatefulWidget {
 }
 
 class _LayerSelectionFormScreenState extends State<LayerSelectionFormScreen> {
-  final Map<LayerNames, int> layers = {
-    LayerNames.BACKGROUND: 1,
-    LayerNames.BODY: 1,
-    LayerNames.EYES: 1,
-    LayerNames.MOUTH: 1,
-    LayerNames.NOSE: 1,
-  };
+  Map<LayerNames, int> layers = {};
 
   Canvas get canvas => widget.canvas;
   void onNextPressed() => widget.onNextPressed();
@@ -37,6 +32,20 @@ class _LayerSelectionFormScreenState extends State<LayerSelectionFormScreen> {
     });
 
     widget.onNextPressed();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    layers.addEntries(
+      LayerItems.all
+          .map(
+            (item) => MapEntry(item.layerName, 1),
+          )
+          .where(
+            (item) => item.key != LayerNames.BACKGROUND,
+          ),
+    );
   }
 
   @override
@@ -69,24 +78,7 @@ class _LayerSelectionFormScreenState extends State<LayerSelectionFormScreen> {
               borderRadius: BorderRadius.circular(10),
             ),
             child: Column(
-              children: [
-                buildCheckBoxTile(
-                  label: 'Corpo',
-                  layerName: LayerNames.BODY,
-                ),
-                buildCheckBoxTile(
-                  label: 'Olhos',
-                  layerName: LayerNames.EYES,
-                ),
-                buildCheckBoxTile(
-                  label: 'Boca',
-                  layerName: LayerNames.MOUTH,
-                ),
-                buildCheckBoxTile(
-                  label: 'Nariz',
-                  layerName: LayerNames.NOSE,
-                ),
-              ],
+              children: buildCheckBoxTile(),
             ),
           ),
           const SizedBox(height: 20),
@@ -105,20 +97,19 @@ class _LayerSelectionFormScreenState extends State<LayerSelectionFormScreen> {
     );
   }
 
-  ListTile buildCheckBoxTile({
-    required String label,
-    required LayerNames layerName,
-  }) {
-    return ListTile(
-      title: Text(label),
-      trailing: NumberPicker(
-        initialValue: 1,
-        maxValue: 5,
-        minValue: 0,
-        onValue: (int value) {
-          layers[layerName] = value;
-        },
-      ),
-    );
-  }
+  List<ListTile> buildCheckBoxTile() => LayerItems.all
+      .map(
+        (item) => ListTile(
+          title: Text(item.title),
+          trailing: NumberPicker(
+            initialValue: 1,
+            maxValue: 5,
+            minValue: 0,
+            onValue: (int value) {
+              layers[item.layerName] = value;
+            },
+          ),
+        ),
+      )
+      .toList();
 }

@@ -1,6 +1,5 @@
+import 'package:drawme/models/avatar/layers/layer_items.dart';
 import 'package:flutter/widgets.dart';
-
-enum LayerNames { BACKGROUND, BODY, EYES, NOSE, MOUTH }
 
 class Canvas with ChangeNotifier {
   final Map<LayerNames, List<List<String>>> _layers = {

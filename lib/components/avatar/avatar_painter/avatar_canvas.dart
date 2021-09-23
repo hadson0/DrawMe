@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:drawme/models/avatar/canvas.dart';
+import 'package:drawme/models/avatar/layers/layer_items.dart';
 import 'package:flutter/material.dart';
 
 class AvatarCanvas extends StatelessWidget {

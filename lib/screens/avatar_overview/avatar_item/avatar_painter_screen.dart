@@ -7,7 +7,7 @@ import 'package:drawme/components/avatar/avatar_painter/layer_image_grid.dart';
 import 'package:drawme/components/avatar/avatar_painter/layer_tab_list.dart';
 import 'package:drawme/components/custom_color_block_picker.dart';
 import 'package:drawme/models/avatar/avatar.dart';
-import 'package:drawme/models/avatar/canvas.dart';
+import 'package:drawme/models/avatar/layers/layer_items.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:fluttertoast/fluttertoast.dart';

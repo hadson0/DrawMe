@@ -1,21 +1,18 @@
 import 'package:drawme/components/avatar_form/image_list_picker.dart';
 import 'package:drawme/components/custom_color_picker.dart';
 import 'package:drawme/models/avatar/canvas.dart';
+import 'package:drawme/models/avatar/layers/layer_items.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ImageSelectionFormScreen extends StatefulWidget {
   const ImageSelectionFormScreen({
     Key? key,
-    this.layerIndex = 0,
-    this.colorIndex = 0,
     required this.canvas,
     required this.onBackPressed,
     required this.onNextPressed,
   }) : super(key: key);
 
-  final int layerIndex;
-  final int colorIndex;
   final Canvas canvas;
   final VoidCallback onBackPressed;
   final VoidCallback onNextPressed;
@@ -38,28 +35,13 @@ class _ImageSelectionFormScreenState extends State<ImageSelectionFormScreen> {
   void onBackPressed() => widget.onBackPressed();
   void onNextPressed() => widget.onNextPressed();
 
-  List<List<String>> get selectedLayer => canvas.layers[layerName]!;
   int get colorNumber =>
       widget.canvas.layers.values.elementAt(selectedIndex).length;
   LayerNames get layerName =>
       widget.canvas.layers.keys.elementAt(selectedIndex);
-
-  String get layerNameToString {
-    switch (widget.canvas.layers.keys.elementAt(selectedIndex)) {
-      case LayerNames.BACKGROUND:
-        return 'Fundo';
-      case LayerNames.BODY:
-        return 'Corpo';
-      case LayerNames.EYES:
-        return 'Olhos';
-      case LayerNames.MOUTH:
-        return 'Boca';
-      case LayerNames.NOSE:
-        return 'Nariz';
-      default:
-        return '';
-    }
-  }
+  String get layerNameToString =>
+      LayerItems.all.singleWhere((item) => item.layerName == layerName).title;
+  List<List<String>> get selectedLayer => canvas.layers[layerName]!;
 
   Future<void> selectGaleryImage() async {
     final List<XFile>? selectedImage =
@@ -92,46 +74,34 @@ class _ImageSelectionFormScreenState extends State<ImageSelectionFormScreen> {
   }
 
   void submitLayer() {
+    Color nextColor = color;
+
+    if (colorIndex <= (canvas.colors[layerName]?.length ?? 0) - 1) {
+      nextColor = canvas.colors[layerName]?[colorIndex] ?? color;
+    }
+
     if (optional) {
       canvas.addLayerImage(layerName, colorIndex, '');
+      optional = false;
+    }
+
+    if (colorNumber > 1) {
+      canvas.addColor(layerName, color, colorIndex);
     }
 
     if (colorIndex == colorNumber - 1) {
-      if (colorNumber > 1) {
-        canvas.addColor(layerName, color, colorIndex);
-      }
       selectedIndex++;
 
       if (selectedIndex == canvas.layers.length) {
         onNextPressed();
       } else {
         colorIndex = 0;
-        setState(() {
-          if (colorIndex <= (canvas.colors[layerName]?.length ?? 0) - 1) {
-            color = canvas.colors[layerName]?[colorIndex] ?? color;
-          }
-        });
+        setState(() => color = nextColor);
       }
     } else {
-      if (colorNumber > 1) {
-        canvas.addColor(layerName, color, colorIndex);
-      }
       colorIndex++;
-      setState(() {
-        if (colorIndex <= (canvas.colors[layerName]?.length ?? 0) - 1) {
-          color = canvas.colors[layerName]?[colorIndex] ?? color;
-        }
-      });
+      setState(() => color = nextColor);
     }
-
-    optional = false;
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    selectedIndex = widget.layerIndex;
-    colorIndex = widget.colorIndex;
   }
 
   @override
@@ -171,9 +141,7 @@ class _ImageSelectionFormScreenState extends State<ImageSelectionFormScreen> {
             ),
             Switch(
               value: optional,
-              onChanged: (bool value) {
-                setState(() => optional = value);
-              },
+              onChanged: (bool value) => setState(() => optional = value),
             ),
           ],
         ),
@@ -188,9 +156,7 @@ class _ImageSelectionFormScreenState extends State<ImageSelectionFormScreen> {
                 ),
               ),
               CustomColorPicker(
-                onColorChanged: (_color) {
-                  setState(() => color = _color);
-                },
+                onColorChanged: (_color) => setState(() => color = _color),
                 color: color,
               ),
             ],
@@ -202,15 +168,13 @@ class _ImageSelectionFormScreenState extends State<ImageSelectionFormScreen> {
               ? 0
               : selectedLayer[colorIndex].length,
           onSelectPressed: selectGaleryImage,
-          onDeletePressed: (imageIndex) {
-            setState(() {
-              canvas.removeLayerImage(
-                layerName,
-                colorIndex,
-                imageIndex,
-              );
-            });
-          },
+          onDeletePressed: (imageIndex) => setState(
+            () => canvas.removeLayerImage(
+              layerName,
+              colorIndex,
+              imageIndex,
+            ),
+          ),
         ),
         const SizedBox(height: 20),
         Row(
