@@ -29,7 +29,7 @@ class AppDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Drawer(
       child: Material(
-        color: Theme.of(context).colorScheme.primary,
+        color: Theme.of(context).primaryColor,
         child: SafeArea(
           child: ListView(
             padding: const EdgeInsets.symmetric(horizontal: 20),

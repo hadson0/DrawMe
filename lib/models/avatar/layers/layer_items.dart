@@ -47,17 +47,17 @@ class LayerItems {
     title: 'Sobrancelhas',
     layerName: LayerNames.EYEBROW,
   );
-  static const nose = LayerItem(
-    title: 'Nariz',
-    layerName: LayerNames.NOSE,
+  static const cheeks = LayerItem(
+    title: 'Bochechas',
+    layerName: LayerNames.CHEEKS,
   );
   static const mouth = LayerItem(
     title: 'Boca',
     layerName: LayerNames.MOUTH,
   );
-  static const cheeks = LayerItem(
-    title: 'Bochechas',
-    layerName: LayerNames.CHEEKS,
+  static const nose = LayerItem(
+    title: 'Nariz',
+    layerName: LayerNames.NOSE,
   );
   static const spots = LayerItem(
     title: 'Marcas',
@@ -126,9 +126,9 @@ class LayerItems {
     head,
     eyes,
     eyebrow,
-    nose,
-    mouth,
     cheeks,
+    mouth,
+    nose,
     spots,
     ears,
     hair,

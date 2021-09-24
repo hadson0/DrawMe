@@ -5,7 +5,7 @@ import 'dart:typed_data';
 import 'package:drawme/components/avatar/avatar_painter/avatar_canvas.dart';
 import 'package:drawme/components/avatar/avatar_painter/layer_image_grid.dart';
 import 'package:drawme/components/avatar/avatar_painter/layer_tab_list.dart';
-import 'package:drawme/components/custom_color_block_picker.dart';
+import 'package:drawme/components/custom/custom_color_block_picker.dart';
 import 'package:drawme/models/avatar/avatar.dart';
 import 'package:drawme/models/avatar/layers/layer_items.dart';
 import 'package:flutter/material.dart';
@@ -55,25 +55,12 @@ class _AvatarPainterScreenState extends State<AvatarPainterScreen> {
 
   ValueNotifier<bool> isDialOpen = ValueNotifier(false);
 
-  void selectLayer(LayerNames layer) {
-    setState(() {
-      _selectedLayer = layer;
-    });
-  }
-
-  void selectLayerImage(String imagePath) {
-    setState(() {
-      _layers[_selectedLayer] = imagePath;
-    });
-  }
-
   Future<String> saveAvatarImage(Uint8List bytes) async {
     final String time = DateTime.now()
         .toIso8601String()
         .replaceAll('.', '-')
         .replaceAll(':', '-');
     final String name = avatar.name + time;
-
     final result = await ImageGallerySaver.saveImage(bytes, name: name);
 
     return result['filePath'] as String;
@@ -137,111 +124,115 @@ class _AvatarPainterScreenState extends State<AvatarPainterScreen> {
         backgroundColor: Theme.of(context).primaryColorDark,
         title: Text(avatar.name),
       ),
-      body: ListView(
-        children: <Widget>[
-          Stack(
-            children: [
-              AvatarCanvas(
-                size: screenWidht,
-                layers: _layers,
-              ),
-              if (selectedColorList.isNotEmpty)
-                Positioned(
-                  bottom: 5,
-                  right: 5,
-                  child: FloatingActionButton(
-                    onPressed: () => pickColor(context),
-                    child: const Icon(Icons.brush),
-                  ),
-                ),
-            ],
-          ),
-          Container(
-            margin: const EdgeInsets.all(5),
-            decoration: BoxDecoration(
-              color: Colors.grey.shade500,
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
+      body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            Stack(
               children: [
-                LayerTabList(
-                  onRandomSelected: () {
-                    setState(() => randomLayerList());
-                  },
-                  onSelectLayer: selectLayer,
-                  layersMap: avatar.canvas.layers,
-                  selectedLayer: _selectedLayer,
+                AvatarCanvas(
+                  size: screenWidht,
+                  layers: _layers,
                 ),
-                LayerImageGrid(
-                  onSelectLayerImage: selectLayerImage,
-                  layerImageList: avatar.canvas
-                          .layers[_selectedLayer]?[selectedColorIndex].reversed
-                          .toList() ??
-                      [],
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(
+                if (selectedColorList.isNotEmpty)
+                  Positioned(
                     bottom: 5,
-                    right: 10,
-                  ),
-                  child: WillPopScope(
-                    onWillPop: () async {
-                      if (isDialOpen.value) {
-                        isDialOpen.value = false;
-                        return false;
-                      } else {
-                        return true;
-                      }
-                    },
-                    child: SpeedDial(
-                      animatedIcon: AnimatedIcons.menu_close,
-                      backgroundColor: Colors.blue,
-                      overlayColor: Colors.black,
-                      overlayOpacity: 0.3,
-                      openCloseDial: isDialOpen,
-                      direction: SpeedDialDirection.Left,
-                      children: [
-                        SpeedDialChild(
-                          child: const Icon(Icons.download),
-                          label: 'Baixar',
-                          onTap: () async {
-                            final Uint8List avatarImage =
-                                await _controller.captureFromWidget(
-                              AvatarCanvas(
-                                size: screenWidht,
-                                layers: _layers,
-                              ),
-                            );
-
-                            saveAvatarImage(avatarImage).then((_) {
-                              showToast('Salvo na galeria!');
-                            });
-                          },
-                        ),
-                        SpeedDialChild(
-                          child: const Icon(Icons.share),
-                          label: 'Compartilhar',
-                          onTap: () async {
-                            final Uint8List avatarImage =
-                                await _controller.captureFromWidget(
-                              AvatarCanvas(
-                                size: screenWidht,
-                                layers: _layers,
-                              ),
-                            );
-
-                            await shareAvatarImage(avatarImage);
-                          },
-                        ),
-                      ],
+                    right: 5,
+                    child: FloatingActionButton(
+                      onPressed: () => pickColor(context),
+                      child: const Icon(Icons.brush),
                     ),
                   ),
-                )
               ],
             ),
-          ),
-        ],
+            Container(
+              margin: const EdgeInsets.all(5),
+              decoration: BoxDecoration(
+                color: Colors.grey.shade500,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  LayerTabList(
+                    onRandomSelected: () {
+                      setState(() => randomLayerList());
+                    },
+                    onSelectLayer: (LayerNames layerName) =>
+                        setState(() => _selectedLayer = layerName),
+                    layersMap: avatar.canvas.layers,
+                    selectedLayer: _selectedLayer,
+                  ),
+                  LayerImageGrid(
+                    onSelectLayerImage: (String imagePath) =>
+                        setState(() => _layers[_selectedLayer] = imagePath),
+                    layerImageList: avatar.canvas
+                            .layers[_selectedLayer]?[selectedColorIndex].reversed
+                            .toList() ??
+                        [],
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      bottom: 5,
+                      right: 10,
+                    ),
+                    child: WillPopScope(
+                      onWillPop: () async {
+                        if (isDialOpen.value) {
+                          isDialOpen.value = false;
+                          return false;
+                        } else {
+                          return true;
+                        }
+                      },
+                      child: SpeedDial(
+                        animatedIcon: AnimatedIcons.menu_close,
+                        backgroundColor: Colors.blue,
+                        overlayColor: Colors.black,
+                        overlayOpacity: 0.3,
+                        openCloseDial: isDialOpen,
+                        direction: SpeedDialDirection.Left,
+                        children: [
+                          SpeedDialChild(
+                            child: const Icon(Icons.download),
+                            label: 'Baixar',
+                            onTap: () async {
+                              final Uint8List avatarImage =
+                                  await _controller.captureFromWidget(
+                                AvatarCanvas(
+                                  size: screenWidht,
+                                  layers: _layers,
+                                ),
+                              );
+
+                              saveAvatarImage(avatarImage).then((_) {
+                                showToast('Salvo na galeria!');
+                              });
+                            },
+                          ),
+                          SpeedDialChild(
+                            child: const Icon(Icons.share),
+                            label: 'Compartilhar',
+                            onTap: () async {
+                              final Uint8List avatarImage =
+                                  await _controller.captureFromWidget(
+                                AvatarCanvas(
+                                  size: screenWidht,
+                                  layers: _layers,
+                                ),
+                              );
+
+                              await shareAvatarImage(avatarImage);
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

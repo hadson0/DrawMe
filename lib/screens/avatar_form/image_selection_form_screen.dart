@@ -1,5 +1,7 @@
+import 'package:drawme/components/avatar_form/error_form_dialog.dart';
 import 'package:drawme/components/avatar_form/image_list_picker.dart';
-import 'package:drawme/components/custom_color_picker.dart';
+import 'package:drawme/components/custom/custom_color_picker.dart';
+import 'package:drawme/components/custom/custom_rounded_button.dart';
 import 'package:drawme/models/avatar/canvas.dart';
 import 'package:drawme/models/avatar/layers/layer_items.dart';
 import 'package:flutter/material.dart';
@@ -25,8 +27,8 @@ class ImageSelectionFormScreen extends StatefulWidget {
 class _ImageSelectionFormScreenState extends State<ImageSelectionFormScreen> {
   final ImagePicker picker = ImagePicker();
 
-  late int selectedIndex;
-  late int colorIndex;
+  int selectedIndex = 0;
+  int colorIndex = 0;
 
   Color color = Colors.brown;
   bool optional = false;
@@ -53,24 +55,6 @@ class _ImageSelectionFormScreenState extends State<ImageSelectionFormScreen> {
         });
       }
     }
-  }
-
-  void showErrorDialog(String msg) {
-    showDialog(
-      context: context,
-      builder: (BuildContext ctx) => AlertDialog(
-        title: const Text('Ocorreu um Erro!'),
-        content: Text(msg),
-        actions: <Widget>[
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop(false);
-            },
-            child: const Text('OK'),
-          ),
-        ],
-      ),
-    );
   }
 
   void submitLayer() {
@@ -106,89 +90,100 @@ class _ImageSelectionFormScreenState extends State<ImageSelectionFormScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Text(
-          'Selecine as imagens:',
-          textAlign: TextAlign.center,
-          style: Theme.of(context).textTheme.headline6?.copyWith(
-                fontSize: 25,
-              ),
-        ),
-        const SizedBox(height: 10),
-        Text(
-          layerNameToString,
-          textAlign: TextAlign.center,
-          style: Theme.of(context).textTheme.headline6?.copyWith(
-                fontSize: 20,
-              ),
-        ),
-        if (colorNumber > 1)
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(15, 20, 15, 20),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
           Text(
-            'cor ${colorIndex + 1}',
+            'Selecine as imagens:',
+            textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.headline6?.copyWith(
-                  fontSize: 16,
+                  fontSize: 25,
                 ),
           ),
-        const SizedBox(height: 20),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[
-            const Text(
-              'Esta camada é opcional?',
-              style: TextStyle(fontSize: 15),
+          const SizedBox(height: 10),
+          Text(
+            layerNameToString,
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.headline6?.copyWith(
+                  fontSize: 20,
+                ),
+          ),
+          if (colorNumber > 1)
+            Text(
+              'cor ${colorIndex + 1}',
+              style: Theme.of(context).textTheme.headline6?.copyWith(
+                    fontSize: 16,
+                  ),
             ),
-            Switch(
-              value: optional,
-              onChanged: (bool value) => setState(() => optional = value),
-            ),
-          ],
-        ),
-        if (colorNumber > 1)
+          const SizedBox(height: 20),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
+            children: <Widget>[
               const Text(
-                'Selecione a cor da camada:',
-                style: TextStyle(
-                  fontSize: 15,
-                ),
+                'Esta camada é opcional?',
+                style: TextStyle(fontSize: 15),
               ),
-              CustomColorPicker(
-                onColorChanged: (_color) => setState(() => color = _color),
-                color: color,
+              Switch(
+                value: optional,
+                onChanged: (bool value) => setState(() => optional = value),
               ),
             ],
           ),
-        const SizedBox(height: 20),
-        ImageListPicker(
-          selectedLayer: selectedLayer[colorIndex],
-          itemCount: selectedLayer[colorIndex].isEmpty
-              ? 0
-              : selectedLayer[colorIndex].length,
-          onSelectPressed: selectGaleryImage,
-          onDeletePressed: (imageIndex) => setState(
-            () => canvas.removeLayerImage(
-              layerName,
-              colorIndex,
-              imageIndex,
+          if (colorNumber > 1)
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                const Text(
+                  'Selecione a cor da camada:',
+                  style: TextStyle(
+                    fontSize: 15,
+                  ),
+                ),
+                CustomColorPicker(
+                  onColorChanged: (_color) => setState(() => color = _color),
+                  color: color,
+                ),
+              ],
+            ),
+          const SizedBox(height: 20),
+          ImageListPicker(
+            selectedLayer: selectedLayer[colorIndex],
+            itemCount: selectedLayer[colorIndex].isEmpty
+                ? 0
+                : selectedLayer[colorIndex].length,
+            onSelectPressed: selectGaleryImage,
+            onDeletePressed: (imageIndex) => setState(
+              () => canvas.removeLayerImage(
+                layerName,
+                colorIndex,
+                imageIndex,
+              ),
             ),
           ),
-        ),
-        const SizedBox(height: 20),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            if (selectedIndex > 0)
-              ElevatedButton(
-                onPressed: () {
-                  if (colorIndex == 0) {
-                    if (selectedIndex == 0) {
-                      onBackPressed();
+          const SizedBox(height: 20),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              if (selectedIndex > 0)
+                CustomRoundedButton(
+                  onPressed: () {
+                    if (colorIndex == 0) {
+                      if (selectedIndex == 0) {
+                        onBackPressed();
+                      } else {
+                        selectedIndex--;
+                        colorIndex = selectedLayer.length - 1;
+                        setState(() {
+                          if (canvas.colors[layerName]?.isNotEmpty ?? false) {
+                            color =
+                                canvas.colors[layerName]?[colorIndex] ?? color;
+                          }
+                        });
+                      }
                     } else {
-                      selectedIndex--;
-                      colorIndex = selectedLayer.length - 1;
+                      colorIndex--;
                       setState(() {
                         if (canvas.colors[layerName]?.isNotEmpty ?? false) {
                           color =
@@ -196,47 +191,33 @@ class _ImageSelectionFormScreenState extends State<ImageSelectionFormScreen> {
                         }
                       });
                     }
+                  },
+                  child: const Text('VOLTAR'),
+                ),
+              CustomRoundedButton(
+                onPressed: () {
+                  if (selectedLayer[colorIndex].isEmpty) {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext ctx) => const ErrorFormDialog(
+                        message: 'Insira ao menos 1 imagem por camada!',
+                      ),
+                    );
                   } else {
-                    colorIndex--;
-                    setState(() {
-                      if (canvas.colors[layerName]?.isNotEmpty ?? false) {
-                        color = canvas.colors[layerName]?[colorIndex] ?? color;
-                      }
-                    });
+                    submitLayer();
                   }
                 },
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.all(15),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30.0),
-                  ),
-                ),
-                child: const Text('VOLTAR'),
-              ),
-            ElevatedButton(
-              onPressed: () {
-                if (selectedLayer[colorIndex].isEmpty) {
-                  showErrorDialog('Insira ao menos 1 imagem por camada!');
-                } else {
-                  submitLayer();
-                }
-              },
-              style: ElevatedButton.styleFrom(
-                padding: const EdgeInsets.all(15),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30.0),
+                child: Text(
+                  (selectedIndex == canvas.layers.length &&
+                          colorIndex == colorNumber - 1)
+                      ? 'PRONTO'
+                      : 'PRÓXIMO',
                 ),
               ),
-              child: Text(
-                (selectedIndex == canvas.layers.length &&
-                        colorIndex == colorNumber - 1)
-                    ? 'PRONTO'
-                    : 'PRÓXIMO',
-              ),
-            ),
-          ],
-        ),
-      ],
+            ],
+          ),
+        ],
+      ),
     );
   }
 }

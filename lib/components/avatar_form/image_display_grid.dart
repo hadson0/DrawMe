@@ -53,33 +53,40 @@ class _ImageDisplayGridState extends State<ImageDisplayGrid> {
   ClipRRect buildImageGridItem({
     required String imagePath,
     required VoidCallback onDeletePressed,
-  }) => ClipRRect(
-      borderRadius: BorderRadius.circular(10),
-      child: Stack(
-        fit: StackFit.expand,
-        children: <Widget>[
-          Image.file(
-            File(imagePath),
-            fit: BoxFit.cover,
-          ),
-          Positioned(
-            top: 2,
-            right: 2,
-            child: Container(
+  }) =>
+      ClipRRect(
+        borderRadius: BorderRadius.circular(10),
+        child: Stack(
+          fit: StackFit.expand,
+          children: <Widget>[
+            Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(5),
-                color: const Color.fromRGBO(255, 255, 244, 0.5),
-              ),
-              child: IconButton(
-                onPressed: onDeletePressed,
-                icon: Icon(
-                  Icons.delete,
-                  color: Colors.red.shade700,
-                ),
+                color: const Color.fromRGBO(255, 255, 244, 0.4),
               ),
             ),
-          )
-        ],
-      ),
-    );
+            Image.file(
+              File(imagePath),
+              fit: BoxFit.cover,
+            ),
+            Positioned(
+              top: 2,
+              right: 2,
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  color: const Color.fromRGBO(54, 54, 54, 0.6),
+                ),
+                child: IconButton(
+                  onPressed: onDeletePressed,
+                  icon: Icon(
+                    Icons.delete,
+                    color: Colors.red.shade700,
+                  ),
+                ),
+              ),
+            )
+          ],
+        ),
+      );
 }

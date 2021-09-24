@@ -30,13 +30,12 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'DrawMe!',
         theme: ThemeData(
-          backgroundColor: const Color.fromRGBO(17, 25, 52, 1),
           primaryColor: const Color.fromRGBO(24, 35, 73, 1),
-          primaryColorLight: const Color.fromRGBO(74, 82, 134, 1),
           primaryColorDark: const Color.fromRGBO(0, 0, 47, 1),
+          primaryColorLight: const Color.fromRGBO(2, 62, 115, 1),
           indicatorColor: const Color.fromRGBO(0, 187, 212, 1),
+          backgroundColor: const Color.fromRGBO(17, 25, 52, 1),
           colorScheme: ThemeData.dark().colorScheme.copyWith(
-                background: const Color.fromRGBO(17, 25, 52, 1),
                 primary: const Color.fromRGBO(24, 35, 73, 1),
                 secondary: const Color.fromRGBO(0, 187, 212, 1),
               ),

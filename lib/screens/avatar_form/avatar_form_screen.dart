@@ -71,10 +71,7 @@ class _AvatarFormScreenState extends State<AvatarFormScreen> {
             backgroundColor: Theme.of(context).primaryColorDark,
             title: const Text('Criar Avatar'),
           ),
-          body: Padding(
-            padding: const EdgeInsets.fromLTRB(15, 25, 15, 0),
-            child: getScreens[selectedScreenIndex],
-          ),
+          body: getScreens[selectedScreenIndex],
         ),
       ),
     );
