@@ -1,7 +1,8 @@
+import 'package:drawme/models/app_theme/app_colors.dart';
 import 'package:drawme/models/avatar/avatar_list.dart';
 import 'package:drawme/screens/avatar_form/avatar_form_screen.dart';
 import 'package:drawme/screens/avatar_overview/tabs_avatar_screen.dart';
-import 'package:drawme/utils/AppRoutes.dart';
+import 'package:drawme/utils/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -30,15 +31,12 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'DrawMe!',
         theme: ThemeData(
-          primaryColor: const Color.fromRGBO(24, 35, 73, 1),
-          primaryColorDark: const Color.fromRGBO(0, 0, 47, 1),
-          primaryColorLight: const Color.fromRGBO(2, 62, 115, 1),
-          indicatorColor: const Color.fromRGBO(0, 187, 212, 1),
-          backgroundColor: const Color.fromRGBO(17, 25, 52, 1),
-          colorScheme: ThemeData.dark().colorScheme.copyWith(
-                primary: const Color.fromRGBO(24, 35, 73, 1),
-                secondary: const Color.fromRGBO(0, 187, 212, 1),
-              ),
+          primaryColor: AppColors.primaryColor,
+          primaryColorDark: AppColors.primaryColorDark,
+          primaryColorLight: AppColors.primaryColorLight,
+          indicatorColor: AppColors.indicatorColor,
+          backgroundColor: AppColors.darkBackgroundColor,
+          colorScheme: AppColors.darkColorScheme,
           primaryIconTheme: const IconThemeData(color: Colors.white),
           textTheme: ThemeData.dark().textTheme.copyWith(
                 headline6: const TextStyle(
@@ -46,10 +44,14 @@ class MyApp extends StatelessWidget {
                   fontFamily: 'RobotoCondensed',
                 ),
               ),
+          textSelectionTheme: const TextSelectionThemeData(
+            selectionHandleColor: AppColors.indicatorColor,
+            selectionColor: AppColors.primaryColorLight,
+          ),
         ),
         routes: <String, WidgetBuilder>{
-          AppRoutes.HOME: (BuildContext ctx) => const TabsAvatarScreen(),
-          AppRoutes.AVATAR_FORM: (BuildContext ctx) => const AvatarFormScreen(),
+          AppRoutes.home: (BuildContext ctx) => const TabsAvatarScreen(),
+          AppRoutes.avatarForm: (BuildContext ctx) => const AvatarFormScreen(),
         },
         debugShowCheckedModeBanner: false,
       ),

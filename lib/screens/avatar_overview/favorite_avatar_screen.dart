@@ -24,7 +24,8 @@ class FavoriteAvatarScreen extends StatelessWidget {
         child: GridView.builder(
           padding: const EdgeInsets.all(10),
           itemCount: favoriteAvatars.length,
-          itemBuilder: (BuildContext ctx, int i) => ChangeNotifierProvider.value(
+          itemBuilder: (BuildContext ctx, int i) =>
+              ChangeNotifierProvider.value(
             value: favoriteAvatars[i],
             child: const AvatarGridItem(),
           ),

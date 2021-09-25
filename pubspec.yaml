@@ -37,7 +37,7 @@ dependencies:
   provider: ^6.0.0
   screenshot: ^1.2.3
   share_plus: ^2.1.4
- 
+  
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   # cupertino_icons: ^1.0.2
@@ -58,19 +58,8 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  assets:
-  - lib/assets/images/homem.jpg
-  - lib/assets/images/mulher.jpg
-  - lib/assets/images/Man/background.png
-  - lib/assets/images/Man/body.png
-  - lib/assets/images/Man/eyes.png
-  - lib/assets/images/Man/eyes2.png
-  - lib/assets/images/Man/mouth.png
-  - lib/assets/images/Man/mouth2.png
-  - lib/assets/images/Man/nose.png
-  - lib/assets/images/Man/nose2.png
-  - lib/assets/images/Man/sample.png
-
+  # assets:
+  
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 
@@ -81,25 +70,7 @@ flutter:
   # in this "flutter" section. Each entry in this list should have a
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
-  # example:
-
-  fonts:
-    - family: Raleway
-      fonts:
-        - asset: lib/assets/fonts/Raleway-Regular.ttf
-        - asset: lib/assets/fonts/Raleway-Bold.ttf
-          weight: 700
-        - asset: lib/assets/fonts/Raleway-Black.ttf
-          weight: 900
-    - family: RobotoCondensed
-      fonts:
-        - asset: lib/assets/fonts/RobotoCondensed-Regular.ttf
-        - asset: lib/assets/fonts/RobotoCondensed-Bold.ttf
-          weight: 700
-        - asset: lib/assets/fonts/RobotoCondensed-Light.ttf
-          weight: 300
-        - asset: lib/assets/fonts/RobotoCondensed-Italic.ttf
-          style: italic
+  # example:  
   # fonts:
   #   - family: Schyler
   #     fonts:

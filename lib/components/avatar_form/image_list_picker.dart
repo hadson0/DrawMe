@@ -1,5 +1,7 @@
 import 'package:drawme/components/avatar_form/image_display_grid.dart';
+import 'package:drawme/components/custom/custom_rounded_button.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ImageListPicker extends StatefulWidget {
   const ImageListPicker({
@@ -12,7 +14,7 @@ class ImageListPicker extends StatefulWidget {
 
   final List<String> selectedLayer;
   final int itemCount;
-  final Function() onSelectPressed;
+  final Function(String) onSelectPressed;
   final Function(int) onDeletePressed;
 
   @override
@@ -20,24 +22,30 @@ class ImageListPicker extends StatefulWidget {
 }
 
 class _ImageListPickerState extends State<ImageListPicker> {
+  final ImagePicker imagePicker = ImagePicker();
+
   List<String> get selectedLayer => widget.selectedLayer;
   int get itemCount => widget.itemCount;
-  Function() get onSelectPressed => widget.onSelectPressed;
+  Function(String) get onSelectPressed => widget.onSelectPressed;
   Function(int) get onDeletePressed => widget.onDeletePressed;
+
+  Future<void> selectGaleryImage() async {
+    final List<XFile>? selectedImage =
+        await imagePicker.pickMultiImage(maxHeight: 600, maxWidth: 600);
+    if ((selectedImage?.length ?? 0) > 0) {
+      for (final XFile image in selectedImage!) {
+        onSelectPressed(image.path);
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: Column(
         children: [
-          ElevatedButton(
-            onPressed: onSelectPressed,
-            style: ElevatedButton.styleFrom(
-              padding: const EdgeInsets.all(15),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30.0),
-              ),
-            ),
+          CustomRoundedButton(
+            onPressed: selectGaleryImage,
             child: const Text(
               'SELECIONAR IMAGENS',
               style: TextStyle(

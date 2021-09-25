@@ -5,7 +5,6 @@ import 'package:drawme/components/custom/custom_rounded_button.dart';
 import 'package:drawme/models/avatar/canvas.dart';
 import 'package:drawme/models/avatar/layers/layer_items.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 
 class ImageSelectionFormScreen extends StatefulWidget {
   const ImageSelectionFormScreen({
@@ -25,11 +24,8 @@ class ImageSelectionFormScreen extends StatefulWidget {
 }
 
 class _ImageSelectionFormScreenState extends State<ImageSelectionFormScreen> {
-  final ImagePicker picker = ImagePicker();
-
   int selectedIndex = 0;
   int colorIndex = 0;
-
   Color color = Colors.brown;
   bool optional = false;
 
@@ -45,21 +41,8 @@ class _ImageSelectionFormScreenState extends State<ImageSelectionFormScreen> {
       LayerItems.all.singleWhere((item) => item.layerName == layerName).title;
   List<List<String>> get selectedLayer => canvas.layers[layerName]!;
 
-  Future<void> selectGaleryImage() async {
-    final List<XFile>? selectedImage =
-        await picker.pickMultiImage(maxHeight: 600, maxWidth: 600);
-    if ((selectedImage?.length ?? 0) > 0) {
-      for (final XFile image in selectedImage!) {
-        setState(() {
-          canvas.addLayerImage(layerName, colorIndex, image.path);
-        });
-      }
-    }
-  }
-
   void submitLayer() {
     Color nextColor = color;
-
     if (colorIndex <= (canvas.colors[layerName]?.length ?? 0) - 1) {
       nextColor = canvas.colors[layerName]?[colorIndex] ?? color;
     }
@@ -69,21 +52,14 @@ class _ImageSelectionFormScreenState extends State<ImageSelectionFormScreen> {
       optional = false;
     }
 
-    if (colorNumber > 1) {
-      canvas.addColor(layerName, color, colorIndex);
-    }
+    if (colorNumber > 1) canvas.addColor(layerName, color, colorIndex);
 
-    if (colorIndex == colorNumber - 1) {
-      selectedIndex++;
-
-      if (selectedIndex == canvas.layers.length) {
-        onNextPressed();
-      } else {
-        colorIndex = 0;
-        setState(() => color = nextColor);
-      }
+    if (colorIndex == colorNumber - 1 &&
+        selectedIndex == canvas.layers.length - 1) {
+      onNextPressed();
     } else {
-      colorIndex++;
+      selectedIndex++;
+      if (colorIndex == colorNumber - 1) colorIndex = 0;
       setState(() => color = nextColor);
     }
   }
@@ -153,13 +129,11 @@ class _ImageSelectionFormScreenState extends State<ImageSelectionFormScreen> {
             itemCount: selectedLayer[colorIndex].isEmpty
                 ? 0
                 : selectedLayer[colorIndex].length,
-            onSelectPressed: selectGaleryImage,
+            onSelectPressed: (imagePath) => setState(
+              () => canvas.addLayerImage(layerName, colorIndex, imagePath),
+            ),
             onDeletePressed: (imageIndex) => setState(
-              () => canvas.removeLayerImage(
-                layerName,
-                colorIndex,
-                imageIndex,
-              ),
+              () => canvas.removeLayerImage(layerName, colorIndex, imageIndex),
             ),
           ),
           const SizedBox(height: 20),
@@ -169,27 +143,20 @@ class _ImageSelectionFormScreenState extends State<ImageSelectionFormScreen> {
               if (selectedIndex > 0)
                 CustomRoundedButton(
                   onPressed: () {
-                    if (colorIndex == 0) {
-                      if (selectedIndex == 0) {
-                        onBackPressed();
-                      } else {
-                        selectedIndex--;
-                        colorIndex = selectedLayer.length - 1;
-                        setState(() {
-                          if (canvas.colors[layerName]?.isNotEmpty ?? false) {
-                            color =
-                                canvas.colors[layerName]?[colorIndex] ?? color;
-                          }
-                        });
-                      }
+                    Color nextColor = color;
+                    if (canvas.colors[layerName]?.isNotEmpty ?? false) {
+                      nextColor =
+                          canvas.colors[layerName]?[colorIndex] ?? color;
+                    }
+
+                    if (selectedIndex == 0 && colorIndex == 0) {
+                      onBackPressed();
                     } else {
-                      colorIndex--;
-                      setState(() {
-                        if (canvas.colors[layerName]?.isNotEmpty ?? false) {
-                          color =
-                              canvas.colors[layerName]?[colorIndex] ?? color;
-                        }
-                      });
+                      selectedIndex--;
+                      if (colorIndex == 0) {
+                        colorIndex = selectedLayer.length - 1;
+                      }
+                      setState(() => color = nextColor);
                     }
                   },
                   child: const Text('VOLTAR'),

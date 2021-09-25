@@ -1,123 +1,123 @@
 import 'package:drawme/models/avatar/layers/layer_item.dart';
 
 enum LayerNames {
-  BACKGROUND,
-  BODY,
-  HEAD,
-  EYES,
-  EYEBROW,
-  NOSE,
-  MOUTH,
-  CHEEKS,
-  SPOTS,
-  EARS,
-  HAIR,
-  MUSTACHE,
-  BEARD,
-  GLASSES,
-  TSHIRT,
-  COAT,
-  PANTS,
-  HAT,
-  BOTH_HANDS,
-  LEFT_HAND,
-  RIGHT_HAND,
-  ACCESSORY,
-  BALLOON,
+  background,
+  body,
+  head,
+  eyes,
+  eyebrow,
+  nose,
+  mouth,
+  cheeks,
+  spots,
+  ears,
+  hair,
+  mustache,
+  beard,
+  glasses,
+  tshirt,
+  coat,
+  pants,
+  hat,
+  bothHands,
+  leftHand,
+  rightHand,
+  accessory,
+  baloon,
 }
 
 class LayerItems {
   static const background = LayerItem(
     title: 'Fundo',
-    layerName: LayerNames.BACKGROUND,
+    layerName: LayerNames.background,
   );
   static const body = LayerItem(
     title: 'Corpo',
-    layerName: LayerNames.BODY,
+    layerName: LayerNames.body,
   );
   static const head = LayerItem(
     title: 'Cabeça',
-    layerName: LayerNames.HEAD,
+    layerName: LayerNames.head,
   );
   static const eyes = LayerItem(
     title: 'Olhos',
-    layerName: LayerNames.EYES,
+    layerName: LayerNames.eyes,
   );
   static const eyebrow = LayerItem(
     title: 'Sobrancelhas',
-    layerName: LayerNames.EYEBROW,
+    layerName: LayerNames.eyebrow,
   );
   static const cheeks = LayerItem(
     title: 'Bochechas',
-    layerName: LayerNames.CHEEKS,
+    layerName: LayerNames.cheeks,
   );
   static const mouth = LayerItem(
     title: 'Boca',
-    layerName: LayerNames.MOUTH,
+    layerName: LayerNames.mouth,
   );
   static const nose = LayerItem(
     title: 'Nariz',
-    layerName: LayerNames.NOSE,
+    layerName: LayerNames.nose,
   );
   static const spots = LayerItem(
     title: 'Marcas',
-    layerName: LayerNames.SPOTS,
+    layerName: LayerNames.spots,
   );
   static const ears = LayerItem(
     title: 'Orelhas',
-    layerName: LayerNames.EARS,
+    layerName: LayerNames.ears,
   );
   static const hair = LayerItem(
     title: 'Cabelo',
-    layerName: LayerNames.HAIR,
+    layerName: LayerNames.hair,
   );
   static const mustache = LayerItem(
     title: 'Bigode',
-    layerName: LayerNames.MUSTACHE,
+    layerName: LayerNames.mustache,
   );
   static const beard = LayerItem(
     title: 'Barba',
-    layerName: LayerNames.BEARD,
+    layerName: LayerNames.beard,
   );
   static const glasses = LayerItem(
     title: 'Óculos',
-    layerName: LayerNames.GLASSES,
+    layerName: LayerNames.glasses,
   );
   static const tshirt = LayerItem(
     title: 'Camiseta',
-    layerName: LayerNames.TSHIRT,
+    layerName: LayerNames.tshirt,
   );
   static const coat = LayerItem(
     title: 'Blusa',
-    layerName: LayerNames.COAT,
+    layerName: LayerNames.coat,
   );
   static const pants = LayerItem(
     title: 'Calças',
-    layerName: LayerNames.PANTS,
+    layerName: LayerNames.pants,
   );
   static const hat = LayerItem(
     title: 'Chapéu',
-    layerName: LayerNames.HAT,
+    layerName: LayerNames.hat,
   );
   static const bothHands = LayerItem(
     title: 'As duas mãos',
-    layerName: LayerNames.BOTH_HANDS,
+    layerName: LayerNames.bothHands,
   );
   static const leftHand = LayerItem(
     title: 'Mão esquerda',
-    layerName: LayerNames.LEFT_HAND,
+    layerName: LayerNames.leftHand,
   );
   static const rightHand = LayerItem(
     title: 'Mão direita',
-    layerName: LayerNames.RIGHT_HAND,
+    layerName: LayerNames.rightHand,
   );
   static const accessory = LayerItem(
     title: 'Acessório',
-    layerName: LayerNames.ACCESSORY,
+    layerName: LayerNames.accessory,
   );
   static const balloon = LayerItem(
     title: 'Balão',
-    layerName: LayerNames.BALLOON,
+    layerName: LayerNames.baloon,
   );
 
   static const List<LayerItem> all = [

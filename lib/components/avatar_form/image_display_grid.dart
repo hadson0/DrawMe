@@ -75,7 +75,7 @@ class _ImageDisplayGridState extends State<ImageDisplayGrid> {
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5),
-                  color: const Color.fromRGBO(54, 54, 54, 0.6),
+                  color: const Color.fromRGBO(255, 255, 244, 0.4),
                 ),
                 child: IconButton(
                   onPressed: onDeletePressed,

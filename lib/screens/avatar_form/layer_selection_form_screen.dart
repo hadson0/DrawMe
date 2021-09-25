@@ -56,7 +56,7 @@ class _LayerSelectionFormScreenState extends State<LayerSelectionFormScreen> {
             (item) => MapEntry(item.layerName, 0),
           )
           .where(
-            (item) => item.key != LayerNames.BACKGROUND,
+            (item) => item.key != LayerNames.background,
           ),
     );
   }
@@ -76,7 +76,7 @@ class _LayerSelectionFormScreenState extends State<LayerSelectionFormScreen> {
             ),
             const SizedBox(height: 20),
             const Text(
-              'Insira o número de subcamadas (cores) ou 0 para desabilitar a camada.',
+              'Insira o número de subcamadas (cores) ou 0 para desabilitar.',
               textAlign: TextAlign.justify,
               style: TextStyle(
                 color: Colors.white70,

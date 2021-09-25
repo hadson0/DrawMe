@@ -1,7 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:drawme/models/drawer/drawer_item.dart';
 import 'package:drawme/models/drawer/drawer_items.dart';
-import 'package:drawme/utils/AppRoutes.dart';
+import 'package:drawme/utils/app_routes.dart';
 import 'package:flutter/material.dart';
 
 class AppDrawer extends StatelessWidget {
@@ -13,14 +13,14 @@ class AppDrawer extends StatelessWidget {
   }) {
     switch (item) {
       case DrawerItems.home:
-        Navigator.of(context).pushReplacementNamed(AppRoutes.HOME);
+        Navigator.of(context).pushReplacementNamed(AppRoutes.home);
         break;
       case DrawerItems.createAvatar:
         Navigator.of(context).pop();
-        Navigator.of(context).pushNamed(AppRoutes.AVATAR_FORM);
+        Navigator.of(context).pushNamed(AppRoutes.avatarForm);
         break;
       default:
-        Navigator.of(context).pushReplacementNamed(AppRoutes.HOME);
+        Navigator.of(context).pushReplacementNamed(AppRoutes.home);
         break;
     }
   }

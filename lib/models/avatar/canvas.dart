@@ -1,9 +1,9 @@
 import 'package:drawme/models/avatar/layers/layer_items.dart';
 import 'package:flutter/widgets.dart';
 
-class Canvas with ChangeNotifier {
+class Canvas {
   final Map<LayerNames, List<List<String>>> _layers = {
-    LayerNames.BACKGROUND: [[]],
+    LayerNames.background: [[]],
   };
   final Map<LayerNames, List<Color>> _colors = {};
 
@@ -14,7 +14,6 @@ class Canvas with ChangeNotifier {
     if (!_layers.containsKey(layerName)) {
       _layers[layerName] = List.generate(colorNumber, (index) => []);
       _colors[layerName] = [];
-      notifyListeners();
     }
   }
 
@@ -22,7 +21,6 @@ class Canvas with ChangeNotifier {
     if (_layers.containsKey(layerName)) {
       _layers.remove(layerName);
       _colors.remove(layerName);
-      notifyListeners();
     }
   }
 
@@ -30,7 +28,6 @@ class Canvas with ChangeNotifier {
     if (_layers.containsKey(layerName) &&
         !(_layers[layerName]?[colorIndex].contains(imagePath) ?? false)) {
       _layers[layerName]?[colorIndex].add(imagePath);
-      notifyListeners();
     }
   }
 
@@ -47,14 +44,12 @@ class Canvas with ChangeNotifier {
   void addColorLayer(LayerNames layerName, int colorNumber) {
     if (!_colors.containsKey(layerName)) {
       _colors[layerName] = [];
-      notifyListeners();
     }
   }
 
   void removeColorLayer(LayerNames layerName) {
     if (_colors.containsKey(layerName)) {
       _colors.remove(layerName);
-      notifyListeners();
     }
   }
 
@@ -65,14 +60,12 @@ class Canvas with ChangeNotifier {
       } else {
         _colors[layerName]![colorIndex] = color;
       }
-      notifyListeners();
     }
   }
 
   void removeColor(LayerNames layerName, int colorIndex) {
     if (_colors.containsKey(layerName)) {
       _colors[layerName]?.removeAt(colorIndex);
-      notifyListeners();
     }
   }
 }

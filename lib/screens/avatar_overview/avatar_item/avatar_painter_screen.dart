@@ -44,7 +44,7 @@ class _AvatarPainterScreenState extends State<AvatarPainterScreen> {
   final Map<LayerNames, String> _layers = {};
 
   Color _selectedColor = Colors.brown;
-  LayerNames _selectedLayer = LayerNames.BACKGROUND;
+  LayerNames _selectedLayer = LayerNames.background;
 
   Avatar get avatar => widget.avatar;
   List<Color> get selectedColorList =>
@@ -165,8 +165,10 @@ class _AvatarPainterScreenState extends State<AvatarPainterScreen> {
                   LayerImageGrid(
                     onSelectLayerImage: (String imagePath) =>
                         setState(() => _layers[_selectedLayer] = imagePath),
-                    layerImageList: avatar.canvas
-                            .layers[_selectedLayer]?[selectedColorIndex].reversed
+                    layerImageList: avatar
+                            .canvas
+                            .layers[_selectedLayer]?[selectedColorIndex]
+                            .reversed
                             .toList() ??
                         [],
                   ),
