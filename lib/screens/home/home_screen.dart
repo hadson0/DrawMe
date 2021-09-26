@@ -1,7 +1,7 @@
 import 'package:drawme/components/drawer/app_drawer.dart';
 import 'package:drawme/models/tab_bar/tab_bar_items.dart';
-import 'package:drawme/screens/avatar_overview/avatar_grid_screen.dart';
-import 'package:drawme/screens/avatar_overview/favorite_avatar_screen.dart';
+import 'package:drawme/screens/home/avatar_grid_screen.dart';
+import 'package:drawme/screens/home/favorite_avatar_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
