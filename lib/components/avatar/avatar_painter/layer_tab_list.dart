@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 
 class LayerTabList extends StatelessWidget {
   const LayerTabList({
-    Key? key,
     required this.onSelectLayer,
     required this.onRandomSelected,
     required this.layersMap,
     required this.selectedLayer,
+    Key? key,
   }) : super(key: key);
 
   final void Function(LayerNames) onSelectLayer;

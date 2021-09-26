@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 class CustomRoundedButton extends StatelessWidget {
   const CustomRoundedButton({
-    Key? key,
     required this.onPressed,
     required this.child,
+    Key? key,
   }) : super(key: key);
 
   final VoidCallback onPressed;

@@ -18,8 +18,8 @@ import 'package:share_plus/share_plus.dart';
 
 class AvatarPainterScreen extends StatefulWidget {
   const AvatarPainterScreen({
-    Key? key,
     required this.avatar,
+    Key? key,
   }) : super(key: key);
 
   final Avatar avatar;

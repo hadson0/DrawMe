@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 
 class NumberPicker extends StatefulWidget {
   const NumberPicker({
-    Key? key,
     required this.initialValue,
     required this.maxValue,
     required this.minValue,
     required this.onValue,
+    Key? key,
   }) : super(key: key);
 
   final int initialValue;

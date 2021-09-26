@@ -8,6 +8,10 @@ import 'package:flutter/material.dart';
 class AvatarFormScreen extends StatefulWidget {
   const AvatarFormScreen({Key? key}) : super(key: key);
 
+  static MaterialPageRoute get route => MaterialPageRoute(
+        builder: (context) => const AvatarFormScreen(),
+      );
+
   @override
   _AvatarFormScreenState createState() => _AvatarFormScreenState();
 }

@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 
 class AvatarCanvas extends StatelessWidget {
   const AvatarCanvas({
-    Key? key,
     required this.layers,
     required this.size,
+    Key? key,
   }) : super(key: key);
 
   final Map<LayerNames, String> layers;

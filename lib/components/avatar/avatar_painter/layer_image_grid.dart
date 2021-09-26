@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 
 class LayerImageGrid extends StatelessWidget {
   const LayerImageGrid({
-    Key? key,
     required this.onSelectLayerImage,
     required this.layerImageList,
+    Key? key,
   }) : super(key: key);
 
   final void Function(String) onSelectLayerImage;

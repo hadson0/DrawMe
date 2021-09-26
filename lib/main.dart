@@ -1,8 +1,6 @@
 import 'package:drawme/models/app_theme/app_colors.dart';
 import 'package:drawme/models/avatar/avatar_list.dart';
-import 'package:drawme/screens/avatar_form/avatar_form_screen.dart';
-import 'package:drawme/screens/avatar_overview/tabs_avatar_screen.dart';
-import 'package:drawme/utils/app_routes.dart';
+import 'package:drawme/screens/home/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -49,10 +47,7 @@ class MyApp extends StatelessWidget {
             selectionColor: AppColors.primaryColorLight,
           ),
         ),
-        routes: <String, WidgetBuilder>{
-          AppRoutes.home: (BuildContext ctx) => const TabsAvatarScreen(),
-          AppRoutes.avatarForm: (BuildContext ctx) => const AvatarFormScreen(),
-        },
+        home: const HomeScreen(),
         debugShowCheckedModeBanner: false,
       ),
     );

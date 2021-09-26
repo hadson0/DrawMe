@@ -7,10 +7,10 @@ import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
 class CustomColorBlockPicker extends StatefulWidget {
   const CustomColorBlockPicker({
-    Key? key,
     required this.onColorChanged,
     required this.selectedColor,
     required this.colorList,
+    Key? key,
   }) : super(key: key);
 
   final Function(Color) onColorChanged;

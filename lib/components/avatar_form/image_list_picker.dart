@@ -5,11 +5,11 @@ import 'package:image_picker/image_picker.dart';
 
 class ImageListPicker extends StatefulWidget {
   const ImageListPicker({
-    Key? key,
     required this.onSelectPressed,
     required this.onDeletePressed,
     required this.selectedLayer,
     required this.itemCount,
+    Key? key,
   }) : super(key: key);
 
   final List<String> selectedLayer;

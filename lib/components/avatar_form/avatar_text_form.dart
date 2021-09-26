@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 
 class AvatarTextForm extends StatefulWidget {
   const AvatarTextForm({
-    Key? key,
     required this.formData,
     required this.onFormSaved,
+    Key? key,
   }) : super(key: key);
 
   final Map<String, String> formData;
@@ -46,7 +46,7 @@ class AvatarTextFormState extends State<AvatarTextForm> {
     }
 
     for (final String tag in tagList) {
-      if (tag.trim().length < 3) {
+      if (tag.trim().length < 3 && tag != '') {
         return 'As tags precisam de no mínimo 3 letras!';
       }
     }

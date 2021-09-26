@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 class ErrorFormDialog extends StatelessWidget {
   const ErrorFormDialog({
-    Key? key,
     required this.message,
+    Key? key,
   }) : super(key: key);
 
   final String message;

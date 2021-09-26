@@ -8,10 +8,10 @@ import 'package:flutter/material.dart';
 
 class ImageSelectionFormScreen extends StatefulWidget {
   const ImageSelectionFormScreen({
-    Key? key,
     required this.canvas,
     required this.onBackPressed,
     required this.onNextPressed,
+    Key? key,
   }) : super(key: key);
 
   final Canvas canvas;
@@ -58,8 +58,12 @@ class _ImageSelectionFormScreenState extends State<ImageSelectionFormScreen> {
         selectedIndex == canvas.layers.length - 1) {
       onNextPressed();
     } else {
-      selectedIndex++;
-      if (colorIndex == colorNumber - 1) colorIndex = 0;
+      if (colorIndex == colorNumber - 1) {
+        selectedIndex++;
+        colorIndex = 0;
+      } else {
+        colorIndex++;
+      }
       setState(() => color = nextColor);
     }
   }
@@ -143,10 +147,9 @@ class _ImageSelectionFormScreenState extends State<ImageSelectionFormScreen> {
               if (selectedIndex > 0)
                 CustomRoundedButton(
                   onPressed: () {
-                    Color nextColor = color;
+                    Color oldColor = color;
                     if (canvas.colors[layerName]?.isNotEmpty ?? false) {
-                      nextColor =
-                          canvas.colors[layerName]?[colorIndex] ?? color;
+                      oldColor = canvas.colors[layerName]?[colorIndex] ?? color;
                     }
 
                     if (selectedIndex == 0 && colorIndex == 0) {
@@ -156,7 +159,7 @@ class _ImageSelectionFormScreenState extends State<ImageSelectionFormScreen> {
                       if (colorIndex == 0) {
                         colorIndex = selectedLayer.length - 1;
                       }
-                      setState(() => color = nextColor);
+                      setState(() => color = oldColor);
                     }
                   },
                   child: const Text('VOLTAR'),

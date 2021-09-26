@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 
 class ImageDisplayGrid extends StatefulWidget {
   const ImageDisplayGrid({
-    Key? key,
     required this.selectedLayer,
     required this.itemCount,
     required this.onDeletePressed,
+    Key? key,
   }) : super(key: key);
 
   final Function(int) onDeletePressed;

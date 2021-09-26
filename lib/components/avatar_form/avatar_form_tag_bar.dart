@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 class AvatarFormTagBar extends StatelessWidget {
   const AvatarFormTagBar({
-    Key? key,
     required this.tagList,
+    Key? key,
   }) : super(key: key);
 
   final List<String> tagList;

@@ -13,10 +13,10 @@ import 'package:provider/provider.dart';
 
 class AvatarInfoFormScreen extends StatefulWidget {
   const AvatarInfoFormScreen({
-    Key? key,
     required this.canvas,
     required this.onBackPressed,
     required this.onNextPressed,
+    Key? key,
   }) : super(key: key);
 
   final Canvas canvas;

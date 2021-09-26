@@ -7,9 +7,9 @@ import 'package:flutter/material.dart';
 
 class LayerSelectionFormScreen extends StatefulWidget {
   const LayerSelectionFormScreen({
-    Key? key,
     required this.canvas,
     required this.onNextPressed,
+    Key? key,
   }) : super(key: key);
 
   final Canvas canvas;
