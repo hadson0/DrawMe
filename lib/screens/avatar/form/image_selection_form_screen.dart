@@ -1,5 +1,5 @@
-import 'package:drawme/components/avatar_form/error_form_dialog.dart';
-import 'package:drawme/components/avatar_form/image_list_picker.dart';
+import 'package:drawme/components/avatar/form/error_form_dialog.dart';
+import 'package:drawme/components/avatar/form/image_list_picker.dart';
 import 'package:drawme/components/custom/custom_color_picker.dart';
 import 'package:drawme/components/custom/custom_rounded_button.dart';
 import 'package:drawme/models/avatar/canvas.dart';

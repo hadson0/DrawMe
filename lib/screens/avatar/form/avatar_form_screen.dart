@@ -1,8 +1,8 @@
-import 'package:drawme/components/avatar_form/cancel_form_dialog.dart';
+import 'package:drawme/components/avatar/form/cancel_form_dialog.dart';
 import 'package:drawme/models/avatar/canvas.dart';
-import 'package:drawme/screens/avatar_form/avatar_info_form_screen.dart';
-import 'package:drawme/screens/avatar_form/image_selection_form_screen.dart';
-import 'package:drawme/screens/avatar_form/layer_selection_form_screen.dart';
+import 'package:drawme/screens/avatar/form/avatar_info_form_screen.dart';
+import 'package:drawme/screens/avatar/form/image_selection_form_screen.dart';
+import 'package:drawme/screens/avatar/form/layer_selection_form_screen.dart';
 import 'package:flutter/material.dart';
 
 class AvatarFormScreen extends StatefulWidget {
@@ -72,7 +72,7 @@ class _AvatarFormScreenState extends State<AvatarFormScreen> {
         child: Scaffold(
           backgroundColor: Theme.of(context).backgroundColor,
           appBar: AppBar(
-            backgroundColor: Theme.of(context).primaryColorDark,
+            backgroundColor: Theme.of(context).primaryColor,
             title: const Text('Criar Avatar'),
           ),
           body: getScreens[selectedScreenIndex],

@@ -1,8 +1,8 @@
 import 'dart:io';
 
-import 'package:drawme/components/avatar/avatar_detail/avatar_info.dart';
+import 'package:drawme/components/avatar/detail/avatar_info.dart';
 import 'package:drawme/models/avatar/avatar.dart';
-import 'package:drawme/screens/avatar_painter/avatar_painter_screen.dart';
+import 'package:drawme/screens/avatar/painter/avatar_painter_screen.dart';
 import 'package:flutter/material.dart';
 
 class AvatarDetailSheet extends StatelessWidget {

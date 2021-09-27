@@ -1,4 +1,4 @@
-import 'package:drawme/components/avatar_form/avatar_form_tag_bar.dart';
+import 'package:drawme/components/avatar/form/avatar_form_tag_bar.dart';
 import 'package:flutter/material.dart';
 
 class AvatarTextForm extends StatefulWidget {
@@ -66,6 +66,18 @@ class AvatarTextFormState extends State<AvatarTextForm> {
     return null;
   }
 
+  bool validateForm() {
+    if (_formKey.currentState?.validate() ?? false) {
+      return true;
+    }
+    return false;
+  }
+
+  void saveForm() {
+    _formKey.currentState?.save();
+    _onFormSaved(_formData);
+  }
+
   @override
   void dispose() {
     _tagFocus.dispose();
@@ -85,13 +97,7 @@ class AvatarTextFormState extends State<AvatarTextForm> {
           TextFormField(
             decoration: const InputDecoration(
               labelText: 'Nome do Avatar',
-              labelStyle: TextStyle(color: Colors.white),
-              focusedBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: Colors.white70),
-              ),
             ),
-            cursorColor: Theme.of(context).primaryColorLight,
-            style: const TextStyle(color: Colors.white70),
             textInputAction: TextInputAction.next,
             onFieldSubmitted: (_) =>
                 FocusScope.of(context).requestFocus(_tagFocus),
@@ -108,13 +114,7 @@ class AvatarTextFormState extends State<AvatarTextForm> {
             decoration: const InputDecoration(
               labelText: 'Tags',
               hintText: 'Ex.: cartoon, colorido, feliz',
-              labelStyle: TextStyle(color: Colors.white),
-              focusedBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: Colors.white70),
-              ),
             ),
-            cursorColor: Theme.of(context).primaryColorLight,
-            style: const TextStyle(color: Colors.white70),
             onChanged: (_) => setState(() {}),
             onFieldSubmitted: (String tags) {
               FocusScope.of(context).requestFocus(_descriptionFocus);
@@ -127,13 +127,7 @@ class AvatarTextFormState extends State<AvatarTextForm> {
           TextFormField(
             decoration: const InputDecoration(
               labelText: 'Descrição',
-              labelStyle: TextStyle(color: Colors.white),
-              focusedBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: Colors.white70),
-              ),
             ),
-            cursorColor: Theme.of(context).primaryColorLight,
-            style: const TextStyle(color: Colors.white70),
             keyboardType: TextInputType.multiline,
             maxLines: 7,
             focusNode: _descriptionFocus,
@@ -146,17 +140,5 @@ class AvatarTextFormState extends State<AvatarTextForm> {
         ],
       ),
     );
-  }
-
-  bool validateForm() {
-    if (_formKey.currentState?.validate() ?? false) {
-      return true;
-    }
-    return false;
-  }
-
-  void saveForm() {
-    _formKey.currentState?.save();
-    _onFormSaved(_formData);
   }
 }

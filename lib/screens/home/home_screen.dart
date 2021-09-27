@@ -1,7 +1,7 @@
 import 'package:drawme/components/drawer/app_drawer.dart';
 import 'package:drawme/models/tab_bar/tab_bar_items.dart';
-import 'package:drawme/screens/home/avatar_grid_screen.dart';
-import 'package:drawme/screens/home/favorite_avatar_screen.dart';
+import 'package:drawme/screens/avatar/overview/avatar_grid_screen.dart';
+import 'package:drawme/screens/avatar/overview/favorite_avatar_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -40,7 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: Theme.of(context).backgroundColor,
         drawer: const AppDrawer(),
         appBar: AppBar(
-          backgroundColor: Theme.of(context).primaryColorDark,
+          backgroundColor: Theme.of(context).primaryColor,
           title: Text(
             'DrawMe!',
             style: GoogleFonts.pacifico(
@@ -49,7 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           bottom: TabBar(
             unselectedLabelColor: Colors.white,
-            labelColor: Colors.cyan,
+            labelColor: Theme.of(context).indicatorColor,
             indicatorSize: TabBarIndicatorSize.label,
             tabs: buildtabBar(),
           ),

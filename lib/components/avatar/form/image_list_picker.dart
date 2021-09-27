@@ -1,4 +1,4 @@
-import 'package:drawme/components/avatar_form/image_display_grid.dart';
+import 'package:drawme/components/avatar/form/image_display_grid.dart';
 import 'package:drawme/components/custom/custom_rounded_button.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';

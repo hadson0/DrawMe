@@ -14,7 +14,7 @@ class AvatarFormTagBar extends StatelessWidget {
       height: 35,
       width: double.infinity,
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.white70),
+        border: Border.all(),
         borderRadius: BorderRadius.circular(10),
       ),
       child: Row(
@@ -23,7 +23,7 @@ class AvatarFormTagBar extends StatelessWidget {
             margin: const EdgeInsets.symmetric(horizontal: 5),
             child: Icon(
               Icons.tag_rounded,
-              color: Theme.of(context).indicatorColor,
+              color: Theme.of(context).colorScheme.primary,
             ),
           ),
           Expanded(
@@ -51,7 +51,7 @@ class AvatarFormTagBar extends StatelessWidget {
               margin: const EdgeInsets.all(1),
               padding: const EdgeInsets.all(5),
               decoration: BoxDecoration(
-                border: Border.all(color: Colors.white70),
+                border: Border.all(),
                 borderRadius: BorderRadius.circular(20),
               ),
               child: SizedBox(

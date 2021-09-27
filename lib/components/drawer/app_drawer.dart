@@ -1,7 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:drawme/models/drawer/drawer_item.dart';
 import 'package:drawme/models/drawer/drawer_items.dart';
-import 'package:drawme/screens/avatar_form/avatar_form_screen.dart';
+import 'package:drawme/screens/avatar/form/avatar_form_screen.dart';
 import 'package:drawme/screens/home/home_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -30,7 +30,7 @@ class AppDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Drawer(
       child: Material(
-        color: Theme.of(context).primaryColor,
+        color: Theme.of(context).colorScheme.primary,
         child: SafeArea(
           child: ListView(
             padding: const EdgeInsets.symmetric(horizontal: 20),

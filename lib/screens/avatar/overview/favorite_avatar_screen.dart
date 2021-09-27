@@ -1,4 +1,4 @@
-import 'package:drawme/components/avatar/avatar_grid_item.dart';
+import 'package:drawme/components/avatar/overview/avatar_grid_item.dart';
 import 'package:drawme/models/avatar/avatar.dart';
 import 'package:drawme/models/avatar/avatar_list.dart';
 import 'package:flutter/material.dart';
@@ -19,21 +19,17 @@ class FavoriteAvatarScreen extends StatelessWidget {
         child: Text('Nenhum avatar foi marcado como favorito!'),
       );
     } else {
-      return Scrollbar(
-        isAlwaysShown: true,
-        child: GridView.builder(
-          padding: const EdgeInsets.all(10),
-          itemCount: favoriteAvatars.length,
-          itemBuilder: (BuildContext ctx, int i) =>
-              ChangeNotifierProvider.value(
-            value: favoriteAvatars[i],
-            child: const AvatarGridItem(),
-          ),
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            crossAxisSpacing: 10,
-            mainAxisSpacing: 10,
-          ),
+      return GridView.builder(
+        padding: const EdgeInsets.all(10),
+        itemCount: favoriteAvatars.length,
+        itemBuilder: (BuildContext ctx, int i) => ChangeNotifierProvider.value(
+          value: favoriteAvatars[i],
+          child: const AvatarGridItem(),
+        ),
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          crossAxisSpacing: 10,
+          mainAxisSpacing: 10,
         ),
       );
     }

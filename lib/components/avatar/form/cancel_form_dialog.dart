@@ -8,18 +8,9 @@ class CancelFormDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      backgroundColor: Theme.of(context).primaryColor,
-      title: const Text(
-        'Descartar alterações?',
-        style: TextStyle(
-          color: Colors.white,
-        ),
-      ),
+      title: const Text('Descartar alterações?'),
       content: const Text(
         'As alterações desta página não serão salvas.',
-        style: TextStyle(
-          color: Colors.white70,
-        ),
       ),
       actions: <Widget>[
         buildActionButton(
@@ -43,11 +34,6 @@ class CancelFormDialog extends StatelessWidget {
   }) =>
       TextButton(
         onPressed: () => Navigator.pop(context, true),
-        child: Text(
-          label,
-          style: TextStyle(
-            color: Theme.of(context).indicatorColor,
-          ),
-        ),
+        child: Text(label),
       );
 }

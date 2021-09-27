@@ -2,7 +2,7 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:drawme/components/avatar_form/avatar_text_form.dart';
+import 'package:drawme/components/avatar/form/avatar_text_form.dart';
 import 'package:drawme/components/custom/custom_rounded_button.dart';
 import 'package:drawme/models/avatar/avatar.dart';
 import 'package:drawme/models/avatar/avatar_list.dart';
@@ -58,7 +58,7 @@ class _AvatarInfoFormScreenState extends State<AvatarInfoFormScreen> {
 
     formKey.currentState?.saveForm();
 
-    final List<String> _tagsSplit = formData['tagList']!.split(', ');
+    final List<String> _tagsSplit = formData['tags']!.split(', ');
 
     for (final String tag in _tagsSplit) {
       if (!tagList.contains(tag) && tag != '') {

@@ -2,9 +2,9 @@ import 'dart:io';
 import 'dart:math';
 import 'dart:typed_data';
 
-import 'package:drawme/components/avatar/avatar_painter/avatar_canvas.dart';
-import 'package:drawme/components/avatar/avatar_painter/layer_image_grid.dart';
-import 'package:drawme/components/avatar/avatar_painter/layer_tab_list.dart';
+import 'package:drawme/components/avatar/painter/avatar_canvas.dart';
+import 'package:drawme/components/avatar/painter/layer_image_grid.dart';
+import 'package:drawme/components/avatar/painter/layer_tab_list.dart';
 import 'package:drawme/components/custom/custom_color_block_picker.dart';
 import 'package:drawme/models/avatar/avatar.dart';
 import 'package:drawme/models/avatar/layers/layer_items.dart';

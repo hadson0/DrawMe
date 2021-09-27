@@ -1,6 +1,6 @@
-import 'package:drawme/models/app_theme/app_colors.dart';
 import 'package:drawme/models/avatar/avatar_list.dart';
 import 'package:drawme/screens/home/home_screen.dart';
+import 'package:drawme/utils/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -28,24 +28,14 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         title: 'DrawMe!',
-        theme: ThemeData(
-          primaryColor: AppColors.primaryColor,
-          primaryColorDark: AppColors.primaryColorDark,
-          primaryColorLight: AppColors.primaryColorLight,
-          indicatorColor: AppColors.indicatorColor,
-          backgroundColor: AppColors.darkBackgroundColor,
-          colorScheme: AppColors.darkColorScheme,
-          primaryIconTheme: const IconThemeData(color: Colors.white),
-          textTheme: ThemeData.dark().textTheme.copyWith(
-                headline6: const TextStyle(
-                  fontSize: 20,
-                  fontFamily: 'RobotoCondensed',
-                ),
-              ),
-          textSelectionTheme: const TextSelectionThemeData(
-            selectionHandleColor: AppColors.indicatorColor,
-            selectionColor: AppColors.primaryColorLight,
-          ),
+        theme: ThemeData.light().copyWith(
+          primaryColor: AppTheme.primaryColor,
+          
+          backgroundColor: AppTheme.backgroundColor,
+          colorScheme: AppTheme.colorScheme,
+          indicatorColor: AppTheme.indicatorColor,
+          iconTheme: AppTheme.iconTheme,
+          textSelectionTheme: const TextSelectionThemeData(),
         ),
         home: const HomeScreen(),
         debugShowCheckedModeBanner: false,

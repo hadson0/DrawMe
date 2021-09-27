@@ -15,7 +15,7 @@ class CustomRoundedButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
-        primary: Theme.of(context).primaryColorLight,
+        primary: Theme.of(context).colorScheme.primary,
         padding: const EdgeInsets.all(15),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30.0),
