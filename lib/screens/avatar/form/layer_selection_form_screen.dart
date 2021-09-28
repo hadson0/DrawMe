@@ -43,7 +43,7 @@ class _LayerSelectionFormScreenState extends State<LayerSelectionFormScreen> {
       showDialog(
         context: context,
         builder: (BuildContext ctx) => const ErrorFormDialog(
-          message: 'Insira ao menos 2 camadas!',
+          message: 'Insira ao menos 1 camada!',
         ),
       );
     }
@@ -76,7 +76,8 @@ class _LayerSelectionFormScreenState extends State<LayerSelectionFormScreen> {
           ),
           const SizedBox(height: 20),
           const Text(
-            'Insira o número de subcamadas (cores) ou 0 para desabilitar.',
+            'Insira o número de subcamadas (cores) ou 0 para desabilitar.'
+            ' O fundo já está incluso.',
             textAlign: TextAlign.justify,
           ),
           const SizedBox(height: 20),
