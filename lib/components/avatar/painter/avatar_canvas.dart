@@ -15,19 +15,22 @@ class AvatarCanvas extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Stack(
-      children: layers.entries
-          .map(
-            (MapEntry<LayerNames, String> entry) => SizedBox(
-              height: size,
-              width: size,
-              child: entry.value == ''
-                  ? null
-                  : Image.file(
-                      File(entry.value),
-                      fit: BoxFit.contain,
-                    ),
-            ),
-          )
-          .toList(),
-    );
+        children: layers.entries
+            .map(
+              (MapEntry<LayerNames, String> entry) => ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: SizedBox(
+                  height: size,
+                  width: size,
+                  child: entry.value == ''
+                      ? null
+                      : Image.file(
+                          File(entry.value),
+                          fit: BoxFit.contain,
+                        ),
+                ),
+              ),
+            )
+            .toList(),
+      );
 }

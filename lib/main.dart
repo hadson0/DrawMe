@@ -1,6 +1,7 @@
 import 'package:drawme/models/avatar/avatar_list.dart';
 import 'package:drawme/screens/home/home_screen.dart';
-import 'package:drawme/utils/app_theme.dart';
+import 'package:drawme/utils/Theme/theme_colors.dart';
+import 'package:drawme/utils/Theme/theme_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -29,13 +30,13 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'DrawMe!',
         theme: ThemeData.light().copyWith(
-          primaryColor: AppTheme.primaryColor,
-          
-          backgroundColor: AppTheme.backgroundColor,
-          colorScheme: AppTheme.colorScheme,
-          indicatorColor: AppTheme.indicatorColor,
-          iconTheme: AppTheme.iconTheme,
-          textSelectionTheme: const TextSelectionThemeData(),
+          primaryColor: ThemeColors.primaryColor,
+          backgroundColor: ThemeColors.backgroundColor,
+          colorScheme: ThemeColors.colorScheme,
+          indicatorColor: ThemeColors.indicatorColor,
+          iconTheme: ThemeColors.iconTheme,
+          textTheme: ThemeStyles.textTheme,
+          elevatedButtonTheme: ThemeStyles.elevatedButtonTheme,
         ),
         home: const HomeScreen(),
         debugShowCheckedModeBanner: false,

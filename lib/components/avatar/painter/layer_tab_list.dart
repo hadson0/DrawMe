@@ -1,5 +1,6 @@
 import 'package:drawme/models/avatar/layers/layer_items.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class LayerTabList extends StatelessWidget {
   const LayerTabList({
@@ -21,9 +22,9 @@ class LayerTabList extends StatelessWidget {
       height: 70,
       width: double.infinity,
       padding: const EdgeInsets.all(4),
-      decoration: const BoxDecoration(
-        color: Colors.black,
-        borderRadius: BorderRadius.vertical(
+      decoration: BoxDecoration(
+        color: Theme.of(context).primaryColor,
+        borderRadius: const BorderRadius.vertical(
           top: Radius.circular(10),
         ),
       ),
@@ -37,12 +38,12 @@ class LayerTabList extends StatelessWidget {
               width: 64,
               margin: const EdgeInsets.only(right: 4),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: Theme.of(context).colorScheme.secondary,
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: const Text(
-                'RANDOM',
-                textAlign: TextAlign.center,
+              child:  Icon(
+                FontAwesomeIcons.sync,
+                color: Theme.of(context).primaryColor,
               ),
             ),
           ),
@@ -65,24 +66,23 @@ class LayerTabList extends StatelessWidget {
   }
 
   List<Widget> buildTabList() => layersMap.entries
-        .map(
-          (MapEntry<LayerNames, List<List<String>>> imageList) =>
-              GestureDetector(
-            onTap: () => onSelectLayer(imageList.key),
-            child: Container(
-              height: 64,
-              width: 64,
-              margin: const EdgeInsets.symmetric(horizontal: 2),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Text(
-                imageList.key.toString(),
-                textAlign: TextAlign.center,
-              ),
+      .map(
+        (MapEntry<LayerNames, List<List<String>>> imageList) => GestureDetector(
+          onTap: () => onSelectLayer(imageList.key),
+          child: Container(
+            height: 64,
+            width: 64,
+            margin: const EdgeInsets.symmetric(horizontal: 2),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Text(
+              imageList.key.toString(),
+              textAlign: TextAlign.center,
             ),
           ),
-        )
-        .toList();
+        ),
+      )
+      .toList();
 }

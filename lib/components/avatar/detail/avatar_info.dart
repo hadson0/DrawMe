@@ -18,8 +18,8 @@ class AvatarInfo extends StatelessWidget {
         Container(
           padding: const EdgeInsets.all(5),
           width: double.infinity,
-          decoration: BoxDecoration(
-            color: Colors.grey.shade900,
+          decoration: const BoxDecoration(
+            color: Colors.black87,
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -28,21 +28,18 @@ class AvatarInfo extends StatelessWidget {
                 avatar.name,
                 maxLines: 2,
                 textAlign: TextAlign.center,
-                style: const TextStyle(
-                  fontFamily: 'RobotoCondensed',
-                  fontSize: 20,
-                  color: Colors.white,
-                ),
+                style: Theme.of(context).textTheme.headline6?.copyWith(
+                      color: Colors.white,
+                    ),
               ),
               AutoSizeText(
                 avatar.author,
                 maxLines: 1,
                 textAlign: TextAlign.center,
-                style: const TextStyle(
-                  fontFamily: 'RobotoCondensed',
-                  color: Colors.blue,
-                  fontSize: 15,
-                ),
+                style: Theme.of(context).textTheme.headline5?.copyWith(
+                      color: Theme.of(context).colorScheme.primaryVariant,
+                      fontSize: 16,
+                    ),
               ),
             ],
           ),
@@ -55,7 +52,9 @@ class AvatarInfo extends StatelessWidget {
           margin: const EdgeInsets.all(5),
           decoration: BoxDecoration(
             color: Colors.white,
-            border: Border.all(color: Colors.grey),
+            border: Border.all(
+              color: Theme.of(context).primaryColor,
+            ),
             borderRadius: BorderRadius.circular(10),
           ),
           child: Column(

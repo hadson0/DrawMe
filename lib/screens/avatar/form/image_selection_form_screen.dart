@@ -82,36 +82,41 @@ class _ImageSelectionFormScreenState extends State<ImageSelectionFormScreen> {
                   fontSize: 25,
                 ),
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 5),
           Text(
             layerNameToString,
             textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.headline6?.copyWith(
+            style: Theme.of(context).textTheme.headline5?.copyWith(
                   fontSize: 20,
                 ),
           ),
           if (colorNumber > 1)
             Text(
               'cor ${colorIndex + 1}',
-              style: Theme.of(context).textTheme.headline6?.copyWith(
+              style: Theme.of(context).textTheme.headline5?.copyWith(
                     fontSize: 16,
                   ),
             ),
-          const SizedBox(height: 20),
-          if(layerName != LayerNames.background)
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: <Widget>[
-              const Text(
-                'Esta camada é opcional?',
-                style: TextStyle(fontSize: 15),
-              ),
-              Switch(
-                value: optional,
-                onChanged: (bool value) => setState(() => optional = value),
-              ),
-            ],
-          ),
+          if (layerName != LayerNames.background)
+            Column(
+              children: [
+                const SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    const Text(
+                      'Esta camada é opcional?',
+                      style: TextStyle(fontSize: 15),
+                    ),
+                    Switch(
+                      value: optional,
+                      onChanged: (bool value) =>
+                          setState(() => optional = value),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           if (colorNumber > 1)
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -128,7 +133,7 @@ class _ImageSelectionFormScreenState extends State<ImageSelectionFormScreen> {
                 ),
               ],
             ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 10),
           ImageListPicker(
             selectedLayer: selectedLayer[colorIndex],
             itemCount: selectedLayer[colorIndex].isEmpty

@@ -24,14 +24,14 @@ class AvatarTagBar extends StatelessWidget {
             margin: const EdgeInsets.symmetric(horizontal: 5),
             child: Icon(
               Icons.tag_rounded,
-              color: Colors.blue.shade900,
+              color: Theme.of(context).colorScheme.primary,
             ),
           ),
           Expanded(
             child: ListView(
               scrollDirection: Axis.horizontal,
               children: <Widget>[
-                ...buildTagList(),
+                ...buildTagList(context),
               ],
             ),
           )
@@ -40,21 +40,23 @@ class AvatarTagBar extends StatelessWidget {
     );
   }
 
-  List<Widget> buildTagList() => avatar.tags
-        .map(
-          (String tag) => Container(
-            margin: const EdgeInsets.all(1),
-            padding: const EdgeInsets.all(5),
-            decoration: BoxDecoration(
-              color: Colors.grey.shade100,
-              border: Border.all(),
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: Text(
-              tag,
-              style: TextStyle(color: Colors.blue.shade900),
+  List<Widget> buildTagList(BuildContext context) => avatar.tags
+      .map(
+        (String tag) => Container(
+          margin: const EdgeInsets.all(1),
+          padding: const EdgeInsets.all(5),
+          decoration: BoxDecoration(
+            color: Colors.grey.shade100,
+            border: Border.all(),
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Text(
+            tag,
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.primary,
             ),
           ),
-        )
-        .toList();
+        ),
+      )
+      .toList();
 }

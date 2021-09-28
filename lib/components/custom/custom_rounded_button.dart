@@ -13,14 +13,7 @@ class CustomRoundedButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: onPressed,
-      style: ElevatedButton.styleFrom(
-        primary: Theme.of(context).colorScheme.primary,
-        padding: const EdgeInsets.all(15),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30.0),
-        ),
-      ),
+      onPressed: onPressed,      
       child: child,
     );
   }

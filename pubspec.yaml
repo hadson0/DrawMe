@@ -29,7 +29,6 @@ dependencies:
   flutter_speed_dial: ^4.3.0
   fluttertoast: ^8.0.8
   font_awesome_flutter: ^9.1.0
-  google_fonts: ^2.1.0
   image_gallery_saver: ^1.6.9
   image_picker: ^0.8.4
   lint: ^1.7.2
@@ -71,12 +70,17 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:  
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
+  fonts:
+    - family: Pacifico
+      fonts:
+      - asset: lib/assets/fonts/Pacifico/Pacifico-Regular.ttf
+    - family: Nunito
+      fonts:
+      - asset: lib/assets/fonts/Nunito/Nunito-Regular.ttf
+      - asset: lib/assets/fonts/Nunito/Nunito-SemiBold.ttf
+        weight: 600
+      - asset: lib/assets/fonts/Nunito/Nunito-Bold.ttf
+        weight: 700
   #   - family: Trajan Pro
   #     fonts:
   #       - asset: fonts/TrajanPro.ttf

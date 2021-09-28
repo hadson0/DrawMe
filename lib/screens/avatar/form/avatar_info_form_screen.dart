@@ -32,8 +32,9 @@ class _AvatarInfoFormScreenState extends State<AvatarInfoFormScreen> {
   Map<String, String> formData = <String, String>{};
   final List<String> tagList = [];
 
-  final GlobalKey<AvatarTextFormState> formKey =
-      GlobalKey<AvatarTextFormState>();
+  final formKey = GlobalKey<AvatarTextFormState>();
+
+  bool emptySample = false;
 
   XFile? image;
 
@@ -53,6 +54,13 @@ class _AvatarInfoFormScreenState extends State<AvatarInfoFormScreen> {
   void submitForm() {
     final bool isValid = formKey.currentState?.validateForm() ?? false;
     if (!isValid || image == null) {
+      setState(() {
+        if (image == null) {
+          emptySample = true;
+        } else {
+          emptySample = false;
+        }
+      });
       return;
     }
 
@@ -88,6 +96,13 @@ class _AvatarInfoFormScreenState extends State<AvatarInfoFormScreen> {
         padding: const EdgeInsets.fromLTRB(15, 20, 15, 20),
         child: Column(
           children: [
+            Text(
+              'Informações do Avatar',
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.headline6?.copyWith(
+                    fontSize: 25,
+                  ),
+            ),
             AvatarTextForm(
               key: formKey,
               formData: formData,
@@ -112,11 +127,19 @@ class _AvatarInfoFormScreenState extends State<AvatarInfoFormScreen> {
                             height: 100,
                             width: 100,
                             decoration: BoxDecoration(
-                              border: Border.all(color: Colors.grey),
+                              border: Border.all(
+                                color: emptySample
+                                    ? Colors.red
+                                    : Theme.of(context).primaryColor,
+                                width: 1.5,
+                              ),
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: const Center(
-                              child: Text('Selecionar\n Imagem'),
+                              child: AutoSizeText(
+                                'Selecionar Imagem',
+                                textAlign: TextAlign.center,
+                              ),
                             ),
                           )
                         : SizedBox(

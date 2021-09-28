@@ -33,7 +33,7 @@ class CancelFormDialog extends StatelessWidget {
     required VoidCallback onPressed,
   }) =>
       TextButton(
-        onPressed: () => Navigator.pop(context, true),
+        onPressed: onPressed,
         child: Text(label),
       );
 }

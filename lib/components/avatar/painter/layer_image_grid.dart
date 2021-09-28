@@ -14,11 +14,11 @@ class LayerImageGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 275,
       width: double.infinity,
-      padding: const EdgeInsets.all(5),
       child: GridView.builder(
+        padding: const EdgeInsets.all(5),
         itemCount: layerImageList.length,
         itemBuilder: (BuildContext ctx, int i) {
           return GestureDetector(

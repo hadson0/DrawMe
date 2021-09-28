@@ -3,7 +3,6 @@ import 'package:drawme/models/tab_bar/tab_bar_items.dart';
 import 'package:drawme/screens/avatar/overview/avatar_grid_screen.dart';
 import 'package:drawme/screens/avatar/overview/favorite_avatar_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({
@@ -34,28 +33,48 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 2,
-      child: Scaffold(
-        backgroundColor: Theme.of(context).backgroundColor,
-        drawer: const AppDrawer(),
-        appBar: AppBar(
-          backgroundColor: Theme.of(context).primaryColor,
-          title: Text(
-            'DrawMe!',
-            style: GoogleFonts.pacifico(
-              fontSize: 25,
-            ),
-          ),
-          bottom: TabBar(
-            unselectedLabelColor: Colors.white,
-            labelColor: Theme.of(context).indicatorColor,
-            indicatorSize: TabBarIndicatorSize.label,
-            tabs: buildtabBar(),
+    return Scaffold(
+      drawer: const AppDrawer(),
+      body: Center(
+        child: DefaultTabController(
+          length: 2,
+          child: NestedScrollView(
+            headerSliverBuilder: (context, value) {
+              return [
+                SliverAppBar(
+                  elevation: 0,
+                  toolbarHeight: 70,
+                  floating: true,
+                  backgroundColor: Theme.of(context).primaryColor,
+                  shape: const ContinuousRectangleBorder(
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(30),
+                      bottomRight: Radius.circular(30),
+                    ),
+                  ),
+                  title: Text(
+                    'DrawMe!',
+                    style: Theme.of(context).textTheme.headline1?.copyWith(
+                          color: Colors.white,
+                        ),
+                  ),
+                  bottom: TabBar(
+                    padding: const EdgeInsets.all(5),
+                    unselectedLabelColor: Colors.white,
+                    indicatorSize: TabBarIndicatorSize.label,
+                    labelColor: Theme.of(context).primaryColor,
+                    indicator: BoxDecoration(
+                      borderRadius: BorderRadius.circular(50),
+                      color: Theme.of(context).indicatorColor,
+                    ),
+                    tabs: buildtabBar(),
+                  ),
+                )
+              ];
+            },
+            body: TabBarView(children: screens),
           ),
         ),
-        /* drawer: const AppDrawer(), */
-        body: TabBarView(children: screens),
       ),
     );
   }
@@ -63,8 +82,22 @@ class _HomeScreenState extends State<HomeScreen> {
   List<Widget> buildtabBar() => TabBarItems.all
       .map(
         (item) => Tab(
-          child: Align(
-            child: Text(item.title),
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(50),
+              border: Border.all(
+                color: Theme.of(context).indicatorColor,
+              ),
+            ),
+            child: Align(
+              child: Text(
+                item.title,
+                style: const TextStyle(
+                  fontFamily: 'Nunito',
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ),
           ),
         ),
       )

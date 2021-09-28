@@ -17,6 +17,8 @@ class AvatarGridScreen extends StatelessWidget {
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
         return GridView.builder(
+          primary: false,
+          shrinkWrap: true,
           padding: const EdgeInsets.all(10),
           itemCount: avatars.length,
           itemBuilder: (BuildContext ctx, int i) =>

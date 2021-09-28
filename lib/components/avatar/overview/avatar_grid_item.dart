@@ -22,19 +22,22 @@ class AvatarGridItem extends StatelessWidget {
             title: AutoSizeText(
               avatar.name,
               maxLines: 1,
-              minFontSize: 10,
               overflow: TextOverflow.ellipsis,
               textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.headline6?.copyWith(
+                    fontSize: 15,
+                    color: Colors.white,
+                  ),
             ),
             subtitle: AutoSizeText(
               avatar.author,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 10,
-                color: Theme.of(context).colorScheme.primaryVariant,
-              ),
+              style: Theme.of(context).textTheme.headline5?.copyWith(
+                    fontSize: 12,
+                    color: Theme.of(context).colorScheme.primaryVariant,
+                  ),
             ),
             backgroundColor: Colors.black87,
             leading: Consumer<Avatar>(

@@ -128,10 +128,7 @@ class _LayerSelectionFormScreenState extends State<LayerSelectionFormScreen> {
           const SizedBox(height: 20),
           CustomRoundedButton(
             onPressed: submitLayers,
-            child: Text(
-              'PRONTO',
-              style: TextStyle(color: Theme.of(context).primaryColor),
-            ),
+            child: const Text('PRONTO'),
           ),
         ],
       ),
@@ -150,7 +147,8 @@ class _LayerSelectionFormScreenState extends State<LayerSelectionFormScreen> {
             initialValue: layers[item.layerName] ?? 0,
             maxValue: 5,
             minValue: 0,
-            onValue: (int value) => layers[item.layerName] = value,
+            onValue: (int value) =>
+                setState(() => layers[item.layerName] = value),
           ),
         ),
       )

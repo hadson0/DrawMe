@@ -20,6 +20,7 @@ class FavoriteAvatarScreen extends StatelessWidget {
       );
     } else {
       return GridView.builder(
+        primary: false,
         padding: const EdgeInsets.all(10),
         itemCount: favoriteAvatars.length,
         itemBuilder: (BuildContext ctx, int i) => ChangeNotifierProvider.value(

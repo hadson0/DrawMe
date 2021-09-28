@@ -5,11 +5,11 @@ import 'dart:typed_data';
 import 'package:drawme/components/avatar/painter/avatar_canvas.dart';
 import 'package:drawme/components/avatar/painter/layer_image_grid.dart';
 import 'package:drawme/components/avatar/painter/layer_tab_list.dart';
+import 'package:drawme/components/avatar/painter/save_and_share.dart';
 import 'package:drawme/components/custom/custom_color_block_picker.dart';
 import 'package:drawme/models/avatar/avatar.dart';
 import 'package:drawme/models/avatar/layers/layer_items.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:path_provider/path_provider.dart';
@@ -45,6 +45,7 @@ class _AvatarPainterScreenState extends State<AvatarPainterScreen> {
 
   Color _selectedColor = Colors.brown;
   LayerNames _selectedLayer = LayerNames.background;
+  ValueNotifier<bool> isDialOpen = ValueNotifier(false);
 
   Avatar get avatar => widget.avatar;
   List<Color> get selectedColorList =>
@@ -52,8 +53,6 @@ class _AvatarPainterScreenState extends State<AvatarPainterScreen> {
   int get selectedColorIndex => selectedColorList.contains(_selectedColor)
       ? selectedColorList.indexOf(_selectedColor)
       : 0;
-
-  ValueNotifier<bool> isDialOpen = ValueNotifier(false);
 
   Future<String> saveAvatarImage(Uint8List bytes) async {
     final String time = DateTime.now()
@@ -117,91 +116,55 @@ class _AvatarPainterScreenState extends State<AvatarPainterScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final double screenWidht = MediaQuery.of(context).size.width;
-
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).primaryColorDark,
+        elevation: 0,
+        backgroundColor: Theme.of(context).primaryColor,
         title: Text(avatar.name),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            Stack(
-              children: [
-                AvatarCanvas(
-                  size: screenWidht,
-                  layers: _layers,
-                ),
-                if (selectedColorList.isNotEmpty)
-                  Positioned(
-                    bottom: 5,
-                    right: 5,
-                    child: FloatingActionButton(
-                      onPressed: () => pickColor(context),
-                      child: const Icon(Icons.brush),
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          return SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                Stack(
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.all(5),
+                      padding: const EdgeInsets.all(5),
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).primaryColor,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Center(
+                        child: AvatarCanvas(
+                          size: constraints.maxWidth - 20,
+                          layers: _layers,
+                        ),
+                      ),
                     ),
-                  ),
-              ],
-            ),
-            Container(
-              margin: const EdgeInsets.all(5),
-              decoration: BoxDecoration(
-                color: Colors.grey.shade500,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  LayerTabList(
-                    onRandomSelected: () {
-                      setState(() => randomLayerList());
-                    },
-                    onSelectLayer: (LayerNames layerName) =>
-                        setState(() => _selectedLayer = layerName),
-                    layersMap: avatar.canvas.layers,
-                    selectedLayer: _selectedLayer,
-                  ),
-                  LayerImageGrid(
-                    onSelectLayerImage: (String imagePath) =>
-                        setState(() => _layers[_selectedLayer] = imagePath),
-                    layerImageList: avatar
-                            .canvas
-                            .layers[_selectedLayer]?[selectedColorIndex]
-                            .reversed
-                            .toList() ??
-                        [],
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(
+                    Positioned(
                       bottom: 5,
-                      right: 10,
-                    ),
-                    child: WillPopScope(
-                      onWillPop: () async {
-                        if (isDialOpen.value) {
-                          isDialOpen.value = false;
-                          return false;
-                        } else {
-                          return true;
-                        }
-                      },
-                      child: SpeedDial(
-                        animatedIcon: AnimatedIcons.menu_close,
-                        backgroundColor: Colors.blue,
-                        overlayColor: Colors.black,
-                        overlayOpacity: 0.3,
-                        openCloseDial: isDialOpen,
-                        direction: SpeedDialDirection.Left,
+                      right: 5,
+                      child: Row(
                         children: [
-                          SpeedDialChild(
-                            child: const Icon(Icons.download),
-                            label: 'Baixar',
-                            onTap: () async {
+                          if (selectedColorList.isNotEmpty)
+                            FloatingActionButton(
+                              onPressed: () => pickColor(context),
+                              child: Icon(
+                                Icons.brush,
+                                color: Theme.of(context).primaryColor,
+                              ),
+                            ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          SaveAndShare(
+                            onSaved: () async {
                               final Uint8List avatarImage =
                                   await _controller.captureFromWidget(
                                 AvatarCanvas(
-                                  size: screenWidht,
+                                  size: constraints.maxWidth,
                                   layers: _layers,
                                 ),
                               );
@@ -210,15 +173,11 @@ class _AvatarPainterScreenState extends State<AvatarPainterScreen> {
                                 showToast('Salvo na galeria!');
                               });
                             },
-                          ),
-                          SpeedDialChild(
-                            child: const Icon(Icons.share),
-                            label: 'Compartilhar',
-                            onTap: () async {
+                            onShared: () async {
                               final Uint8List avatarImage =
                                   await _controller.captureFromWidget(
                                 AvatarCanvas(
-                                  size: screenWidht,
+                                  size: constraints.maxWidth,
                                   layers: _layers,
                                 ),
                               );
@@ -229,12 +188,43 @@ class _AvatarPainterScreenState extends State<AvatarPainterScreen> {
                         ],
                       ),
                     ),
-                  )
-                ],
-              ),
+                  ],
+                ),
+                Container(
+                  margin: const EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                    color: const Color.fromRGBO(145, 145, 145, 1),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      LayerTabList(
+                        onRandomSelected: () {
+                          setState(() => randomLayerList());
+                        },
+                        onSelectLayer: (LayerNames layerName) =>
+                            setState(() => _selectedLayer = layerName),
+                        layersMap: avatar.canvas.layers,
+                        selectedLayer: _selectedLayer,
+                      ),
+                      LayerImageGrid(
+                        onSelectLayerImage: (String imagePath) =>
+                            setState(() => _layers[_selectedLayer] = imagePath),
+                        layerImageList: avatar
+                                .canvas
+                                .layers[_selectedLayer]?[selectedColorIndex]
+                                .reversed
+                                .toList() ??
+                            [],
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }
