@@ -98,6 +98,7 @@ class _ImageSelectionFormScreenState extends State<ImageSelectionFormScreen> {
                   ),
             ),
           const SizedBox(height: 20),
+          if(layerName != LayerNames.background)
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
