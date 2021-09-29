@@ -49,7 +49,9 @@ class _ImageSelectionFormScreenState extends State<ImageSelectionFormScreen> {
 
     if (optional) {
       canvas.addLayerImage(layerName, colorIndex, '');
-      optional = false;
+      if(colorIndex == colorNumber - 1) {
+        optional = false;
+      }
     }
 
     if (colorNumber > 1) canvas.addColor(layerName, color, colorIndex);
